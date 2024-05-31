@@ -26,21 +26,21 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install prerequisites (shfmt, hadolint, terragrunt, terraform-docs, tflint)
+      - name: Install prerequisites (terraform-docs, tflint)
         run: |
-          # Install prerequisites (shfmt, hadolint, terragrunt, terraform-docs, tflint)
+          # Install prerequisites (terraform-docs, tflint)
 
-          # Install shfmt
-          sudo wget -q -O /usr/local/bin/shfmt $(curl -sL https://api.github.com/repos/mvdan/sh/releases/latest | grep browser_download_url | grep -o -E "https://.+?_linux_amd64")
-          sudo chmod +x /usr/local/bin/shfmt
+          # # Install shfmt
+          # sudo wget -q -O /usr/local/bin/shfmt $(curl -sL https://api.github.com/repos/mvdan/sh/releases/latest | grep browser_download_url | grep -o -E "https://.+?_linux_amd64")
+          # sudo chmod +x /usr/local/bin/shfmt
 
-          # Install hadolint
-          sudo wget -q -O /usr/local/bin/hadolint $(curl -sL https://api.github.com/repos/hadolint/hadolint/releases/latest | grep browser_download_url | grep -o -E "https://.+?-Linux-x86_64" | uniq)
-          sudo chmod +x /usr/local/bin/hadolint
+          # # Install hadolint
+          # sudo wget -q -O /usr/local/bin/hadolint $(curl -sL https://api.github.com/repos/hadolint/hadolint/releases/latest | grep browser_download_url | grep -o -E "https://.+?-Linux-x86_64" | uniq)
+          # sudo chmod +x /usr/local/bin/hadolint
 
-          # Install terragrunt
-          sudo wget -q -O /usr/local/bin/terragrunt $(curl -sL https://api.github.com/repos/gruntwork-io/terragrunt/releases/latest | grep browser_download_url | grep -o -E "https://.+?_linux_amd64")
-          sudo chmod +x /usr/local/bin/terragrunt
+          # # Install terragrunt
+          # sudo wget -q -O /usr/local/bin/terragrunt $(curl -sL https://api.github.com/repos/gruntwork-io/terragrunt/releases/latest | grep browser_download_url | grep -o -E "https://.+?_linux_amd64")
+          # sudo chmod +x /usr/local/bin/terragrunt
 
           # Install terraform-docs
           sudo wget -q -O /usr/local/bin/terraform-docs.tar.gz $(curl -sL https://api.github.com/repos/terraform-docs/terraform-docs/releases/latest | grep browser_download_url | grep -o -E "https://.+?-linux-amd64.tar.gz")
