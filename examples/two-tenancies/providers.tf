@@ -9,11 +9,11 @@ terraform {
 }
 
 provider "oci" {
-  alias               = "profile1"
-  config_file_profile = "profile1"
+  alias               = "PROFILE1"
+  config_file_profile = "PROFILE1"
 }
 
 provider "oci" {
-  alias               = "profile2"
-  config_file_profile = "profile2"
+  alias               = "PROFILE2"
+  config_file_profile = "PROFILE2"
 }
