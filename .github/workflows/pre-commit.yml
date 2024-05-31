@@ -10,6 +10,14 @@ jobs:
   pre-commit:
     runs-on: ubuntu-latest
     steps:
+      - name: Set up Oracle Cloud Infrastructure CLI
+        run: |
+          mkdir -p /home/runner/.oci/
+          echo "${{ secrets.OCI_API_KEY }}" > /home/runner/.oci/oci_api_key.pem
+          echo "${{ secrets.OCI_CONFIG }}" > /home/runner/.oci/config
+          chmod 600 /home/runner/.oci/oci_api_key.pem
+          chmod 600 /home/runner/.oci/config
+
       - name: Checkout
         uses: actions/checkout@v4
 
