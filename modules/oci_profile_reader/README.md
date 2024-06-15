@@ -23,7 +23,7 @@ No resources.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_profile_name"></a> [profile\_name](#input\_profile\_name) | The name of the OCI profile to read | `string` | n/a | yes |
+| <a name="input_profile_name"></a> [profile\_name](#input\_profile\_name) | The name of the OCI profile to read | `string` | `"DEFAULT"` | no |
 
 ## Outputs
 
