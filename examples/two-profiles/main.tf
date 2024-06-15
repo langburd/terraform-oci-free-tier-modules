@@ -11,7 +11,6 @@ module "compartment1" {
   providers = {
     oci = oci.PROFILE1
   }
-
 }
 
 # Get data from the profile2 and pass it to the identity module
