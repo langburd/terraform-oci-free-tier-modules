@@ -1,6 +1,6 @@
 # identity module
 
-<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
@@ -23,7 +23,7 @@ No modules.
 | Name | Type |
 |------|------|
 | [oci_identity_compartment.this](https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/identity_compartment) | resource |
-| [oci_identity_compartment.root_compartment](https://registry.terraform.io/providers/oracle/oci/latest/docs/data-sources/identity_compartment) | data source |
+| [oci_identity_compartments.all_compartments](https://registry.terraform.io/providers/oracle/oci/latest/docs/data-sources/identity_compartments) | data source |
 
 ## Inputs
 
@@ -46,4 +46,4 @@ No modules.
 | <a name="output_compartment_id"></a> [compartment\_id](#output\_compartment\_id) | The OCID of the compartment |
 | <a name="output_compartment_name"></a> [compartment\_name](#output\_compartment\_name) | The name of the compartment |
 | <a name="output_root_compartment_id"></a> [root\_compartment\_id](#output\_root\_compartment\_id) | The OCID of the root compartment |
-<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- END_TF_DOCS -->

@@ -1,6 +1,6 @@
 # oci_profile_reader module
 
-<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
@@ -30,4 +30,4 @@ No resources.
 | Name | Description |
 |------|-------------|
 | <a name="output_oci_profile_data"></a> [oci\_profile\_data](#output\_oci\_profile\_data) | The data from the OCI profile |
-<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- END_TF_DOCS -->

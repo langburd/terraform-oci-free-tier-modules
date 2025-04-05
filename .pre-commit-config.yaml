@@ -2,7 +2,7 @@
 repos:
   # Common hooks
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.6.0
+    rev: v5.0.0
     hooks:
       # Git
       - id: check-added-large-files
@@ -38,7 +38,7 @@ repos:
 
   # YAML hooks
   - repo: https://github.com/adrienverge/yamllint.git
-    rev: v1.35.1
+    rev: v1.37.0
     hooks:
       - id: yamllint
         args: [--format, parsable, --strict]
@@ -51,7 +51,7 @@ repos:
 
   # Terraform hooks
   - repo: https://github.com/antonbabenko/pre-commit-terraform
-    rev: v1.89.1
+    rev: v1.98.0
     hooks:
       # - id: terragrunt_fmt
       # # - id: terragrunt_validate
