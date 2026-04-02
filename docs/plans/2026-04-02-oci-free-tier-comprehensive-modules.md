@@ -90,11 +90,23 @@ The `terraform-oci-free-tier-modules` repo currently has only 3 modules (budget,
 
 ## New Modules (17 total)
 
-### Conventions (from existing modules)
+### Terraform Skill Usage
+
+**Invoke `/terraform` at the start of every module creation or update task.** The skill is installed at `.claude/skills/terraform/` (submodule: `antonbabenko/terraform-skill`) and provides authoritative guidance on:
+
+- Resource block ordering: `count`/`for_each` first, then arguments, `tags` last, then `depends_on`, then `lifecycle`
+- Variable block ordering: `description` → `type` → `default` → `validation` → `nullable`
+- `count = condition ? 1 : 0` for boolean conditionals; `for_each` for stable addressing of multiple resources
+- Use `try()` locals for dependency management (e.g., VCN secondary CIDR ordering)
+- `sensitive = true` on password/secret variables and outputs
+- `description` required on all variables and outputs
+- Detailed guides in `.claude/skills/terraform/references/` (module-patterns.md, code-patterns.md, security-compliance.md)
+
+### Conventions (from existing modules + terraform skill)
 
 - File structure: `main.tf`, `variables.tf`, `outputs.tf`, `providers.tf`, `README.md`
 - Provider block: `terraform >= 1.6.4`, `oci >= 6.0`
-- Resource naming: all use `"this"`
+- Resource naming: `"this"` for singleton resources only; descriptive names for multiples
 - Tag variables: `<prefix>_defined_tags` + `<prefix>_freeform_tags` (both `map(string)`, default `{}`)
 - OCID validation regex: `^ocid1\.[a-z]+\.[a-z][a-z0-9-]*\.[a-z0-9-]*\.[a-z0-9]+$`
 - Variable descriptions: `(Required)`, `(Optional)`, `(Updatable)` annotations
@@ -415,6 +427,8 @@ oci_profile_reader --> identity (compartment)
 ---
 
 ## Implementation Sequence
+
+> **Before starting any module:** invoke `/terraform` skill to load authoritative conventions. Apply resource block ordering, variable ordering, count/for_each guidance, and security patterns from that skill throughout.
 
 ### Phase 1 — Core Infrastructure (P0)
 
