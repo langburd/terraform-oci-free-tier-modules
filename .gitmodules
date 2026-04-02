@@ -1,0 +1,3 @@
+[submodule ".claude/skills/terraform"]
+	path = .claude/skills/terraform
+	url = git@github.com:antonbabenko/terraform-skill.git
