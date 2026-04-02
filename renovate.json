@@ -26,21 +26,31 @@
       "automerge": true
     },
     {
-      "description": "Group pre-commit hook updates",
+      "description": "Group pre-commit hook updates and automerge minor/patch",
       "matchManagers": [
         "pre-commit"
       ],
-      "groupName": "pre-commit hooks"
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "groupName": "pre-commit hooks",
+      "automerge": true
     },
     {
-      "description": "Group Terraform provider updates",
+      "description": "Group Terraform provider updates and automerge minor/patch",
       "matchManagers": [
         "terraform"
       ],
       "matchDepTypes": [
         "provider"
       ],
-      "groupName": "Terraform providers"
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "groupName": "Terraform providers",
+      "automerge": true
     }
   ]
 }
