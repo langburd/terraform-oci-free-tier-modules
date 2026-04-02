@@ -92,7 +92,7 @@ The `terraform-oci-free-tier-modules` repo currently has only 3 modules (budget,
 
 ### Terraform Skill Usage
 
-**Invoke `/terraform` at the start of every module creation or update task.** The skill is installed at `.claude/skills/terraform/` (submodule: `antonbabenko/terraform-skill`) and provides authoritative guidance on:
+**Invoke `/terraform-skill` at the start of every module creation or update task.** The skill is installed at `.claude/skills/terraform-skill/` (submodule: `antonbabenko/terraform-skill`) and provides authoritative guidance on:
 
 - Resource block ordering: `count`/`for_each` first, then arguments, `tags` last, then `depends_on`, then `lifecycle`
 - Variable block ordering: `description` → `type` → `default` → `validation` → `nullable`
@@ -100,7 +100,7 @@ The `terraform-oci-free-tier-modules` repo currently has only 3 modules (budget,
 - Use `try()` locals for dependency management (e.g., VCN secondary CIDR ordering)
 - `sensitive = true` on password/secret variables and outputs
 - `description` required on all variables and outputs
-- Detailed guides in `.claude/skills/terraform/references/` (module-patterns.md, code-patterns.md, security-compliance.md)
+- Detailed guides in `.claude/skills/terraform-skill/references/` (module-patterns.md, code-patterns.md, security-compliance.md)
 
 ### Conventions (from existing modules + terraform skill)
 
@@ -428,7 +428,7 @@ oci_profile_reader --> identity (compartment)
 
 ## Implementation Sequence
 
-> **Before starting any module:** invoke `/terraform` skill to load authoritative conventions. Apply resource block ordering, variable ordering, count/for_each guidance, and security patterns from that skill throughout.
+> **Before starting any module:** invoke `/terraform-skill` skill to load authoritative conventions. Apply resource block ordering, variable ordering, count/for_each guidance, and security patterns from that skill throughout.
 
 ### Phase 1 — Core Infrastructure (P0)
 
