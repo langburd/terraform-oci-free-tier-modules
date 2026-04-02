@@ -5,7 +5,7 @@
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.6.1 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.6.4 |
 
 ## Providers
 
@@ -29,5 +29,5 @@ No resources.
 
 | Name | Description |
 |------|-------------|
-| <a name="output_oci_profile_data"></a> [oci\_profile\_data](#output\_oci\_profile\_data) | The data from the OCI profile |
+| <a name="output_oci_profile_data"></a> [oci\_profile\_data](#output\_oci\_profile\_data) | The data from the OCI profile (sensitive fields like key\_file and fingerprint are excluded) |
 <!-- END_TF_DOCS -->

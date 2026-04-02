@@ -1,8 +1,3 @@
-output "root_compartment_id" {
-  description = "The OCID of the root compartment"
-  value       = var.oci_root_compartment
-}
-
 output "compartment_id" {
   description = "The OCID of the compartment"
   value       = oci_identity_compartment.this.id

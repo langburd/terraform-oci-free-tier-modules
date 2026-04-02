@@ -27,32 +27,18 @@ jobs:
       - name: Install Python
         uses: actions/setup-python@v6
         with:
-          python-version: '3.14'
+          python-version: '3.13'
 
       - name: Install prerequisites (terraform-docs, tflint)
         run: |
-          # Install prerequisites (terraform-docs, tflint)
-
-          # # Install shfmt
-          # sudo wget -q -O /usr/local/bin/shfmt $(curl -sL https://api.github.com/repos/mvdan/sh/releases/latest | grep browser_download_url | grep -o -E "https://.+?_linux_amd64")
-          # sudo chmod +x /usr/local/bin/shfmt
-
-          # # Install hadolint
-          # sudo wget -q -O /usr/local/bin/hadolint $(curl -sL https://api.github.com/repos/hadolint/hadolint/releases/latest | grep browser_download_url | grep -o -E "https://.+?-Linux-x86_64" | uniq)
-          # sudo chmod +x /usr/local/bin/hadolint
-
-          # # Install terragrunt
-          # sudo wget -q -O /usr/local/bin/terragrunt $(curl -sL https://api.github.com/repos/gruntwork-io/terragrunt/releases/latest | grep browser_download_url | grep -o -E "https://.+?_linux_amd64")
-          # sudo chmod +x /usr/local/bin/terragrunt
-
           # Install terraform-docs
           sudo wget -q -O /usr/local/bin/terraform-docs.tar.gz $(curl -sL https://api.github.com/repos/terraform-docs/terraform-docs/releases/latest | grep browser_download_url | grep -o -E "https://.+?-linux-amd64.tar.gz")
           sudo tar -xzf /usr/local/bin/terraform-docs.tar.gz -C /usr/local/bin
           sudo chmod +x /usr/local/bin/terraform-docs
 
           # Install tflint
-          sudo wget -q -O /usr/local/bin/tflint.zip $(curl -sL https://api.github.com/repos/terraform-linters/tflint/releases/latest | grep browser_download_url | grep -o -E "https://.+?_linux_amd64.zip")
-          sudo gunzip -f -S .zip /usr/local/bin/tflint.zip
+          sudo wget -q -O /tmp/tflint.zip $(curl -sL https://api.github.com/repos/terraform-linters/tflint/releases/latest | grep browser_download_url | grep -o -E "https://.+?_linux_amd64.zip")
+          sudo unzip -o /tmp/tflint.zip -d /usr/local/bin
           sudo chmod +x /usr/local/bin/tflint
 
       - name: Run pre-commit action

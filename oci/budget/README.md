@@ -6,29 +6,22 @@ Terraform module creating OCI Budget and Alert Rule resources.
 
 ```hcl
 module "oci_budget" {
-  source = "./oci-budget-module"
-
-  # OCI Provider configuration
-  tenancy_ocid     = "<tenancy_ocid>"
-  user_ocid        = "<user_ocid>"
-  fingerprint      = "<fingerprint>"
-  private_key_path = "~/.oci/private_key.pem"
-  region           = "us-ashburn-1"
+  source = "git@github.com:langburd/terraform-oci-free-tier-modules.git?ref=oci/budget/v1.0.1"
 
   # Budget configuration
-  budget_compartment_id = "<compartment_ocid>"
-  budget_amount         = "1000"
-  budget_reset_period   = "MONTHLY"
+  budget_compartment_id = "<tenancy_ocid>"
+  budget_amount         = 1
+  budget_display_name   = "MonthlyBudget"
   budget_target_type    = "COMPARTMENT"
-  budget_target         = "<target_compartment_ocid>"
-  budget_display_name   = "Monthly Budget"
+  budget_targets        = ["<target_compartment_ocid>"]
 
   # Alert rule configuration
-  alert_type           = "ACTUAL"
-  threshold            = 80
-  threshold_type       = "PERCENTAGE"
-  recipients           = ["admin@example.com"]
-  alert_display_name   = "80% Budget Alert"
+  create_alert_rule  = true
+  alert_type         = "FORECAST"
+  alert_threshold    = 1
+  alert_threshold_type = "PERCENTAGE"
+  alert_recipients   = "admin@example.com"
+  alert_display_name = "Alert_on_0.01_forecast_spend"
 }
 ```
 
@@ -81,6 +74,7 @@ No modules.
 | <a name="input_budget_reset_period"></a> [budget\_reset\_period](#input\_budget\_reset\_period) | (Required) (Updatable) The reset period for the budget. Valid value is MONTHLY. | `string` | `"MONTHLY"` | no |
 | <a name="input_budget_target_type"></a> [budget\_target\_type](#input\_budget\_target\_type) | The type of target for the budget. | `string` | `"COMPARTMENT"` | no |
 | <a name="input_budget_targets"></a> [budget\_targets](#input\_budget\_targets) | (Optional) The list of targets on which the budget is applied. If targetType is 'COMPARTMENT', the targets contain the list of compartment OCIDs. If targetType is 'TAG', the targets contain the list of cost tracking tag identifiers in the form of '{tagNamespace}.{tagKey}.{tagValue}'. Currently, the array should contain exactly one item. | `list(string)` | n/a | yes |
+| <a name="input_create_alert_rule"></a> [create\_alert\_rule](#input\_create\_alert\_rule) | Whether to create a budget alert rule. | `bool` | `true` | no |
 
 ## Outputs
 

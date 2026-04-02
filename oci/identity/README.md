@@ -6,13 +6,13 @@
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.6.4 |
-| <a name="requirement_oci"></a> [oci](#requirement\_oci) | >= 6.15.0 |
+| <a name="requirement_oci"></a> [oci](#requirement\_oci) | >= 6.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_oci"></a> [oci](#provider\_oci) | >= 6.15.0 |
+| <a name="provider_oci"></a> [oci](#provider\_oci) | >= 6.0 |
 
 ## Modules
 
@@ -44,5 +44,4 @@ No modules.
 | <a name="output_compartment_freeform_tags"></a> [compartment\_freeform\_tags](#output\_compartment\_freeform\_tags) | The freeform tags of the compartment |
 | <a name="output_compartment_id"></a> [compartment\_id](#output\_compartment\_id) | The OCID of the compartment |
 | <a name="output_compartment_name"></a> [compartment\_name](#output\_compartment\_name) | The name of the compartment |
-| <a name="output_root_compartment_id"></a> [root\_compartment\_id](#output\_root\_compartment\_id) | The OCID of the root compartment |
 <!-- END_TF_DOCS -->

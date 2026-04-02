@@ -1,6 +1,6 @@
 output "alert_rule_id" {
   description = "OCID of the budget alert rule."
-  value       = oci_budget_alert_rule.this.id
+  value       = var.create_alert_rule ? oci_budget_alert_rule.this[0].id : null
 }
 
 output "budget_id" {
