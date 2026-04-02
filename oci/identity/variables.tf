@@ -23,7 +23,7 @@ variable "compartment_freeform_tags" {
 }
 
 variable "compartment_name" {
-  description = "(Required) (Updatable) The name you assign to the compartment during creation. The name must be unique across all compartments in the parent compartment. Avoid entering confidential information."
+  description = "(Optional) (Updatable) The name you assign to the compartment during creation. The name must be unique across all compartments in the parent compartment. Avoid entering confidential information."
   type        = string
   default     = "My Compartment"
   validation {

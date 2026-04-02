@@ -81,3 +81,138 @@ run "rejects_invalid_threshold_type" {
     var.alert_threshold_type,
   ]
 }
+
+run "rejects_empty_budget_targets" {
+  command = plan
+
+  variables {
+    budget_targets = []
+  }
+
+  expect_failures = [
+    var.budget_targets,
+  ]
+}
+
+run "rejects_multiple_budget_targets" {
+  command = plan
+
+  variables {
+    budget_targets = [
+      "ocid1.compartment.oc1..aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "ocid1.compartment.oc1..bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    ]
+  }
+
+  expect_failures = [
+    var.budget_targets,
+  ]
+}
+
+run "rejects_invalid_alert_display_name" {
+  command = plan
+
+  variables {
+    alert_display_name = "Invalid Name With Spaces"
+  }
+
+  expect_failures = [
+    var.alert_display_name,
+  ]
+}
+
+run "rejects_invalid_budget_display_name" {
+  command = plan
+
+  variables {
+    budget_display_name = "Invalid Name With Spaces"
+  }
+
+  expect_failures = [
+    var.budget_display_name,
+  ]
+}
+
+run "rejects_zero_alert_threshold" {
+  command = plan
+
+  variables {
+    alert_threshold = 0
+  }
+
+  expect_failures = [
+    var.alert_threshold,
+  ]
+}
+
+run "rejects_invalid_alert_type" {
+  command = plan
+
+  variables {
+    alert_type = "INVALID"
+  }
+
+  expect_failures = [
+    var.alert_type,
+  ]
+}
+
+run "rejects_invalid_budget_processing_period_type" {
+  command = plan
+
+  variables {
+    budget_processing_period_type = "INVALID"
+  }
+
+  expect_failures = [
+    var.budget_processing_period_type,
+  ]
+}
+
+run "rejects_invalid_budget_target_type" {
+  command = plan
+
+  variables {
+    budget_target_type = "INVALID"
+  }
+
+  expect_failures = [
+    var.budget_target_type,
+  ]
+}
+
+run "rejects_below_min_processing_period_start_offset" {
+  command = plan
+
+  variables {
+    budget_processing_period_start_offset = 0
+  }
+
+  expect_failures = [
+    var.budget_processing_period_start_offset,
+  ]
+}
+
+run "rejects_above_max_processing_period_start_offset" {
+  command = plan
+
+  variables {
+    budget_processing_period_start_offset = 29
+  }
+
+  expect_failures = [
+    var.budget_processing_period_start_offset,
+  ]
+}
+
+run "rejects_fractional_budget_amount" {
+  command = plan
+
+  variables {
+    budget_amount = 1.5
+  }
+
+  expect_failures = [
+    var.budget_amount,
+  ]
+}

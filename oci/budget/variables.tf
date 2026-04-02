@@ -1,5 +1,5 @@
 variable "create_alert_rule" {
-  description = "Whether to create a budget alert rule."
+  description = "Whether to create a budget alert rule. Note: alert variable validations (alert_type, alert_threshold, etc.) are always enforced by Terraform regardless of this setting."
   type        = bool
   default     = true
 }
@@ -82,6 +82,10 @@ variable "budget_amount" {
     condition     = var.budget_amount >= 1
     error_message = "The amount of the budget must be equal or greater than 1."
   }
+  validation {
+    condition     = floor(var.budget_amount) == var.budget_amount
+    error_message = "budget_amount must be a whole number (no decimals)."
+  }
 }
 
 variable "budget_compartment_id" {
@@ -122,7 +126,7 @@ variable "budget_freeform_tags" {
 }
 
 variable "budget_processing_period_start_offset" {
-  description = "(Optional) (Updatable) The number of days offset from the first day of the month, at which the budget processing period starts. In months that have fewer days than this value, processing will begin on the last day of that month. For example, for a value of 12, processing starts every month on the 12th at midnight."
+  description = "(Optional) (Updatable) The number of days offset from the first day of the month, at which the budget processing period starts. In months that have fewer days than this value, processing will begin on the last day of that month. For example, for a value of 12, processing starts every month on the 12th at midnight. Valid values: 1 to 28."
   type        = number
   default     = 1
   validation {
@@ -162,7 +166,7 @@ variable "budget_target_type" {
 }
 
 variable "budget_targets" {
-  description = "(Optional) The list of targets on which the budget is applied. If targetType is 'COMPARTMENT', the targets contain the list of compartment OCIDs. If targetType is 'TAG', the targets contain the list of cost tracking tag identifiers in the form of '{tagNamespace}.{tagKey}.{tagValue}'. Currently, the array should contain exactly one item."
+  description = "(Required) The list of targets on which the budget is applied. If targetType is 'COMPARTMENT', the targets contain the list of compartment OCIDs. If targetType is 'TAG', the targets contain the list of cost tracking tag identifiers in the form of '{tagNamespace}.{tagKey}.{tagValue}'. Currently, the array should contain exactly one item."
   type        = list(string)
   validation {
     condition     = length(var.budget_targets) == 1
