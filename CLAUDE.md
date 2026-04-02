@@ -13,14 +13,18 @@ Reusable Terraform modules for Oracle Cloud Infrastructure (OCI) Free Tier resou
 
 ## Module Layout
 
-Every module follows this structure: `main.tf`, `variables.tf`, `outputs.tf`, `providers.tf`, `README.md`.
+Every module follows this structure: `main.tf`, `variables.tf`, `outputs.tf`, `providers.tf`, `README.md`, `tests/<module>.tftest.hcl`.
+
+When adding or changing module behavior, always update `tests/<module>.tftest.hcl` to cover the change. Tests must cover defaults, custom inputs, and validation rejection cases.
 
 ## Commands
 
 - Format: `terraform fmt` (runs automatically via pre-commit)
 - Validate: `terraform validate` (run from within a module or example directory after `terraform init`)
+- Test: `terraform test` (run from within a module directory; requires `terraform init` first)
 - Lint: pre-commit hooks handle `terraform_fmt`, `terraform_tflint`, `terraform_docs`, and YAML validation
 - Run all pre-commit checks: `pre-commit run --all-files`
+- CI runs tests automatically via `.github/workflows/terraform-tests.yml` (dynamic module discovery)
 
 ## Git Workflow
 
