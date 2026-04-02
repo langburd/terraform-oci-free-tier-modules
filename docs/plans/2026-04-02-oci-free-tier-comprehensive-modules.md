@@ -79,12 +79,50 @@ The `terraform-oci-free-tier-modules` repo currently has only 3 modules (budget,
 
 ## Improvements to Existing Modules
 
-### `oci/identity` — Add input validation
+### `oci/identity` — Add input validation ✅ (PR #28)
 
 - **File:** `oci/identity/variables.tf`
-- Add OCID regex validation to `oci_root_compartment` (line 31-34) matching the pattern from `oci/budget/variables.tf`
-- Add character validation to `compartment_name` (alphanumeric, dots, underscores, dashes)
-- Commit: `fix(identity): add OCID and name validation to variables`
+- ~~Add OCID regex validation to `oci_root_compartment`~~ Done
+- ~~Add character validation to `compartment_name`~~ Done (length validation)
+- Removed `root_compartment_id` output that just echoed the input variable
+- Fixed `compartment_name` annotation from `(Required)` to `(Optional)`
+- Standardized variable block ordering (`description` → `type` → `default` → `validation`)
+- Added native Terraform tests (5 test cases)
+
+### `oci/budget` — Validation & flexibility improvements ✅ (PR #28)
+
+- Made alert rule conditional via new `create_alert_rule` variable (default `true`)
+- Added integer validation to `budget_amount`
+- Fixed `budget_targets` annotation from `(Optional)` to `(Required)`
+- Added 1–28 range note to `budget_alert_rule_threshold_reset_period_start_offset` description
+- Documented null return on outputs when `create_alert_rule = false`
+- Fixed README usage example to match actual variable names
+- Added native Terraform tests (17+ test cases covering all validation blocks)
+
+### `oci/oci_profile_reader` — Robustness & security ✅ (PR #28)
+
+- Added `profile_name` non-empty and whitespace validation
+- Added `precondition` on output for missing profiles with helpful error listing available profiles
+- Filtered sensitive fields (`key_file`, `fingerprint`, `passphrase`) from output
+- Hardened INI parser: `trimspace` for `\r\n`, spaces around `=`, whitespace-only line filter, `can()` guard
+- Used `lookup()` to prevent index panic before precondition fires
+- Added native Terraform tests (3 test cases)
+
+### All modules — Version & style standardization ✅ (PR #28)
+
+- Standardized Terraform version constraint to `>= 1.6.4` across all modules
+- Standardized OCI provider version constraint to `>= 6.0` across all modules
+- Aligned example provider versions to `~> 6.0`
+- Standardized variable block ordering (`description` → `type` → `default` → `validation`) across all modules
+
+### CI & Pre-commit ✅ (PR #28)
+
+- Fixed tflint install in CI (`unzip` instead of `gunzip` hack)
+- Pinned Python to stable `3.13` instead of pre-release `3.14`
+- Removed commented-out code from CI workflow and pre-commit config
+- Pinned tool versions in pre-commit hooks, added `set -euo pipefail` and `curl --fail`
+- Added `terraform-tests.yml` workflow with dynamic module discovery
+- Added comment explaining disabled `terraform_module_pinned_source` rule
 
 ---
 
@@ -104,13 +142,15 @@ The `terraform-oci-free-tier-modules` repo currently has only 3 modules (budget,
 
 ### Conventions (from existing modules + terraform skill)
 
-- File structure: `main.tf`, `variables.tf`, `outputs.tf`, `providers.tf`, `README.md`
+- File structure: `main.tf`, `variables.tf`, `outputs.tf`, `providers.tf`, `README.md`, `tests/<module>.tftest.hcl`
 - Provider block: `terraform >= 1.6.4`, `oci >= 6.0`
 - Resource naming: `"this"` for singleton resources only; descriptive names for multiples
 - Tag variables: `<prefix>_defined_tags` + `<prefix>_freeform_tags` (both `map(string)`, default `{}`)
 - OCID validation regex: `^ocid1\.[a-z]+\.[a-z][a-z0-9-]*\.[a-z0-9-]*\.[a-z0-9]+$`
+- Variable block ordering: `description` → `type` → `default` → `validation` → `nullable` (enforced in PR #28)
 - Variable descriptions: `(Required)`, `(Optional)`, `(Updatable)` annotations
 - README: manual usage example + terraform-docs markers
+- Tests: native Terraform test files in `tests/` directory, covering defaults, custom inputs, and validation rejection
 
 ---
 
@@ -432,7 +472,7 @@ oci_profile_reader --> identity (compartment)
 
 ### Phase 1 — Core Infrastructure (P0)
 
-1. Fix `oci/identity` validation → `fix(identity): add OCID and name validation`
+1. ~~Fix `oci/identity` validation~~ ✅ Done in PR #28 (also fixed budget, oci_profile_reader, CI, and added tests for all 3 existing modules)
 2. `oci/vcn` → `feat(vcn): add VCN module with internet and NAT gateways`
 3. `oci/subnet` → `feat(subnet): add subnet module`
 4. `oci/compute` → `feat(compute): add compute instance module for AMD Micro and Ampere A1`
@@ -474,9 +514,11 @@ oci_profile_reader --> identity (compartment)
 For each module:
 
 1. `cd oci/<module> && terraform init && terraform validate`
-2. `terraform fmt -check`
-3. `pre-commit run --all-files` from repo root
-4. Verify README auto-generates correctly between terraform-docs markers
+2. `cd oci/<module> && terraform test` (native Terraform tests in `tests/` directory)
+3. `terraform fmt -check`
+4. `pre-commit run --all-files` from repo root
+5. Verify README auto-generates correctly between terraform-docs markers
+6. CI runs automatically via `terraform-tests.yml` workflow (dynamic module discovery, added in PR #28)
 
 ---
 
@@ -484,7 +526,8 @@ For each module:
 
 | Metric | Count |
 |--------|-------|
-| Existing modules to improve | 1 (identity) |
+| Existing modules improved | 3 of 3 ✅ (identity, budget, oci_profile_reader — PR #28) |
+| CI/testing infrastructure | ✅ Added terraform-tests workflow + tests for all existing modules (PR #28) |
 | New modules to create | 17 |
 | Services excluded | 6 |
 | New examples to create | 6 |
@@ -495,7 +538,10 @@ For each module:
 
 ## Key Reference Files
 
-- `oci/budget/variables.tf` — Gold standard for validation patterns
-- `oci/budget/main.tf` — Gold standard for resource structure
+- `oci/budget/variables.tf` — Gold standard for validation patterns (improved in PR #28)
+- `oci/budget/main.tf` — Gold standard for resource structure (conditional alert rule added in PR #28)
 - `oci/budget/providers.tf` — Provider boilerplate to copy
-- `oci/identity/variables.tf` — Needs validation fix
+- `oci/budget/tests/budget.tftest.hcl` — Gold standard for test patterns (17+ test cases)
+- `oci/identity/variables.tf` — ~~Needs validation fix~~ ✅ Fixed in PR #28
+- `oci/oci_profile_reader/main.tf` — Reference for robust INI parsing and sensitive field filtering
+- `.github/workflows/terraform-tests.yml` — CI test workflow with dynamic module discovery
