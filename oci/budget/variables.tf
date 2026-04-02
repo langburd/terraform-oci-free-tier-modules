@@ -11,9 +11,13 @@ variable "alert_description" {
 }
 
 variable "alert_display_name" {
-  default     = "Alert on $0.01 forecast spend"
-  description = "Display name of the alert rule."
+  default     = "Alert_on_0.01_forecast_spend"
+  description = "Display name of the alert rule. Only a-zA-Z0-9.-_ characters are allowed."
   type        = string
+  validation {
+    condition     = can(regex("^[a-zA-Z0-9._-]+$", var.alert_display_name))
+    error_message = "alert_display_name may contain only the characters a-zA-Z0-9.-_"
+  }
 }
 
 variable "alert_freeform_tags" {
@@ -38,6 +42,10 @@ variable "alert_threshold" {
   default     = 1
   description = "Threshold value for triggering the alert."
   type        = number
+  validation {
+    condition     = var.alert_threshold > 0
+    error_message = "alert_threshold must be greater than 0."
+  }
 }
 
 variable "alert_threshold_type" {
@@ -71,8 +79,12 @@ variable "budget_amount" {
 }
 
 variable "budget_compartment_id" {
-  description = "Compartment OCID for the budget."
+  description = "Compartment OCID for the budget. Must be the root tenancy OCID."
   type        = string
+  validation {
+    condition     = can(regex("^ocid1\\.[a-z]+\\.[a-z][a-z0-9-]*\\.[a-z0-9-]*\\.[a-z0-9]+$", var.budget_compartment_id))
+    error_message = "budget_compartment_id must be a valid OCI OCID (e.g. ocid1.tenancy.oc1..aaaaaa...)."
+  }
 }
 
 variable "budget_defined_tags" {
@@ -89,8 +101,12 @@ variable "budget_description" {
 
 variable "budget_display_name" {
   default     = "MonthlyBudget"
-  description = "Display name for the budget."
+  description = "Display name for the budget. Only a-zA-Z0-9.-_ characters are allowed."
   type        = string
+  validation {
+    condition     = can(regex("^[a-zA-Z0-9._-]+$", var.budget_display_name))
+    error_message = "budget_display_name may contain only the characters a-zA-Z0-9.-_"
+  }
 }
 
 variable "budget_freeform_tags" {
@@ -103,6 +119,10 @@ variable "budget_processing_period_start_offset" {
   default     = 1
   description = "(Optional) (Updatable) The number of days offset from the first day of the month, at which the budget processing period starts. In months that have fewer days than this value, processing will begin on the last day of that month. For example, for a value of 12, processing starts every month on the 12th at midnight."
   type        = number
+  validation {
+    condition     = var.budget_processing_period_start_offset >= 1 && var.budget_processing_period_start_offset <= 28
+    error_message = "budget_processing_period_start_offset must be between 1 and 28."
+  }
 }
 
 variable "budget_processing_period_type" {
@@ -136,6 +156,10 @@ variable "budget_target_type" {
 }
 
 variable "budget_targets" {
-  description = "(Optional) The list of targets on which the budget is applied. If targetType is 'COMPARTMENT', the targets contain the list of compartment OCIDs. If targetType is 'TAG', the targets contain the list of cost tracking tag identifiers in the form of '{tagNamespace}.{tagKey}.{tagValue}'. Curerntly, the array should contain exactly one item."
+  description = "(Optional) The list of targets on which the budget is applied. If targetType is 'COMPARTMENT', the targets contain the list of compartment OCIDs. If targetType is 'TAG', the targets contain the list of cost tracking tag identifiers in the form of '{tagNamespace}.{tagKey}.{tagValue}'. Currently, the array should contain exactly one item."
   type        = list(string)
+  validation {
+    condition     = length(var.budget_targets) == 1
+    error_message = "budget_targets must contain exactly one item."
+  }
 }
