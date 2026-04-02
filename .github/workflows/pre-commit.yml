@@ -19,7 +19,7 @@ jobs:
           chmod 600 /home/runner/.oci/config
 
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Install Terraform
         uses: hashicorp/setup-terraform@v4
