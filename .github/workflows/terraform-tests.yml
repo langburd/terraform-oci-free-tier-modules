@@ -1,0 +1,53 @@
+---
+name: terraform-tests
+
+on:
+  pull_request:
+    branches:
+      - master
+    paths:
+      - 'oci/**'
+
+jobs:
+  discover:
+    runs-on: ubuntu-latest
+    outputs:
+      modules: ${{ steps.find.outputs.modules }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Find modules with tests
+        id: find
+        run: |
+          modules=$(find oci -type f -name '*.tftest.hcl' \
+            | xargs -I{} dirname {} \
+            | xargs -I{} dirname {} \
+            | sort -u \
+            | jq -R . \
+            | jq -sc .)
+          echo "modules=$modules" >> "$GITHUB_OUTPUT"
+
+  test:
+    needs: discover
+    if: ${{ needs.discover.outputs.modules != '[]' }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        module: ${{ fromJson(needs.discover.outputs.modules) }}
+      fail-fast: false
+    name: test (${{ matrix.module }})
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Install Terraform
+        uses: hashicorp/setup-terraform@v4
+
+      - name: terraform init
+        run: terraform init
+        working-directory: ${{ matrix.module }}
+
+      - name: terraform test
+        run: terraform test
+        working-directory: ${{ matrix.module }}
