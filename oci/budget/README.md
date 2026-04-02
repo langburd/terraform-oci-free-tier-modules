@@ -69,17 +69,17 @@ No modules.
 | <a name="input_budget_description"></a> [budget\_description](#input\_budget\_description) | Description of the budget. | `string` | `""` | no |
 | <a name="input_budget_display_name"></a> [budget\_display\_name](#input\_budget\_display\_name) | Display name for the budget. Only a-zA-Z0-9.-\_ characters are allowed. | `string` | `"MonthlyBudget"` | no |
 | <a name="input_budget_freeform_tags"></a> [budget\_freeform\_tags](#input\_budget\_freeform\_tags) | Free-form tags for the budget. | `map(string)` | `{}` | no |
-| <a name="input_budget_processing_period_start_offset"></a> [budget\_processing\_period\_start\_offset](#input\_budget\_processing\_period\_start\_offset) | (Optional) (Updatable) The number of days offset from the first day of the month, at which the budget processing period starts. In months that have fewer days than this value, processing will begin on the last day of that month. For example, for a value of 12, processing starts every month on the 12th at midnight. | `number` | `1` | no |
+| <a name="input_budget_processing_period_start_offset"></a> [budget\_processing\_period\_start\_offset](#input\_budget\_processing\_period\_start\_offset) | (Optional) (Updatable) The number of days offset from the first day of the month, at which the budget processing period starts. In months that have fewer days than this value, processing will begin on the last day of that month. For example, for a value of 12, processing starts every month on the 12th at midnight. Valid values: 1 to 28. | `number` | `1` | no |
 | <a name="input_budget_processing_period_type"></a> [budget\_processing\_period\_type](#input\_budget\_processing\_period\_type) | Processing period type (INVOICE or MONTH). | `string` | `"MONTH"` | no |
 | <a name="input_budget_reset_period"></a> [budget\_reset\_period](#input\_budget\_reset\_period) | (Required) (Updatable) The reset period for the budget. Valid value is MONTHLY. | `string` | `"MONTHLY"` | no |
 | <a name="input_budget_target_type"></a> [budget\_target\_type](#input\_budget\_target\_type) | The type of target for the budget. | `string` | `"COMPARTMENT"` | no |
-| <a name="input_budget_targets"></a> [budget\_targets](#input\_budget\_targets) | (Optional) The list of targets on which the budget is applied. If targetType is 'COMPARTMENT', the targets contain the list of compartment OCIDs. If targetType is 'TAG', the targets contain the list of cost tracking tag identifiers in the form of '{tagNamespace}.{tagKey}.{tagValue}'. Currently, the array should contain exactly one item. | `list(string)` | n/a | yes |
-| <a name="input_create_alert_rule"></a> [create\_alert\_rule](#input\_create\_alert\_rule) | Whether to create a budget alert rule. | `bool` | `true` | no |
+| <a name="input_budget_targets"></a> [budget\_targets](#input\_budget\_targets) | (Required) The list of targets on which the budget is applied. If targetType is 'COMPARTMENT', the targets contain the list of compartment OCIDs. If targetType is 'TAG', the targets contain the list of cost tracking tag identifiers in the form of '{tagNamespace}.{tagKey}.{tagValue}'. Currently, the array should contain exactly one item. | `list(string)` | n/a | yes |
+| <a name="input_create_alert_rule"></a> [create\_alert\_rule](#input\_create\_alert\_rule) | Whether to create a budget alert rule. Note: alert variable validations (alert\_type, alert\_threshold, etc.) are always enforced by Terraform regardless of this setting. | `bool` | `true` | no |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| <a name="output_alert_rule_id"></a> [alert\_rule\_id](#output\_alert\_rule\_id) | OCID of the budget alert rule. |
+| <a name="output_alert_rule_id"></a> [alert\_rule\_id](#output\_alert\_rule\_id) | OCID of the budget alert rule. Returns null when create\_alert\_rule is false. |
 | <a name="output_budget_id"></a> [budget\_id](#output\_budget\_id) | OCID of the budget resource. |
 <!-- END_TF_DOCS -->

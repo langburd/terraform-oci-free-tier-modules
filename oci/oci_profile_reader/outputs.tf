@@ -1,7 +1,7 @@
 output "oci_profile_data" {
-  description = "The data from the OCI profile (sensitive fields like key_file and fingerprint are excluded)"
+  description = "The data from the OCI profile (sensitive fields fingerprint, key_file, and passphrase are excluded)"
   value = {
-    for k, v in local.oci_profiles[var.profile_name] :
+    for k, v in lookup(local.oci_profiles, var.profile_name, {}) :
     k => v if !contains(["fingerprint", "key_file", "passphrase"], k)
   }
 

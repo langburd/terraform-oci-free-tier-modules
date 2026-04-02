@@ -2,9 +2,10 @@ locals {
   # Read the file and split it into lines
   config_lines = split("\n", file(pathexpand("~/.oci/config")))
 
-  # Filter out commented lines
+  # Filter out commented and empty lines, strip whitespace (including \r from Windows line endings)
   non_commented_lines = [
-    for line in local.config_lines : line if !startswith(trimspace(line), "#")
+    for line in local.config_lines : trimspace(line)
+    if trimspace(line) != "" && !startswith(trimspace(line), "#")
   ]
 
   # Extract profile headers from the lines
@@ -33,8 +34,9 @@ locals {
   oci_profiles = {
     for profile_name, profile_lines in local.profiles :
     profile_name => {
-      for line in compact(profile_lines) :
-      flatten(regexall("(\\w+)=(.+)$", line))[0] => flatten(regexall("(\\w+)=(.+)$", line))[1]
+      for line in [for l in profile_lines : l if can(regex("^\\w+\\s*=", l))] :
+      trimspace(flatten(regexall("^(\\w+)\\s*=\\s*(.+)$", line))[0]) =>
+      trimspace(flatten(regexall("^(\\w+)\\s*=\\s*(.+)$", line))[1])
     }
   }
 }

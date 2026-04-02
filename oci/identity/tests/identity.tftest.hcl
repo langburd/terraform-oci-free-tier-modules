@@ -72,3 +72,16 @@ run "rejects_too_long_compartment_name" {
     var.compartment_name,
   ]
 }
+
+run "creates_compartment_with_delete_disabled" {
+  command = plan
+
+  variables {
+    compartment_enable_delete = false
+  }
+
+  assert {
+    condition     = oci_identity_compartment.this.enable_delete == false
+    error_message = "enable_delete should be false when explicitly set to false"
+  }
+}
