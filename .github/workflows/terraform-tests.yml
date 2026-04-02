@@ -20,9 +20,9 @@ jobs:
       - name: Find modules with tests
         id: find
         run: |
-          modules=$(find oci -type f -name '*.tftest.hcl' \
-            | xargs -I{} dirname {} \
-            | xargs -I{} dirname {} \
+          set -euo pipefail
+          modules=$(find oci -path '*/tests/*.tftest.hcl' -type f \
+            | sed 's|/tests/[^/]*$||' \
             | sort -u \
             | jq -R . \
             | jq -sc .)
