@@ -1,3 +1,9 @@
+variable "create_alert_rule" {
+  default     = true
+  description = "Whether to create a budget alert rule."
+  type        = bool
+}
+
 variable "alert_defined_tags" {
   default     = {}
   description = "Defined tags for the alert rule."

@@ -13,6 +13,8 @@ resource "oci_budget_budget" "this" {
 }
 
 resource "oci_budget_alert_rule" "this" {
+  count = var.create_alert_rule ? 1 : 0
+
   budget_id      = oci_budget_budget.this.id
   defined_tags   = var.alert_defined_tags
   description    = var.alert_description

@@ -10,9 +10,6 @@ repos:
       - id: check-vcs-permalinks
 
       # Common errors
-      # - id: check-ast
-      # - id: check-builtin-literals
-      # - id: check-docstring-first
       - id: check-yaml
       - id: end-of-file-fixer
       - id: fix-byte-order-marker
@@ -23,18 +20,6 @@ repos:
       - id: check-case-conflict
       - id: mixed-line-ending
         args: [--fix=lf]
-
-  # # Dockerfile hook
-  # - repo: https://github.com/hadolint/hadolint
-  #   rev: v2.12.0
-  #   hooks:
-  #     - id: hadolint
-
-  # # Helm hook
-  # - repo: https://github.com/gruntwork-io/pre-commit
-  #   rev: v0.1.23
-  #   hooks:
-  #     - id: helmlint
 
   # YAML hooks
   - repo: https://github.com/adrienverge/yamllint.git
@@ -53,31 +38,10 @@ repos:
   - repo: https://github.com/antonbabenko/pre-commit-terraform
     rev: v1.98.0
     hooks:
-      # - id: terragrunt_fmt
-      # # - id: terragrunt_validate
-      # #   exclude: "^terragrunt.hcl$"
       - id: terraform_fmt
       - id: terraform_docs
       - id: terraform_tflint
         args:
+          # Disabled because this is a modules repo — modules don't pin their own source
           - >
             --args=--disable-rule=terraform_module_pinned_source
-
-  # # Python hooks
-  # - repo: https://github.com/psf/black
-  #   rev: 24.4.2
-  #   hooks:
-  #     - id: black
-  #       language_version: python3.11
-
-  # - repo: https://github.com/pycqa/flake8
-  #   rev: 7.0.0
-  #   hooks:
-  #     - id: flake8
-  #       args: ["--max-line-length=100", "--ignore=E203,E266,E501,W503"]
-
-  # - repo: https://github.com/pycqa/isort
-  #   rev: 5.13.2
-  #   hooks:
-  #     - id: isort
-  #       args: ["--profile", "black", "--filter-files"]

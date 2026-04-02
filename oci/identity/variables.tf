@@ -26,9 +26,17 @@ variable "compartment_name" {
   default     = "My Compartment"
   description = "(Required) (Updatable) The name you assign to the compartment during creation. The name must be unique across all compartments in the parent compartment. Avoid entering confidential information."
   type        = string
+  validation {
+    condition     = length(var.compartment_name) > 0 && length(var.compartment_name) <= 100
+    error_message = "compartment_name must be between 1 and 100 characters."
+  }
 }
 
 variable "oci_root_compartment" {
   description = "The tenancy OCID a.k.a. root compartment, see README for CLI command to retrieve it."
   type        = string
+  validation {
+    condition     = can(regex("^ocid1\\.[a-z]+\\.[a-z][a-z0-9-]*\\.[a-z0-9-]*\\.[a-z0-9]+$", var.oci_root_compartment))
+    error_message = "oci_root_compartment must be a valid OCI OCID (e.g. ocid1.tenancy.oc1..aaaaaa...)."
+  }
 }
