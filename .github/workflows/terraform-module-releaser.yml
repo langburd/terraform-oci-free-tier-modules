@@ -1,0 +1,28 @@
+---
+name: Terraform Module Releaser
+
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - closed
+    branches:
+      - master
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Terraform Module Releaser
+        uses: techpivot/terraform-module-releaser@v2
+        with:
+          module-path-ignore: "**/examples/**"
