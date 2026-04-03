@@ -75,6 +75,7 @@ variable "ssh_authorized_keys" {
   description = "(Optional) One or more public SSH keys to place in the instance's authorized_keys file. Null omits the key from instance metadata."
   type        = string
   default     = null
+  sensitive   = true
 }
 
 variable "user_data" {

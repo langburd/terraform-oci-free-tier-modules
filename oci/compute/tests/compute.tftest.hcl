@@ -89,6 +89,18 @@ run "rejects_boot_volume_below_50" {
   ]
 }
 
+run "rejects_boot_volume_above_200" {
+  command = plan
+
+  variables {
+    boot_volume_size_in_gbs = 201
+  }
+
+  expect_failures = [
+    var.boot_volume_size_in_gbs,
+  ]
+}
+
 run "rejects_invalid_compartment_id" {
   command = plan
 

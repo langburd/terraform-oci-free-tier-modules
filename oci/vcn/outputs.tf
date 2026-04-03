@@ -1,5 +1,5 @@
 output "security_list_id" {
-  description = "OCID of the security list created by this module. Note: this is not the OCI-managed default security list auto-created with the VCN; that OCID is available via the vcn_id output on the VCN resource itself."
+  description = "OCID of the security list created by this module. Note: this is not the OCI-managed default security list auto-created with the VCN; that OCID is available via the default_security_list_id attribute on the oci_core_vcn resource."
   value       = oci_core_security_list.this.id
 }
 

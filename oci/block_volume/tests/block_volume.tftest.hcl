@@ -96,3 +96,15 @@ run "rejects_invalid_attachment_type" {
     var.attachment_type,
   ]
 }
+
+run "rejects_invalid_compartment_id" {
+  command = plan
+
+  variables {
+    compartment_id = "not-a-valid-ocid"
+  }
+
+  expect_failures = [
+    var.compartment_id,
+  ]
+}
