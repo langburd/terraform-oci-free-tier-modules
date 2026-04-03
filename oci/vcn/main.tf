@@ -49,6 +49,13 @@ resource "oci_core_service_gateway" "this" {
   services {
     service_id = local.service.id
   }
+
+  lifecycle {
+    precondition {
+      condition     = local.service != null
+      error_message = "No OCI service matching 'All .* Services In Oracle Services Network' was found in this region. Cannot create service gateway."
+    }
+  }
 }
 
 resource "oci_core_route_table" "public" {
