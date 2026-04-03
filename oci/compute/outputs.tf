@@ -4,8 +4,8 @@ output "instance_id" {
 }
 
 output "instance_public_ip" {
-  description = "Public IP address of the instance's primary VNIC. Returns null when assign_public_ip is false."
-  value       = oci_core_instance.this.public_ip
+  description = "Public IP address of the instance. Returns null when assign_public_ip is false."
+  value       = oci_core_instance.this.public_ip != "" ? oci_core_instance.this.public_ip : null
 }
 
 output "instance_private_ip" {
