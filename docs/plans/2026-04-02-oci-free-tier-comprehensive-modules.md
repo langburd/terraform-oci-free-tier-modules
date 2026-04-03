@@ -73,7 +73,7 @@ Resources that require explicit attributes to stay within the free tier:
 | Flexible Load Balancer | `shape = "flexible"` + `shape_details` min/max = 10 Mbps |
 | Compute | Shape: `VM.Standard.E2.1.Micro` or `VM.Standard.A1.Flex` |
 | MySQL HeatWave | Shape TBD (verify per region via `data.oci_mysql_shapes`), `is_highly_available = false` |
-| Block Volume | `size_in_gbs` must be explicitly set (provider default is 1024GB, free tier total is 200GB) |
+| Block Volume | Module defaults `size_in_gbs = 50`; raw provider default is 1024GB — free tier total is 200GB across all volumes |
 
 ---
 
