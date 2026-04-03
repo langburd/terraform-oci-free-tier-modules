@@ -1,5 +1,5 @@
 variable "compartment_id" {
-  description = "Compartment OCID where the bucket will be created."
+  description = "(Required) Compartment OCID where the bucket will be created."
   type        = string
   validation {
     condition     = can(regex("^ocid1\\.[a-z]+\\.[a-z][a-z0-9-]*\\.[a-z0-9-]*\\.[a-z0-9]+$", var.compartment_id))
@@ -8,7 +8,7 @@ variable "compartment_id" {
 }
 
 variable "bucket_name" {
-  description = "Name of the object storage bucket. Only a-zA-Z0-9._- characters are allowed."
+  description = "(Required) Name of the object storage bucket. Only a-zA-Z0-9._- characters are allowed."
   type        = string
   validation {
     condition     = can(regex("^[a-zA-Z0-9._-]+$", var.bucket_name))
@@ -17,7 +17,7 @@ variable "bucket_name" {
 }
 
 variable "bucket_access_type" {
-  description = "Access type for the bucket. Supported values: NoPublicAccess, ObjectRead, ObjectReadWithoutList."
+  description = "(Optional) (Updatable) Access type for the bucket. Supported values: NoPublicAccess, ObjectRead, ObjectReadWithoutList."
   type        = string
   default     = "NoPublicAccess"
   validation {
@@ -27,7 +27,7 @@ variable "bucket_access_type" {
 }
 
 variable "storage_tier" {
-  description = "Storage tier for the bucket. Supported values: Standard, Archive. NOTE: This attribute is immutable after bucket creation."
+  description = "(Optional) Storage tier for the bucket. Supported values: Standard, Archive. NOTE: This attribute is immutable after bucket creation."
   type        = string
   default     = "Standard"
   validation {
@@ -37,7 +37,7 @@ variable "storage_tier" {
 }
 
 variable "versioning" {
-  description = "Versioning state for the bucket. Supported values: Enabled, Suspended, Disabled."
+  description = "(Optional) (Updatable) Versioning state for the bucket. Supported values: Enabled, Suspended, Disabled."
   type        = string
   default     = "Disabled"
   validation {
@@ -47,7 +47,7 @@ variable "versioning" {
 }
 
 variable "auto_tiering" {
-  description = "Auto tiering status for the bucket. Supported values: Disabled, InfrequentAccess."
+  description = "(Optional) (Updatable) Auto tiering status for the bucket. Supported values: Disabled, InfrequentAccess."
   type        = string
   default     = "Disabled"
   validation {
@@ -57,19 +57,19 @@ variable "auto_tiering" {
 }
 
 variable "object_events_enabled" {
-  description = "Whether object-level events are emitted for this bucket."
+  description = "(Optional) (Updatable) Whether object-level events are emitted for this bucket."
   type        = bool
   default     = false
 }
 
 variable "bucket_defined_tags" {
-  description = "Defined tags for the bucket."
+  description = "(Optional) (Updatable) Defined tags for the bucket."
   type        = map(string)
   default     = {}
 }
 
 variable "bucket_freeform_tags" {
-  description = "Free-form tags for the bucket."
+  description = "(Optional) (Updatable) Free-form tags for the bucket."
   type        = map(string)
   default     = {}
 }

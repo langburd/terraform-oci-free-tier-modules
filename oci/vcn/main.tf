@@ -10,10 +10,11 @@ locals {
 resource "oci_core_vcn" "this" {
   compartment_id = var.compartment_id
   cidr_blocks    = var.vcn_cidr_blocks
-  defined_tags   = var.vcn_defined_tags
   display_name   = var.vcn_display_name
   dns_label      = var.vcn_dns_label
-  freeform_tags  = var.vcn_freeform_tags
+
+  defined_tags  = var.vcn_defined_tags
+  freeform_tags = var.vcn_freeform_tags
 }
 
 resource "oci_core_internet_gateway" "this" {
@@ -110,9 +111,8 @@ resource "oci_core_route_table" "private" {
 
 # This security list is intentionally created empty (no ingress or egress rules).
 # It serves as a starter resource for consumers to reference as a subnet's default
-# security list. Add rules via the oci_core_security_list_management resource or
-# by defining ingress_security_rules / egress_security_rules blocks in a separate
-# oci_core_security_list resource.
+# security list. Add rules by defining ingress_security_rules / egress_security_rules
+# blocks in a separate oci_core_security_list resource.
 resource "oci_core_security_list" "this" {
   compartment_id = var.compartment_id
   vcn_id         = oci_core_vcn.this.id

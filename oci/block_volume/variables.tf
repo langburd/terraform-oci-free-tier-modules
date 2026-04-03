@@ -38,7 +38,7 @@ variable "vpus_per_gb" {
   default     = 10
   validation {
     condition     = var.vpus_per_gb >= 0 && var.vpus_per_gb <= 120 && var.vpus_per_gb % 10 == 0
-    error_message = "vpus_per_gb must be 0, 10, 20, 30, ..., 120. Values above 20 are Ultra High Performance and may incur charges."
+    error_message = "vpus_per_gb must be 0, 10, 20, 30, ..., 120. Values of 20 and above are Higher/Ultra High Performance and may incur charges."
   }
 }
 

@@ -30,7 +30,7 @@ module "block_volume" {
 
 **Free Tier Storage Limit:** OCI Free Tier includes 200GB total block storage, which includes boot volumes. There is no cross-module enforcement — manually track total boot + block volume consumption across all instances.
 
-**VPUs:** Values above 20 VPUs/GB are Ultra High Performance and may incur charges outside of free tier entitlements.
+**VPUs:** Values of 20 VPUs/GB and above are Higher/Ultra High Performance and may incur charges outside of free tier entitlements.
 
 **Note:** `is_read_only` is only applied when `instance_id` is provided. It is silently ignored when creating a standalone volume without attachment.
 
@@ -46,7 +46,7 @@ module "block_volume" {
 
 | Name | Version |
 |------|---------|
-| <a name="provider_oci"></a> [oci](#provider\_oci) | 8.8.0 |
+| <a name="provider_oci"></a> [oci](#provider\_oci) | >= 6.0 |
 
 ## Modules
 
