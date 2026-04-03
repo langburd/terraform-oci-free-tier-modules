@@ -61,12 +61,20 @@ variable "security_list_ids" {
   description = "(Optional) (Updatable) List of security list OCIDs to associate with the subnet. Defaults to the VCN's default security list when null."
   type        = list(string)
   default     = null
+  validation {
+    condition     = alltrue([for id in coalesce(var.security_list_ids, []) : can(regex("^ocid1\\.[a-z]+\\.[a-z][a-z0-9-]*\\.[a-z0-9-]*\\.[a-z0-9]+$", id))])
+    error_message = "Each element of security_list_ids must be a valid OCI OCID."
+  }
 }
 
 variable "availability_domain" {
   description = "(Optional) The availability domain for the subnet. Omit (null) for a regional subnet, which spans all ADs and is recommended."
   type        = string
   default     = null
+  validation {
+    condition     = var.availability_domain == null || try(length(trimspace(var.availability_domain)) > 0, false)
+    error_message = "availability_domain must be null or a non-empty string."
+  }
 }
 
 variable "subnet_defined_tags" {
