@@ -12,8 +12,8 @@ variable "availability_domain_number" {
   type        = number
   default     = 1
   validation {
-    condition     = var.availability_domain_number >= 1
-    error_message = "availability_domain_number must be >= 1."
+    condition     = var.availability_domain_number >= 1 && var.availability_domain_number <= 3
+    error_message = "availability_domain_number must be between 1 and 3."
   }
 }
 

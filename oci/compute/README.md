@@ -87,6 +87,6 @@ No modules.
 | <a name="output_availability_domain"></a> [availability\_domain](#output\_availability\_domain) | Availability domain in which the instance was launched. |
 | <a name="output_instance_id"></a> [instance\_id](#output\_instance\_id) | OCID of the compute instance. |
 | <a name="output_instance_private_ip"></a> [instance\_private\_ip](#output\_instance\_private\_ip) | Private IP address of the instance's primary VNIC. |
-| <a name="output_instance_public_ip"></a> [instance\_public\_ip](#output\_instance\_public\_ip) | Public IP address of the instance's primary VNIC. Returns null when assign\_public\_ip is false. |
+| <a name="output_instance_public_ip"></a> [instance\_public\_ip](#output\_instance\_public\_ip) | Public IP address of the instance. Returns null when assign\_public\_ip is false. |
 | <a name="output_instance_state"></a> [instance\_state](#output\_instance\_state) | Current state of the instance (e.g. RUNNING, STOPPED). |
 <!-- END_TF_DOCS -->
