@@ -22,6 +22,16 @@ run "default_bucket" {
     condition     = oci_objectstorage_bucket.this.versioning == "Disabled"
     error_message = "versioning should default to Disabled"
   }
+
+  assert {
+    condition     = oci_objectstorage_bucket.this.auto_tiering == "Disabled"
+    error_message = "auto_tiering should default to Disabled"
+  }
+
+  assert {
+    condition     = oci_objectstorage_bucket.this.object_events_enabled == false
+    error_message = "object_events_enabled should default to false"
+  }
 }
 
 run "public_read_access" {
