@@ -72,3 +72,27 @@ run "rejects_invalid_instance_id" {
     var.instance_id,
   ]
 }
+
+run "rejects_volume_size_below_50" {
+  command = plan
+
+  variables {
+    volume_size_in_gbs = 49
+  }
+
+  expect_failures = [
+    var.volume_size_in_gbs,
+  ]
+}
+
+run "rejects_invalid_attachment_type" {
+  command = plan
+
+  variables {
+    attachment_type = "nvme"
+  }
+
+  expect_failures = [
+    var.attachment_type,
+  ]
+}

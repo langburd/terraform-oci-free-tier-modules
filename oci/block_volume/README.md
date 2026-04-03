@@ -32,6 +32,8 @@ module "block_volume" {
 
 **VPUs:** Values above 20 VPUs/GB are Ultra High Performance and may incur charges outside of free tier entitlements.
 
+**Note:** `is_read_only` is only applied when `instance_id` is provided. It is silently ignored when creating a standalone volume without attachment.
+
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
@@ -70,7 +72,7 @@ No modules.
 | <a name="input_volume_display_name"></a> [volume\_display\_name](#input\_volume\_display\_name) | (Optional) A user-friendly name for the block volume. | `string` | `"block-volume"` | no |
 | <a name="input_volume_freeform_tags"></a> [volume\_freeform\_tags](#input\_volume\_freeform\_tags) | (Optional) (Updatable) Free-form tags for the block volume. | `map(string)` | `{}` | no |
 | <a name="input_volume_size_in_gbs"></a> [volume\_size\_in\_gbs](#input\_volume\_size\_in\_gbs) | (Optional) Size of the block volume in GBs. Defaults to 50 to stay within Free Tier limits (200GB total including boot volumes). | `number` | `50` | no |
-| <a name="input_vpus_per_gb"></a> [vpus\_per\_gb](#input\_vpus\_per\_gb) | (Optional) Volume performance units per GB. Must be a multiple of 10 between 0 and 120. Values above 20 are Ultra High Performance and may incur charges. | `number` | `10` | no |
+| <a name="input_vpus_per_gb"></a> [vpus\_per\_gb](#input\_vpus\_per\_gb) | (Optional) Volume performance units per GB. Must be a multiple of 10 between 0 and 120. Values of 0 and 10 are included in the Always Free tier. Values of 20 (Higher Performance) and above may incur charges. | `number` | `10` | no |
 
 ## Outputs
 
