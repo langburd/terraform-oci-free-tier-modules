@@ -12,6 +12,10 @@ module "vcn" {
 }
 ```
 
+## Notes
+
+- **Security list is intentionally empty.** The `oci_core_security_list.this` resource is created with no ingress or egress rules. It is provided as a starter resource for consumers to reference as a subnet's default security list. Add rules via the [`oci_core_security_list_management`](https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/core_security_list_management) resource or by defining rules inline in a separate `oci_core_security_list` resource. Without adding rules, all traffic through subnets using this list will be blocked.
+
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
@@ -52,20 +56,20 @@ No modules.
 | <a name="input_create_nat_gateway"></a> [create\_nat\_gateway](#input\_create\_nat\_gateway) | (Optional) Whether to create a NAT Gateway and private route table. | `bool` | `false` | no |
 | <a name="input_create_service_gateway"></a> [create\_service\_gateway](#input\_create\_service\_gateway) | (Optional) Whether to create a Service Gateway. When enabled, a service route is added to the public and/or private route tables. | `bool` | `false` | no |
 | <a name="input_vcn_cidr_blocks"></a> [vcn\_cidr\_blocks](#input\_vcn\_cidr\_blocks) | (Optional) (Updatable) The list of one or more IPv4 CIDR blocks for the VCN. | `list(string)` | <pre>[<br/>  "10.0.0.0/16"<br/>]</pre> | no |
-| <a name="input_vcn_defined_tags"></a> [vcn\_defined\_tags](#input\_vcn\_defined\_tags) | (Optional) (Updatable) Defined tags for the VCN. | `map(string)` | `{}` | no |
+| <a name="input_vcn_defined_tags"></a> [vcn\_defined\_tags](#input\_vcn\_defined\_tags) | (Optional) (Updatable) Defined tags for all resources created by this module (VCN, gateways, route tables, and security list). | `map(string)` | `{}` | no |
 | <a name="input_vcn_display_name"></a> [vcn\_display\_name](#input\_vcn\_display\_name) | (Optional) (Updatable) A user-friendly name for the VCN. | `string` | `"vcn"` | no |
 | <a name="input_vcn_dns_label"></a> [vcn\_dns\_label](#input\_vcn\_dns\_label) | (Optional) A DNS label for the VCN, used in conjunction with the VNIC's hostname and subnet's DNS label to form a fully qualified domain name (FQDN). Must match ^[a-z][a-z0-9]{0,14}$ or be null. | `string` | `null` | no |
-| <a name="input_vcn_freeform_tags"></a> [vcn\_freeform\_tags](#input\_vcn\_freeform\_tags) | (Optional) (Updatable) Free-form tags for the VCN. | `map(string)` | `{}` | no |
+| <a name="input_vcn_freeform_tags"></a> [vcn\_freeform\_tags](#input\_vcn\_freeform\_tags) | (Optional) (Updatable) Free-form tags for all resources created by this module (VCN, gateways, route tables, and security list). | `map(string)` | `{}` | no |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| <a name="output_default_security_list_id"></a> [default\_security\_list\_id](#output\_default\_security\_list\_id) | OCID of the security list created by this module. |
 | <a name="output_internet_gateway_id"></a> [internet\_gateway\_id](#output\_internet\_gateway\_id) | OCID of the Internet Gateway. Returns null when create\_internet\_gateway is false. |
 | <a name="output_nat_gateway_id"></a> [nat\_gateway\_id](#output\_nat\_gateway\_id) | OCID of the NAT Gateway. Returns null when create\_nat\_gateway is false. |
 | <a name="output_private_route_table_id"></a> [private\_route\_table\_id](#output\_private\_route\_table\_id) | OCID of the private route table. Returns null when create\_nat\_gateway is false. |
 | <a name="output_public_route_table_id"></a> [public\_route\_table\_id](#output\_public\_route\_table\_id) | OCID of the public route table. Returns null when create\_internet\_gateway is false. |
+| <a name="output_security_list_id"></a> [security\_list\_id](#output\_security\_list\_id) | OCID of the security list created by this module. Note: this is not the OCI-managed default security list auto-created with the VCN; that OCID is available via the vcn\_id output on the VCN resource itself. |
 | <a name="output_service_gateway_id"></a> [service\_gateway\_id](#output\_service\_gateway\_id) | OCID of the Service Gateway. Returns null when create\_service\_gateway is false. |
 | <a name="output_vcn_cidr_blocks"></a> [vcn\_cidr\_blocks](#output\_vcn\_cidr\_blocks) | The list of IPv4 CIDR blocks assigned to the VCN. |
 | <a name="output_vcn_id"></a> [vcn\_id](#output\_vcn\_id) | OCID of the VCN. |

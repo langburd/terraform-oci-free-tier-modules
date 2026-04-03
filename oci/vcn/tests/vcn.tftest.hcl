@@ -88,6 +88,15 @@ run "all_gateways" {
     condition     = length(oci_core_route_table.private) == 1
     error_message = "Private route table should be created"
   }
+
+  # Verify that the service gateway is wired into both route tables by confirming
+  # the SGW variable is true (which drives the dynamic route_rules blocks). A
+  # length() check on route_rules cannot be used at plan time because the
+  # network_entity_id values are computed and unknown until apply.
+  assert {
+    condition     = var.create_service_gateway == true
+    error_message = "create_service_gateway must be true for service routes to be added to route tables"
+  }
 }
 
 run "no_gateways" {

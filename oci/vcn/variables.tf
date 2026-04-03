@@ -18,7 +18,7 @@ variable "vcn_cidr_blocks" {
 }
 
 variable "vcn_defined_tags" {
-  description = "(Optional) (Updatable) Defined tags for the VCN."
+  description = "(Optional) (Updatable) Defined tags for all resources created by this module (VCN, gateways, route tables, and security list)."
   type        = map(string)
   default     = {}
 }
@@ -40,7 +40,7 @@ variable "vcn_dns_label" {
 }
 
 variable "vcn_freeform_tags" {
-  description = "(Optional) (Updatable) Free-form tags for the VCN."
+  description = "(Optional) (Updatable) Free-form tags for all resources created by this module (VCN, gateways, route tables, and security list)."
   type        = map(string)
   default     = {}
 }
