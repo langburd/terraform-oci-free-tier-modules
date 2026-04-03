@@ -38,8 +38,15 @@ module "private_subnet" {
   subnet_cidr_block         = "10.0.2.0/24"
   subnet_display_name       = "private-subnet"
   prohibit_internet_ingress = true
+  # No route_table_id: private subnet intentionally has no egress routes.
+  # To enable egress, set create_nat_gateway = true on the vcn module
+  # and pass route_table_id = module.vcn.private_route_table_id here.
 }
 
+# This data source fetches the latest Oracle Linux 8 image for VM.Standard.E2.1.Micro.
+# If this fails with an index error, verify that images for this shape exist in your region:
+# oci compute image list --compartment-id <tenancy-ocid> \
+#   --operating-system "Oracle Linux" --operating-system-version 8
 data "oci_core_images" "oracle_linux" {
   compartment_id           = module.compartment.compartment_id
   operating_system         = "Oracle Linux"
@@ -69,7 +76,8 @@ module "compute" {
 # module "bastion" {
 #   source                       = "../../oci/bastion"
 #   compartment_id               = module.compartment.compartment_id
-#   target_subnet_id             = module.public_subnet.subnet_id
+#   # target_subnet_id points to the private subnet so the bastion bridges into the private tier.
+#   target_subnet_id             = module.private_subnet.subnet_id
 #   bastion_name                 = "free-tier-bastion"
 #   bastion_type                 = "STANDARD"
 #   client_cidr_block_allow_list = ["0.0.0.0/0"]
