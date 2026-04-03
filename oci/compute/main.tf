@@ -15,8 +15,6 @@ resource "oci_core_instance" "this" {
   display_name        = var.instance_display_name
   shape               = var.shape
   metadata            = local.metadata
-  defined_tags        = var.compute_defined_tags
-  freeform_tags       = var.compute_freeform_tags
 
   dynamic "shape_config" {
     for_each = contains(["VM.Standard.A1.Flex"], var.shape) ? [1] : []
@@ -37,4 +35,7 @@ resource "oci_core_instance" "this" {
     assign_public_ip = var.assign_public_ip
     nsg_ids          = var.nsg_ids
   }
+
+  defined_tags  = var.compute_defined_tags
+  freeform_tags = var.compute_freeform_tags
 }
