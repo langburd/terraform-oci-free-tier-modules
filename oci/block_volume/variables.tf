@@ -33,7 +33,7 @@ variable "volume_size_in_gbs" {
 }
 
 variable "vpus_per_gb" {
-  description = "(Optional) Volume performance units per GB. Must be a multiple of 10 between 0 and 120. Values above 20 are Ultra High Performance and may incur charges."
+  description = "(Optional) Volume performance units per GB. Must be a multiple of 10 between 0 and 120. Values of 0 and 10 are included in the Always Free tier. Values of 20 (Higher Performance) and above may incur charges."
   type        = number
   default     = 10
   validation {
