@@ -314,6 +314,8 @@ Compute instance supporting AMD Micro and Arm A1 Flex shapes.
 
 **Free tier warning (README):** Instances with <20% average CPU and network utilization over 7 days may be reclaimed by Oracle. For A1 Flex, memory utilization is also checked.
 
+**Aggregate storage warning:** Boot volumes count toward the 200GB free tier block storage limit. There is no cross-module enforcement — users must manually track total boot + block volume consumption.
+
 **Test scenarios:**
 1. AMD Micro default — no shape_config block rendered
 2. A1 Flex — shape_config with ocpus + memory
@@ -338,7 +340,7 @@ Block volume with optional instance attachment.
 | `availability_domain` | `string` | Yes | — | Must match instance AD |
 | `volume_display_name` | `string` | No | `"block-volume"` | — |
 | `volume_size_in_gbs` | `number` | No | `50` | 50-200 |
-| `vpus_per_gb` | `number` | No | `10` | `contains([0, 10, 20], ...)` |
+| `vpus_per_gb` | `number` | No | `10` | `>= 0 && <= 120 && value % 10 == 0` (values above 20 are Ultra High Performance and may incur charges) |
 | `instance_id` | `string` | No | `null` | OCID regex or null |
 | `attachment_type` | `string` | No | `"paravirtualized"` | `contains(["iscsi", "paravirtualized"], ...)` |
 | `is_read_only` | `bool` | No | `false` | — |
@@ -347,7 +349,9 @@ Block volume with optional instance attachment.
 
 **Outputs:** `volume_id`, `volume_attachment_id`
 
-**Critical:** Default `volume_size_in_gbs = 50` — NOT the provider default of 1024GB. Free tier total block storage is 200GB including boot volumes.
+**Critical:** Default `volume_size_in_gbs = 50` — NOT the provider default of 1 TB. Free tier total block storage is 200GB including boot volumes.
+
+**Aggregate storage warning:** There is no cross-module enforcement of the 200GB aggregate free tier limit. Users must manually track total boot volume + block volume consumption across all instances.
 
 **Test scenarios:**
 1. Default — 50GB volume, no attachment
@@ -403,7 +407,7 @@ Always Free Autonomous Database (ATP/ADW/AJD/APEX).
 |----------|------------|
 | `oci_database_autonomous_database.this` | no |
 
-**Key variables:** `compartment_id`, `db_name` (max 14 chars, validated), `db_workload` ("OLTP"/"DW"/"AJD"/"APEX"), `is_free_tier` (default true), `compute_count` (validated == 1), `data_storage_size_in_gbs` (validated <= 20), `admin_password` (sensitive), `db_version`, `whitelisted_ips`, `is_mtls_connection_required` (default false — explicit)
+**Key variables:** `compartment_id`, `db_name` (max 14 chars, validated), `db_workload` ("OLTP"/"DW"/"AJD"/"APEX"), `is_free_tier` (default true), `compute_model` ("ECPU"), `compute_count` (verify minimum at implementation — provider docs suggest min 2 for non-elastic-pool; free tier may accept 1), `data_storage_size_in_gb` (validated <= 20), `admin_password` (sensitive), `db_version`, `whitelisted_ips`, `is_mtls_connection_required` (set explicitly to `false` to allow TLS connections; verify provider default at implementation time)
 
 **Free tier constraints:**
 
@@ -472,7 +476,7 @@ Notification topics and subscriptions.
 
 ---
 
-### Phase 3 — Networking Extras + Security
+### Phase 3 — Networking Extras + Security + Bastion
 
 #### 10. `oci/load_balancer`
 
@@ -548,7 +552,7 @@ Bastion service for secure access.
 |----------|------------|
 | `oci_bastion_bastion.this` | no |
 
-**Key variables:** `compartment_id`, `bastion_name`, `bastion_type` (validated "standard"), `target_subnet_id`, `client_cidr_block_allow_list`, `max_session_ttl_in_seconds`
+**Key variables:** `compartment_id`, `bastion_name`, `bastion_type` (validated "STANDARD" — verify enum casing against provider docs at implementation time), `target_subnet_id`, `client_cidr_block_allow_list`, `max_session_ttl_in_seconds`
 
 **Note:** Bastion must be in a **public subnet** with gateway and route rules configured.
 
@@ -658,16 +662,18 @@ oci_profile_reader --> identity (compartment)
          +-------+-------+--------+--------+--------+
          |       |       |        |        |        |
        budget   vcn   obj_stor  vault  certs    apm
-                 |               nosql  email  notifs ──┐
-                 |                                      │
-              subnet                                monitoring
-                 |                                      │
-    +-----+------+------+------+------+           logging
-    |     |      |      |      |      |              │
- compute  LB    NLB   mysql  bastion  vpn      connector_hub
+                 |               nosql  email  notifs ──┬──────────┐
+                 |                                      │          │
+              subnet                              monitoring   logging
+                 |                                      │          │
+    +-----+------+------+------+------+                 └──┬───────┘
+    |     |      |      |      |      |                    │
+ compute  LB    NLB   mysql  bastion  vpn            connector_hub
     |                  (DRG)
  block_vol
 ```
+
+> **Note:** All modules depend on `identity` for `compartment_id`. The graph shows only structural/data dependencies beyond this universal input.
 
 ---
 
@@ -708,7 +714,7 @@ oci_profile_reader --> identity (compartment)
 4. `oci/notifications` → `feat(notifications): add notification topic and subscription module`
 5. `examples/free-tier-databases` → `feat(examples): add free-tier-databases example`
 
-### Phase 3 — Networking Extras + Security
+### Phase 3 — Networking Extras + Security + Bastion
 
 1. `oci/load_balancer` → `feat(load_balancer): add flexible load balancer module`
 2. `oci/network_load_balancer` → `feat(network_load_balancer): add network load balancer module`
