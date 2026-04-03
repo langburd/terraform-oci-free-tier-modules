@@ -38,3 +38,6 @@ temp/
 
 # Terraform lock file
 .terraform.lock.hcl
+
+# Git worktrees
+.worktrees/
