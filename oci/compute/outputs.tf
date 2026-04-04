@@ -6,11 +6,13 @@ output "instance_id" {
 output "instance_public_ip" {
   description = "Public IP address of the instance. Returns null when no public IP is assigned (e.g., assign_public_ip is false or the subnet prohibits public IPs)."
   value       = oci_core_instance.this.public_ip != "" ? oci_core_instance.this.public_ip : null
+  sensitive   = true
 }
 
 output "instance_private_ip" {
   description = "Private IP address of the instance's primary VNIC."
   value       = oci_core_instance.this.private_ip
+  sensitive   = true
 }
 
 output "instance_state" {

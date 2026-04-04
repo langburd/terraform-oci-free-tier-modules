@@ -47,7 +47,7 @@ module "compute_arm" {
 
 | Name | Version |
 |------|---------|
-| <a name="provider_oci"></a> [oci](#provider\_oci) | >= 6.0, < 7.0 |
+| <a name="provider_oci"></a> [oci](#provider\_oci) | 6.37.0 |
 
 ## Modules
 
@@ -64,7 +64,7 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_assign_public_ip"></a> [assign\_public\_ip](#input\_assign\_public\_ip) | (Optional) Whether to assign a public IP to the instance's primary VNIC. | `bool` | `true` | no |
+| <a name="input_assign_public_ip"></a> [assign\_public\_ip](#input\_assign\_public\_ip) | (Optional) Whether to assign a public IP to the instance's primary VNIC. Defaults to false (secure). Set to true only when the instance must be reachable from the internet. | `bool` | `false` | no |
 | <a name="input_availability_domain_number"></a> [availability\_domain\_number](#input\_availability\_domain\_number) | (Optional) 1-indexed availability domain number used to select the AD for the instance. | `number` | `1` | no |
 | <a name="input_boot_volume_size_in_gbs"></a> [boot\_volume\_size\_in\_gbs](#input\_boot\_volume\_size\_in\_gbs) | (Optional) Size of the boot volume in GBs. | `number` | `50` | no |
 | <a name="input_compartment_id"></a> [compartment\_id](#input\_compartment\_id) | (Required) The OCID of the compartment in which to create the compute instance. | `string` | n/a | yes |
@@ -78,7 +78,7 @@ No modules.
 | <a name="input_shape_ocpus"></a> [shape\_ocpus](#input\_shape\_ocpus) | (Optional) Number of OCPUs for Flex shapes. Ignored for fixed shapes. | `number` | `1` | no |
 | <a name="input_ssh_authorized_keys"></a> [ssh\_authorized\_keys](#input\_ssh\_authorized\_keys) | (Optional) One or more public SSH keys to place in the instance's authorized\_keys file. Null omits the key from instance metadata. | `string` | `null` | no |
 | <a name="input_subnet_id"></a> [subnet\_id](#input\_subnet\_id) | (Required) The OCID of the subnet in which to place the instance's primary VNIC. | `string` | n/a | yes |
-| <a name="input_user_data"></a> [user\_data](#input\_user\_data) | (Optional) Base64-encoded cloud-init user data to pass to the instance. Null omits user\_data from instance metadata. | `string` | `null` | no |
+| <a name="input_user_data"></a> [user\_data](#input\_user\_data) | (Optional) Base64-encoded cloud-init user data to pass to the instance. Treat cloud-init scripts as trusted code — they run as root on first boot and are visible in the OCI console. Null omits user\_data from instance metadata. | `string` | `null` | no |
 
 ## Outputs
 

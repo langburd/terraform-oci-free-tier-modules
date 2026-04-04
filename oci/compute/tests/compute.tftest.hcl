@@ -35,6 +35,21 @@ run "amd_micro_defaults" {
     condition     = oci_core_instance.this.display_name == "instance"
     error_message = "Default display_name should be 'instance'"
   }
+
+  assert {
+    condition     = oci_core_instance.this.create_vnic_details[0].assign_public_ip == "false"
+    error_message = "assign_public_ip should default to false"
+  }
+
+  assert {
+    condition     = oci_core_instance.this.launch_options[0].is_pv_encryption_in_transit_enabled == true
+    error_message = "PV encryption in transit should be enabled"
+  }
+
+  assert {
+    condition     = oci_core_instance.this.instance_options[0].are_legacy_imds_endpoints_disabled == true
+    error_message = "Legacy IMDS endpoints should be disabled"
+  }
 }
 
 run "a1_flex_shape_config" {
@@ -110,5 +125,17 @@ run "rejects_invalid_compartment_id" {
 
   expect_failures = [
     var.compartment_id,
+  ]
+}
+
+run "rejects_invalid_ssh_key" {
+  command = plan
+
+  variables {
+    ssh_authorized_keys = "not-a-valid-key-format"
+  }
+
+  expect_failures = [
+    var.ssh_authorized_keys,
   ]
 }
