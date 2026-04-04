@@ -79,3 +79,23 @@ variable "volume_freeform_tags" {
   type        = map(string)
   default     = {}
 }
+
+variable "backup_policy_id" {
+  description = "(Optional) The OCID of a backup policy to assign to the volume. Null disables automated backups. Note: automated backups require paid storage -- free-tier users should leave this null."
+  type        = string
+  default     = null
+  validation {
+    condition     = var.backup_policy_id == null || can(regex("^ocid1\\.[a-z]+\\.[a-z][a-z0-9-]*\\.[a-z0-9-]*\\.[a-z0-9]+$", var.backup_policy_id))
+    error_message = "backup_policy_id must be a valid OCI OCID or null."
+  }
+}
+
+variable "kms_key_id" {
+  description = "(Optional) The OCID of a KMS key to use for volume encryption (customer-managed key). Null uses Oracle-managed encryption. Note: CMK requires a paid OCI Vault -- free-tier users should leave this null."
+  type        = string
+  default     = null
+  validation {
+    condition     = var.kms_key_id == null || can(regex("^ocid1\\.[a-z]+\\.[a-z][a-z0-9-]*\\.[a-z0-9-]*\\.[a-z0-9]+$", var.kms_key_id))
+    error_message = "kms_key_id must be a valid OCI OCID or null."
+  }
+}

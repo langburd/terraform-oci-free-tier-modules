@@ -126,3 +126,22 @@ run "rejects_invalid_compartment_id" {
     var.compartment_id,
   ]
 }
+
+run "with_kms_and_backup_policy" {
+  command = plan
+
+  variables {
+    kms_key_id       = "ocid1.key.oc1..aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    backup_policy_id = "ocid1.volumebackuppolicy.oc1..aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  }
+
+  assert {
+    condition     = oci_core_volume.this.kms_key_id == "ocid1.key.oc1..aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    error_message = "kms_key_id should be passed through to the volume resource"
+  }
+
+  assert {
+    condition     = oci_core_volume.this.backup_policy_id == "ocid1.volumebackuppolicy.oc1..aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    error_message = "backup_policy_id should be passed through to the volume resource"
+  }
+}
