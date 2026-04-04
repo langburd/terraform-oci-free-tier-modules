@@ -42,7 +42,6 @@ variable "target_subnet_id" {
 variable "client_cidr_block_allow_list" {
   description = "(Required) List of CIDR blocks allowed to connect to the bastion. Must not be empty -- callers must provide at least one explicit CIDR. Using 0.0.0.0/0 exposes the bastion to all internet traffic."
   type        = list(string)
-  default     = []
   validation {
     condition     = length(var.client_cidr_block_allow_list) > 0
     error_message = "client_cidr_block_allow_list must contain at least one CIDR block. Provide explicit source CIDRs rather than using the open default."

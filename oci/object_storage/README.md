@@ -25,7 +25,7 @@ module "object_storage" {
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.9 |
 | <a name="requirement_oci"></a> [oci](#requirement\_oci) | >= 8.0, < 9.0 |
 
 ## Providers
