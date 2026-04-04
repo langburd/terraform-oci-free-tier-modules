@@ -1,5 +1,7 @@
 # oci_profile_reader module
 
+> **Security Warning:** This module reads OCI profile data from `~/.oci/config` and exposes it as outputs. While sensitive fields (fingerprint, key_file, passphrase) are excluded from outputs, the non-sensitive profile data (tenancy_ocid, user_ocid, region) will be stored in Terraform state. Ensure your state backend is secured (e.g., remote state with access controls). Do not use this module in pipelines where the state file is accessible to untrusted parties.
+
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
