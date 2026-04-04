@@ -25,6 +25,10 @@ resource "oci_containerengine_cluster" "this" {
       is_tiller_enabled               = false
     }
 
+    admission_controller_options {
+      is_pod_security_policy_enabled = var.is_pod_security_policy_enabled
+    }
+
     kubernetes_network_config {
       pods_cidr     = var.pods_cidr
       services_cidr = var.services_cidr

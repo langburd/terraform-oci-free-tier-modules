@@ -103,6 +103,12 @@ variable "is_kubernetes_dashboard_enabled" {
   default     = false
 }
 
+variable "is_pod_security_policy_enabled" {
+  description = "(Optional) Whether pod security policy admission controller is enabled."
+  type        = bool
+  default     = true
+}
+
 variable "cluster_defined_tags" {
   description = "(Optional) (Updatable) Defined tags for the OKE cluster."
   type        = map(string)

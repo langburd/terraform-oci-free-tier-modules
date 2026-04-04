@@ -35,7 +35,7 @@ module "oke_node_pool" {
 
 | Name | Version |
 |------|---------|
-| <a name="provider_oci"></a> [oci](#provider\_oci) | 8.8.0 |
+| <a name="provider_oci"></a> [oci](#provider\_oci) | >= 8.0, < 9.0 |
 
 ## Modules
 
@@ -56,6 +56,7 @@ No modules.
 | <a name="input_cluster_id"></a> [cluster\_id](#input\_cluster\_id) | OCID of the OKE cluster to which this node pool belongs. | `string` | n/a | yes |
 | <a name="input_compartment_id"></a> [compartment\_id](#input\_compartment\_id) | OCID of the compartment in which to create the node pool. | `string` | n/a | yes |
 | <a name="input_image_id"></a> [image\_id](#input\_image\_id) | OCID of the node image to use. | `string` | n/a | yes |
+| <a name="input_is_pv_encryption_in_transit_enabled"></a> [is\_pv\_encryption\_in\_transit\_enabled](#input\_is\_pv\_encryption\_in\_transit\_enabled) | (Optional) Whether in-transit encryption is enabled for the boot volume. | `bool` | `true` | no |
 | <a name="input_kubernetes_version"></a> [kubernetes\_version](#input\_kubernetes\_version) | Kubernetes version for the node pool (e.g. v1.32.1). | `string` | n/a | yes |
 | <a name="input_node_count"></a> [node\_count](#input\_node\_count) | Total number of nodes across all ADs. | `number` | `2` | no |
 | <a name="input_node_pool_defined_tags"></a> [node\_pool\_defined\_tags](#input\_node\_pool\_defined\_tags) | Defined tags to apply to the node pool. | `map(string)` | `{}` | no |

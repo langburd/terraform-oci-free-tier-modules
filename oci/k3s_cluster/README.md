@@ -54,8 +54,8 @@ To update k3s-ansible: `git submodule update --remote oci/k3s_cluster/vendor/k3s
 
 | Name | Version |
 |------|---------|
-| <a name="provider_ansible"></a> [ansible](#provider\_ansible) | 1.4.0 |
-| <a name="provider_random"></a> [random](#provider\_random) | 3.8.1 |
+| <a name="provider_ansible"></a> [ansible](#provider\_ansible) | ~> 1.4 |
+| <a name="provider_random"></a> [random](#provider\_random) | >= 3.0 |
 
 ## Modules
 

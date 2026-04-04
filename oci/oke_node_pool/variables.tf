@@ -104,6 +104,12 @@ variable "nsg_ids" {
   default     = []
 }
 
+variable "is_pv_encryption_in_transit_enabled" {
+  description = "(Optional) Whether in-transit encryption is enabled for the boot volume."
+  type        = bool
+  default     = true
+}
+
 variable "ssh_public_key" {
   description = "SSH public key to inject into nodes. Must start with 'ssh-' or 'ecdsa-', or be null."
   type        = string

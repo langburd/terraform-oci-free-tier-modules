@@ -5,3 +5,5 @@ skip-check:
   - CKV_OCI_9   # CMK encryption requires paid OCI Vault -- variable exposed, default null (free tier)
   - CKV_OCI_16  # VCN security list intentionally empty -- consumers define rules via subnet module
   - CKV_OCI_19  # Same empty security list -- no ingress rules by design
+  - CKV_OCI_17  # Stateless flag is caller-configurable -- free-tier OKE modules set stateless=true
+  - CKV2_OCI_8  # OKE endpoint NSG IDs are caller-supplied -- free-tier consumers may not define NSGs

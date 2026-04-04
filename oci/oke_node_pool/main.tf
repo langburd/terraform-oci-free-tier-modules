@@ -28,8 +28,9 @@ resource "oci_containerengine_node_pool" "this" {
   }
 
   node_config_details {
-    size    = var.node_count
-    nsg_ids = var.nsg_ids
+    size                                = var.node_count
+    nsg_ids                             = var.nsg_ids
+    is_pv_encryption_in_transit_enabled = var.is_pv_encryption_in_transit_enabled
 
     dynamic "placement_configs" {
       for_each = data.oci_identity_availability_domains.this.availability_domains
