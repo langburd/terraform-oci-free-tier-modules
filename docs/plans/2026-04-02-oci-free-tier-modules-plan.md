@@ -151,7 +151,7 @@ When implementing modules, avoid these deprecated provider arguments:
 
 - Standardized Terraform version constraint to `>= 1.0` across all modules
 - Standardized OCI provider version constraint to `>= 6.0` across all modules
-- Aligned example provider versions to `~> 6.0`
+- Aligned example provider versions to `~> 8.0`
 - Standardized variable block ordering (`description` → `type` → `default` → `validation`) across all modules
 
 ### CI & Pre-commit ✅ (PR #28)

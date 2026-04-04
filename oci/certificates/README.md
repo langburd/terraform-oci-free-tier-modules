@@ -9,6 +9,7 @@ module "certificates" {
   source = "../../oci/certificates"
 
   compartment_id = "<compartment_ocid>"
+  kms_key_id     = "<kms_key_ocid>"
   ca_name        = "my-root-ca"
   ca_common_name = "My Root CA"
 

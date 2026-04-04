@@ -32,6 +32,7 @@ module "certificates" {
   source = "../../oci/certificates"
 
   compartment_id = module.compartment.compartment_id
+  kms_key_id     = module.vault.key_id
   ca_name        = "free-tier-root-ca"
   ca_common_name = "Free Tier Root CA"
 
