@@ -25,12 +25,16 @@ jobs:
           BASE_REF: ${{ github.base_ref }}
         run: |
           set -euo pipefail
+          if [ -z "${BASE_REF:-}" ]; then
+            echo "BASE_REF is empty; cannot determine changed modules. Failing." >&2
+            exit 1
+          fi
           changed_files=$(git diff --name-only "origin/${BASE_REF}...HEAD")
           modules=$(find oci -path '*/tests/*.tftest.hcl' -type f \
             | sed 's|/tests/[^/]*$||' \
             | sort -u \
             | while read -r module; do
-                echo "$changed_files" | grep -q "^${module}/" && echo "$module" || true
+                echo "$changed_files" | grep -qF "${module}/" && echo "$module" || true
               done \
             | jq -R . \
             | jq -sc .)

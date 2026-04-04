@@ -14,8 +14,26 @@ run "default_volume_no_attachment" {
   }
 
   assert {
+    condition     = oci_core_volume.this.vpus_per_gb == 10
+    error_message = "Default vpus_per_gb must be 10 (Balanced, Free Tier safe)"
+  }
+
+  assert {
     condition     = length(oci_core_volume_attachment.this) == 0
     error_message = "No attachment should be created when instance_id is null"
+  }
+}
+
+run "accepts_vpus_zero" {
+  command = plan
+
+  variables {
+    vpus_per_gb = 0
+  }
+
+  assert {
+    condition     = oci_core_volume.this.vpus_per_gb == 0
+    error_message = "vpus_per_gb = 0 should be accepted"
   }
 }
 

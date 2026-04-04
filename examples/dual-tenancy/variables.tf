@@ -12,6 +12,11 @@ variable "budget_amount" {
   description = "Monthly budget cap in the currency of your OCI rate card. Applied to both tenancies."
   type        = number
   default     = 1
+
+  validation {
+    condition     = var.budget_amount > 0
+    error_message = "budget_amount must be a positive number."
+  }
 }
 
 variable "alert_recipients" {
