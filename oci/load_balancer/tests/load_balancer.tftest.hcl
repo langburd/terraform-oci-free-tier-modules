@@ -29,8 +29,13 @@ run "creates_load_balancer_with_defaults" {
   }
 
   assert {
-    condition     = oci_load_balancer_listener.this.port == 80
-    error_message = "Listener port should default to 80"
+    condition     = oci_load_balancer_listener.this.port == 443
+    error_message = "Listener port should default to 443"
+  }
+
+  assert {
+    condition     = oci_load_balancer_listener.this.protocol == "HTTPS"
+    error_message = "Listener protocol should default to HTTPS"
   }
 
   assert {
@@ -87,4 +92,18 @@ run "rejects_invalid_compartment_ocid" {
   expect_failures = [
     var.compartment_id,
   ]
+}
+
+run "default_listener_uses_https" {
+  command = plan
+
+  assert {
+    condition     = oci_load_balancer_listener.this.protocol == "HTTPS"
+    error_message = "Listener protocol should default to HTTPS"
+  }
+
+  assert {
+    condition     = oci_load_balancer_listener.this.port == 443
+    error_message = "Listener port should default to 443 for HTTPS"
+  }
 }
