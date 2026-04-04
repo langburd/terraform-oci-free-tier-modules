@@ -14,7 +14,7 @@ Both profiles must exist in `~/.oci/config`. Run `oci setup config` to create or
 
 ## Usage
 
-Edit `terraform.tfvars` with your profile names and alert email, then:
+Copy `terraform.tfvars.example` to `terraform.tfvars`, fill in your values, then:
 
 ```sh
 terraform init
