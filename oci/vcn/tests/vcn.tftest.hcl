@@ -54,6 +54,11 @@ run "default_creates_vcn_no_igw" {
     condition     = length(oci_core_route_table.private) == 0
     error_message = "Private route table should not be created by default"
   }
+
+  assert {
+    condition     = oci_core_security_list.this.compartment_id == var.compartment_id
+    error_message = "Security list should always be created in the correct compartment"
+  }
 }
 
 run "creates_igw_when_enabled" {
@@ -115,44 +120,6 @@ run "all_gateways" {
   assert {
     condition     = var.create_service_gateway == true
     error_message = "create_service_gateway must be true for service routes to be added to route tables"
-  }
-}
-
-run "no_internet_gateway" {
-  command = plan
-
-  variables {
-    create_internet_gateway = false
-  }
-
-  assert {
-    condition     = length(oci_core_internet_gateway.this) == 0
-    error_message = "Internet gateway should not be created"
-  }
-
-  assert {
-    condition     = length(oci_core_nat_gateway.this) == 0
-    error_message = "NAT gateway should not be created"
-  }
-
-  assert {
-    condition     = length(oci_core_service_gateway.this) == 0
-    error_message = "Service gateway should not be created"
-  }
-
-  assert {
-    condition     = length(oci_core_route_table.public) == 0
-    error_message = "Public route table should not be created"
-  }
-
-  assert {
-    condition     = length(oci_core_route_table.private) == 0
-    error_message = "Private route table should not be created"
-  }
-
-  assert {
-    condition     = oci_core_security_list.this.compartment_id == var.compartment_id
-    error_message = "Security list should always be created in the correct compartment"
   }
 }
 
