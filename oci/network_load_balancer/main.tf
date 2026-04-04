@@ -1,3 +1,7 @@
+# NOTE: The Network Load Balancer (NLB) operates at Layer 4 (TCP/UDP) and does
+# not terminate TLS. Traffic between the NLB and backends is unencrypted by
+# default. To encrypt end-to-end, configure TLS on your backend instances and
+# use TCP passthrough on the listener.
 resource "oci_network_load_balancer_network_load_balancer" "this" {
   compartment_id = var.compartment_id
   display_name   = var.nlb_display_name
