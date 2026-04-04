@@ -48,7 +48,7 @@ variable "vcn_freeform_tags" {
 variable "create_internet_gateway" {
   description = "(Optional) Whether to create an Internet Gateway and public route table."
   type        = bool
-  default     = true
+  default     = false
 }
 
 variable "create_nat_gateway" {

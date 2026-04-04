@@ -28,7 +28,7 @@ module "vcn" {
 
 | Name | Version |
 |------|---------|
-| <a name="provider_oci"></a> [oci](#provider\_oci) | >= 6.0, < 7.0 |
+| <a name="provider_oci"></a> [oci](#provider\_oci) | 6.37.0 |
 
 ## Modules
 
@@ -52,7 +52,7 @@ No modules.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_compartment_id"></a> [compartment\_id](#input\_compartment\_id) | (Required) The OCID of the compartment in which to create the VCN. | `string` | n/a | yes |
-| <a name="input_create_internet_gateway"></a> [create\_internet\_gateway](#input\_create\_internet\_gateway) | (Optional) Whether to create an Internet Gateway and public route table. | `bool` | `true` | no |
+| <a name="input_create_internet_gateway"></a> [create\_internet\_gateway](#input\_create\_internet\_gateway) | (Optional) Whether to create an Internet Gateway and public route table. | `bool` | `false` | no |
 | <a name="input_create_nat_gateway"></a> [create\_nat\_gateway](#input\_create\_nat\_gateway) | (Optional) Whether to create a NAT Gateway and private route table. | `bool` | `false` | no |
 | <a name="input_create_service_gateway"></a> [create\_service\_gateway](#input\_create\_service\_gateway) | (Optional) Whether to create a Service Gateway. When enabled, a service route is added to the public and/or private route tables. | `bool` | `false` | no |
 | <a name="input_vcn_cidr_blocks"></a> [vcn\_cidr\_blocks](#input\_vcn\_cidr\_blocks) | (Optional) (Updatable) The list of one or more IPv4 CIDR blocks for the VCN. | `list(string)` | <pre>[<br/>  "10.0.0.0/16"<br/>]</pre> | no |

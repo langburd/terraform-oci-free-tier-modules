@@ -113,6 +113,11 @@ resource "oci_core_route_table" "private" {
 # It serves as a starter resource for consumers to reference as a subnet's default
 # security list. Add rules by defining ingress_security_rules / egress_security_rules
 # blocks in a separate oci_core_security_list resource.
+#
+# NOTE: OCI's default security list includes an implicit allow-all egress rule.
+# This module does NOT replicate that implicit rule here. Consumers must explicitly
+# define any required egress (and ingress) rules in their own oci_core_security_list
+# resources.
 resource "oci_core_security_list" "this" {
   compartment_id = var.compartment_id
   vcn_id         = oci_core_vcn.this.id

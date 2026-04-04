@@ -32,7 +32,7 @@ variable "subnet_display_name" {
 }
 
 variable "subnet_dns_label" {
-  description = "(Optional) A DNS label for the subnet. Must match ^[a-z][a-z0-9]{0,14}$ or be null."
+  description = "(Optional) A DNS label for the subnet. Must be lowercase, start with a letter, max 15 chars (e.g. 'web', 'db01', 'private1'). Used to form FQDNs for VNICs in the subnet. Set to null to omit."
   type        = string
   default     = null
   validation {
