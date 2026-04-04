@@ -1,3 +1,6 @@
 [submodule ".claude/skills/terraform-skill"]
 	path = .claude/skills/terraform-skill
 	url = git@github.com:antonbabenko/terraform-skill.git
+[submodule "oci/k3s_cluster/vendor/k3s-ansible"]
+	path = oci/k3s_cluster/vendor/k3s-ansible
+	url = https://github.com/k3s-io/k3s-ansible.git
