@@ -38,43 +38,47 @@ module "k3s_security_list" {
   vcn_id                     = module.k3s_vcn.vcn_id
   security_list_display_name = "k3s-security-list"
 
-  ingress_security_rules = [
-    {
+  ingress_security_rules = concat(
+    [
+      {
+        protocol    = "6"
+        source      = "10.0.0.0/16"
+        description = "Intra-VCN all TCP"
+      },
+    ],
+    [for cidr in var.allowed_mgmt_cidrs : {
       protocol    = "6"
-      source      = "10.0.0.0/16"
-      description = "Intra-VCN all TCP"
-    },
-    {
-      protocol    = "6"
-      source      = var.allowed_mgmt_cidrs[0]
+      source      = cidr
       tcp_options = { min = 22, max = 22 }
-      description = "SSH"
-    },
-    {
+      description = "SSH from ${cidr}"
+    }],
+    [for cidr in var.allowed_mgmt_cidrs : {
       protocol    = "6"
-      source      = var.allowed_mgmt_cidrs[0]
+      source      = cidr
       tcp_options = { min = 6443, max = 6443 }
-      description = "K3s API server"
-    },
-    {
-      protocol    = "6"
-      source      = "0.0.0.0/0"
-      tcp_options = { min = 80, max = 80 }
-      description = "HTTP ingress"
-    },
-    {
-      protocol    = "6"
-      source      = "0.0.0.0/0"
-      tcp_options = { min = 443, max = 443 }
-      description = "HTTPS ingress"
-    },
-    {
-      protocol     = "1"
-      source       = "0.0.0.0/0"
-      icmp_options = { type = 3, code = 4 }
-      description  = "Path MTU discovery"
-    },
-  ]
+      description = "K3s API server from ${cidr}"
+    }],
+    [
+      {
+        protocol    = "6"
+        source      = "0.0.0.0/0"
+        tcp_options = { min = 80, max = 80 }
+        description = "HTTP ingress"
+      },
+      {
+        protocol    = "6"
+        source      = "0.0.0.0/0"
+        tcp_options = { min = 443, max = 443 }
+        description = "HTTPS ingress"
+      },
+      {
+        protocol     = "1"
+        source       = "0.0.0.0/0"
+        icmp_options = { type = 3, code = 4 }
+        description  = "Path MTU discovery"
+      },
+    ]
+  )
 
   egress_security_rules = [
     {

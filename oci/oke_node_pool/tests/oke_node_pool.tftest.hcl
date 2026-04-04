@@ -35,17 +35,14 @@ run "creates_node_pool_with_defaults" {
   }
 }
 
-run "creates_micro_node_pool" {
+run "rejects_e2micro_node_shape" {
   command = plan
 
   variables {
     node_shape = "VM.Standard.E2.1.Micro"
   }
 
-  assert {
-    condition     = oci_containerengine_node_pool.this.node_shape == "VM.Standard.E2.1.Micro"
-    error_message = "Node shape should be VM.Standard.E2.1.Micro"
-  }
+  expect_failures = [var.node_shape]
 }
 
 run "creates_custom_ocpu_memory" {
@@ -65,6 +62,76 @@ run "creates_custom_ocpu_memory" {
     condition     = oci_containerengine_node_pool.this.node_shape_config[0].memory_in_gbs == 12
     error_message = "node_shape_memory_in_gbs should be 12"
   }
+}
+
+run "rejects_invalid_compartment_id" {
+  command = plan
+
+  variables {
+    compartment_id = "not-a-valid-ocid"
+  }
+
+  expect_failures = [var.compartment_id]
+}
+
+run "rejects_invalid_kubernetes_version" {
+  command = plan
+
+  variables {
+    kubernetes_version = "1.32.1"
+  }
+
+  expect_failures = [var.kubernetes_version]
+}
+
+run "rejects_invalid_image_id" {
+  command = plan
+
+  variables {
+    image_id = "not-a-valid-ocid"
+  }
+
+  expect_failures = [var.image_id]
+}
+
+run "rejects_invalid_subnet_id" {
+  command = plan
+
+  variables {
+    subnet_id = "not-a-valid-ocid"
+  }
+
+  expect_failures = [var.subnet_id]
+}
+
+run "rejects_invalid_node_shape_ocpus" {
+  command = plan
+
+  variables {
+    node_shape_ocpus = 5
+  }
+
+  expect_failures = [var.node_shape_ocpus]
+}
+
+run "rejects_invalid_node_shape_memory_in_gbs" {
+  command = plan
+
+  variables {
+    node_shape_memory_in_gbs = 25
+  }
+
+  expect_failures = [var.node_shape_memory_in_gbs]
+}
+
+run "rejects_invalid_node_count" {
+  command = plan
+
+  variables {
+    node_count = 0
+  }
+
+  expect_failures = [var.node_count]
 }
 
 run "rejects_invalid_boot_volume_size" {

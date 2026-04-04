@@ -7,6 +7,11 @@ variable "server_ips" {
   }
 }
 
+variable "ssh_private_key_path" {
+  description = "Path to the SSH private key file for connecting to K3s nodes."
+  type        = string
+}
+
 variable "agent_ips" {
   description = "List of public IP addresses for K3s agent (worker) nodes."
   type        = list(string)
@@ -23,11 +28,6 @@ variable "ssh_extra_args" {
   description = "Additional SSH arguments passed to Ansible. Defaults to disabling host key checking for initial provisioning. Set to '' or override for stricter security in trusted environments."
   type        = string
   default     = "-o StrictHostKeyChecking=no"
-}
-
-variable "ssh_private_key_path" {
-  description = "Path to the SSH private key file for connecting to K3s nodes."
-  type        = string
 }
 
 variable "k3s_version" {

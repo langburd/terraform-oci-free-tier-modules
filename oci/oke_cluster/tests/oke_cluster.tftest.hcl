@@ -61,6 +61,56 @@ run "creates_private_endpoint" {
   }
 }
 
+run "rejects_invalid_vcn_id" {
+  command = plan
+
+  variables {
+    vcn_id = "not-a-valid-ocid"
+  }
+
+  expect_failures = [var.vcn_id]
+}
+
+run "rejects_invalid_cluster_type" {
+  command = plan
+
+  variables {
+    cluster_type = "INVALID_TYPE"
+  }
+
+  expect_failures = [var.cluster_type]
+}
+
+run "rejects_invalid_cni_type" {
+  command = plan
+
+  variables {
+    cni_type = "INVALID_CNI"
+  }
+
+  expect_failures = [var.cni_type]
+}
+
+run "rejects_invalid_endpoint_subnet_id" {
+  command = plan
+
+  variables {
+    endpoint_subnet_id = "not-a-valid-ocid"
+  }
+
+  expect_failures = [var.endpoint_subnet_id]
+}
+
+run "rejects_invalid_services_cidr" {
+  command = plan
+
+  variables {
+    services_cidr = "not-a-cidr"
+  }
+
+  expect_failures = [var.services_cidr]
+}
+
 run "rejects_invalid_kubernetes_version" {
   command = plan
 
