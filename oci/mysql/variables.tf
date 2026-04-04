@@ -25,6 +25,17 @@ variable "admin_password" {
   description = "(Required) The password for the administrative user. The password must be between 8 and 32 characters long, and must contain at least 1 numeric character, 1 lowercase character, 1 uppercase character, and 1 special character."
   type        = string
   sensitive   = true
+  validation {
+    condition = (
+      length(var.admin_password) >= 8 &&
+      length(var.admin_password) <= 32 &&
+      can(regex("[A-Z]", var.admin_password)) &&
+      can(regex("[a-z]", var.admin_password)) &&
+      can(regex("[0-9]", var.admin_password)) &&
+      can(regex("[^a-zA-Z0-9]", var.admin_password))
+    )
+    error_message = "admin_password must be 8-32 characters and contain at least one uppercase letter, one lowercase letter, one digit, and one special character."
+  }
 }
 
 variable "shape_name" {
