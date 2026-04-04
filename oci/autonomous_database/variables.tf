@@ -42,6 +42,10 @@ variable "compute_model" {
   description = "(Optional) The compute model of the Autonomous Database (ECPU or OCPU). For Always Free, only ECPU is supported."
   type        = string
   default     = "ECPU"
+  validation {
+    condition     = contains(["ECPU", "OCPU"], var.compute_model)
+    error_message = "compute_model must be one of: ECPU, OCPU."
+  }
 }
 
 variable "compute_count" {
@@ -55,7 +59,7 @@ variable "data_storage_size_in_gb" {
   type        = number
   default     = 20
   validation {
-    condition     = var.data_storage_size_in_gb <= 20
+    condition     = var.data_storage_size_in_gb >= 1 && var.data_storage_size_in_gb <= 20
     error_message = "data_storage_size_in_gb must be <= 20 for Always Free tier databases."
   }
 }

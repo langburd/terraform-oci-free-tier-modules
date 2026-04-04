@@ -6,11 +6,13 @@ output "autonomous_database_id" {
 output "connection_strings" {
   description = "The connection string used to connect to the Autonomous Database."
   value       = oci_database_autonomous_database.this.connection_strings
+  sensitive   = true
 }
 
 output "connection_urls" {
   description = "The URLs for accessing Oracle Application Express (APEX) and SQL Developer Web with a browser from a Compute instance."
   value       = oci_database_autonomous_database.this.connection_urls
+  sensitive   = true
 }
 
 output "db_name" {

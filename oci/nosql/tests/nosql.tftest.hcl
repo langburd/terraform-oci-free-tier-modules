@@ -101,3 +101,11 @@ run "rejects_invalid_table_name" {
     var.table_name,
   ]
 }
+
+run "rejects_write_units_above_50" {
+  command = plan
+  variables {
+    table_limits_max_write_units = 51
+  }
+  expect_failures = [var.table_limits_max_write_units]
+}

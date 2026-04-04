@@ -89,3 +89,11 @@ run "rejects_invalid_subnet_ocid" {
     var.subnet_id,
   ]
 }
+
+run "rejects_highly_available" {
+  command = plan
+  variables {
+    is_highly_available = true
+  }
+  expect_failures = [var.is_highly_available]
+}

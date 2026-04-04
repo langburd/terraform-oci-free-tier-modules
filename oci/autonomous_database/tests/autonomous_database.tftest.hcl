@@ -119,3 +119,11 @@ run "rejects_invalid_db_workload" {
     var.db_workload,
   ]
 }
+
+run "rejects_invalid_compute_model" {
+  command = plan
+  variables {
+    compute_model = "INVALID"
+  }
+  expect_failures = [var.compute_model]
+}

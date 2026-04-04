@@ -70,3 +70,11 @@ run "rejects_invalid_compartment_ocid" {
     var.compartment_id,
   ]
 }
+
+run "rejects_invalid_topic_name" {
+  command = plan
+  variables {
+    topic_name = "invalid topic name!"
+  }
+  expect_failures = [var.topic_name]
+}

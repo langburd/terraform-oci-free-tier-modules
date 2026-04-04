@@ -10,6 +10,10 @@ variable "compartment_id" {
 variable "topic_name" {
   description = "(Required) The name of the topic. Topic names must be unique across the entire tenancy."
   type        = string
+  validation {
+    condition     = can(regex("^[a-zA-Z0-9_-]{1,256}$", var.topic_name))
+    error_message = "topic_name must be 1–256 characters and contain only letters, numbers, hyphens, and underscores."
+  }
 }
 
 variable "topic_description" {

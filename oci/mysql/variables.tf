@@ -59,6 +59,10 @@ variable "is_highly_available" {
   description = "(Optional) Specifies if the DB System is highly available. Must be false for Always Free tier."
   type        = bool
   default     = false
+  validation {
+    condition     = var.is_highly_available == false
+    error_message = "is_highly_available must be false for the Always Free MySQL tier."
+  }
 }
 
 variable "mysql_display_name" {
