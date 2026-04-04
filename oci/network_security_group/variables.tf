@@ -23,7 +23,7 @@ variable "nsg_display_name" {
 }
 
 variable "ingress_rules" {
-  description = "Map of ingress security rules to attach to the NSG. Keys are rule names."
+  description = "Map of ingress (inbound) security rules. Each rule's `source` field specifies the source CIDR; `destination` is not used for ingress."
   type = map(object({
     protocol         = string
     source           = optional(string)
@@ -44,7 +44,7 @@ variable "ingress_rules" {
     }))
     icmp_options = optional(object({
       type = number
-      code = optional(number, -1)
+      code = optional(number) # null = all codes
     }))
     description = optional(string, "")
   }))
@@ -52,7 +52,7 @@ variable "ingress_rules" {
 }
 
 variable "egress_rules" {
-  description = "Map of egress security rules to attach to the NSG. Keys are rule names."
+  description = "Map of egress (outbound) security rules. Each rule's `destination` field specifies the destination CIDR; `source` is not used for egress."
   type = map(object({
     protocol         = string
     source           = optional(string)
@@ -73,7 +73,7 @@ variable "egress_rules" {
     }))
     icmp_options = optional(object({
       type = number
-      code = optional(number, -1)
+      code = optional(number) # null = all codes
     }))
     description = optional(string, "")
   }))

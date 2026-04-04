@@ -43,6 +43,16 @@ run "creates_tcp_ingress_rules" {
     condition     = length(oci_core_network_security_group_security_rule.this) == 2
     error_message = "Expected 2 ingress rules to be created"
   }
+
+  assert {
+    condition     = oci_core_network_security_group_security_rule.this["ingress_allow_ssh"].direction == "INGRESS"
+    error_message = "Rule direction should be INGRESS"
+  }
+
+  assert {
+    condition     = oci_core_network_security_group_security_rule.this["ingress_allow_ssh"].source == "0.0.0.0/0"
+    error_message = "Rule source should be 0.0.0.0/0"
+  }
 }
 
 run "creates_icmp_rules" {
@@ -87,6 +97,49 @@ run "creates_egress_rules" {
   assert {
     condition     = length(oci_core_network_security_group_security_rule.this) == 2
     error_message = "Expected 2 egress rules to be created"
+  }
+
+  assert {
+    condition     = oci_core_network_security_group_security_rule.this["egress_allow_all_outbound"].direction == "EGRESS"
+    error_message = "Rule direction should be EGRESS"
+  }
+
+  assert {
+    condition     = oci_core_network_security_group_security_rule.this["egress_allow_all_outbound"].destination == "0.0.0.0/0"
+    error_message = "Rule destination should be 0.0.0.0/0"
+  }
+}
+
+run "creates_mixed_ingress_and_egress_rules" {
+  command = plan
+
+  variables {
+    ingress_rules = {
+      allow_ssh = {
+        protocol    = "6"
+        source      = "0.0.0.0/0"
+        tcp_options = { destination_port_range = { min = 22, max = 22 } }
+        description = "Allow SSH"
+      }
+      allow_https = {
+        protocol    = "6"
+        source      = "0.0.0.0/0"
+        tcp_options = { destination_port_range = { min = 443, max = 443 } }
+        description = "Allow HTTPS"
+      }
+    }
+    egress_rules = {
+      allow_all_outbound = {
+        protocol    = "all"
+        destination = "0.0.0.0/0"
+        description = "All outbound traffic"
+      }
+    }
+  }
+
+  assert {
+    condition     = length(oci_core_network_security_group_security_rule.this) == 3
+    error_message = "Expected 3 rules total (2 ingress + 1 egress)"
   }
 }
 

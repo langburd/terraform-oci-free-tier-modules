@@ -8,8 +8,8 @@ resource "oci_core_network_security_group" "this" {
 
 resource "oci_core_network_security_group_security_rule" "this" {
   for_each = merge(
-    { for k, v in var.ingress_rules : k => merge(v, { direction = "INGRESS" }) },
-    { for k, v in var.egress_rules : k => merge(v, { direction = "EGRESS" }) }
+    { for k, v in var.ingress_rules : "ingress_${k}" => merge(v, { direction = "INGRESS" }) },
+    { for k, v in var.egress_rules : "egress_${k}" => merge(v, { direction = "EGRESS" }) }
   )
 
   network_security_group_id = oci_core_network_security_group.this.id
