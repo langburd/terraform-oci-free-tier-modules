@@ -56,9 +56,9 @@ No modules.
 | <a name="input_bastion_freeform_tags"></a> [bastion\_freeform\_tags](#input\_bastion\_freeform\_tags) | (Optional) Free-form tags for the bastion. | `map(string)` | `{}` | no |
 | <a name="input_bastion_name"></a> [bastion\_name](#input\_bastion\_name) | (Required) Name of the bastion. Must be alphanumeric. | `string` | n/a | yes |
 | <a name="input_bastion_type"></a> [bastion\_type](#input\_bastion\_type) | (Optional) Type of the bastion. Supported values: STANDARD. | `string` | `"STANDARD"` | no |
-| <a name="input_client_cidr_block_allow_list"></a> [client\_cidr\_block\_allow\_list](#input\_client\_cidr\_block\_allow\_list) | (Optional) List of CIDR blocks allowed to connect to the bastion. | `list(string)` | <pre>[<br/>  "0.0.0.0/0"<br/>]</pre> | no |
+| <a name="input_client_cidr_block_allow_list"></a> [client\_cidr\_block\_allow\_list](#input\_client\_cidr\_block\_allow\_list) | (Required) List of CIDR blocks allowed to connect to the bastion. Must not be empty -- callers must provide at least one explicit CIDR. Using 0.0.0.0/0 exposes the bastion to all internet traffic. | `list(string)` | `[]` | no |
 | <a name="input_compartment_id"></a> [compartment\_id](#input\_compartment\_id) | (Required) OCID of the compartment in which to create the bastion. | `string` | n/a | yes |
-| <a name="input_max_session_ttl_in_seconds"></a> [max\_session\_ttl\_in\_seconds](#input\_max\_session\_ttl\_in\_seconds) | (Optional) Maximum session TTL in seconds. Valid range: 1800-10800. | `number` | `10800` | no |
+| <a name="input_max_session_ttl_in_seconds"></a> [max\_session\_ttl\_in\_seconds](#input\_max\_session\_ttl\_in\_seconds) | (Optional) Maximum session TTL in seconds. Defaults to 1800 (30 minutes) for security. Valid range: 1800-10800. Increase to 10800 (3 hours) only if your workflow requires longer sessions. | `number` | `1800` | no |
 | <a name="input_target_subnet_id"></a> [target\_subnet\_id](#input\_target\_subnet\_id) | (Required) OCID of the subnet that the bastion connects to. | `string` | n/a | yes |
 
 ## Outputs

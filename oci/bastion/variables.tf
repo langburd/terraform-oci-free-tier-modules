@@ -40,15 +40,19 @@ variable "target_subnet_id" {
 }
 
 variable "client_cidr_block_allow_list" {
-  description = "(Optional) List of CIDR blocks allowed to connect to the bastion."
+  description = "(Required) List of CIDR blocks allowed to connect to the bastion. Must not be empty -- callers must provide at least one explicit CIDR. Using 0.0.0.0/0 exposes the bastion to all internet traffic."
   type        = list(string)
-  default     = ["0.0.0.0/0"]
+  default     = []
+  validation {
+    condition     = length(var.client_cidr_block_allow_list) > 0
+    error_message = "client_cidr_block_allow_list must contain at least one CIDR block. Provide explicit source CIDRs rather than using the open default."
+  }
 }
 
 variable "max_session_ttl_in_seconds" {
-  description = "(Optional) Maximum session TTL in seconds. Valid range: 1800-10800."
+  description = "(Optional) Maximum session TTL in seconds. Defaults to 1800 (30 minutes) for security. Valid range: 1800-10800. Increase to 10800 (3 hours) only if your workflow requires longer sessions."
   type        = number
-  default     = 10800
+  default     = 1800
 
   validation {
     condition     = var.max_session_ttl_in_seconds >= 1800 && var.max_session_ttl_in_seconds <= 10800
