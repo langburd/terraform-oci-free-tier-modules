@@ -9,6 +9,8 @@ Run the following verification steps. Detect which module or example directory w
 2. For each changed module/example directory:
    - `terraform init -backend=false` — initialize without backend (if .terraform doesn't exist)
    - `terraform validate` — validate configuration
-3. `pre-commit run terraform_docs --all-files` — regenerate docs
+3. For each changed module directory under `oci/` (skip `examples/` — they have no tests):
+   - `terraform test` — run the module's test suite (already initialized above)
+4. `pre-commit run terraform_docs --all-files` — regenerate docs
 
 Report results as a table: directory, step, status (pass/fail), and any error details.
