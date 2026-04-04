@@ -39,9 +39,19 @@ variable "alert_message" {
 }
 
 variable "alert_recipients" {
-  description = "The delimited list of email addresses to receive the alert when it triggers. Delimiter characters can be a comma, space, TAB, or semicolon."
+  description = "(Optional) Comma-separated list of email addresses to receive the alert. Each address must be a valid email format (e.g. 'admin@example.com, ops@example.com')."
   type        = string
   default     = ""
+  validation {
+    condition = (
+      var.alert_recipients == "" ||
+      alltrue([
+        for addr in split(",", var.alert_recipients) :
+        can(regex("^\\s*[a-zA-Z0-9._%+\\-]+@[a-zA-Z0-9.\\-]+\\.[a-zA-Z]{2,}\\s*$", addr))
+      ])
+    )
+    error_message = "alert_recipients must be a comma-separated list of valid email addresses, or empty."
+  }
 }
 
 variable "alert_threshold" {

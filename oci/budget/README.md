@@ -59,7 +59,7 @@ No modules.
 | <a name="input_alert_display_name"></a> [alert\_display\_name](#input\_alert\_display\_name) | Display name of the alert rule. Only a-zA-Z0-9.-\_ characters are allowed. | `string` | `"Alert_on_0.01_forecast_spend"` | no |
 | <a name="input_alert_freeform_tags"></a> [alert\_freeform\_tags](#input\_alert\_freeform\_tags) | Free-form tags for the alert rule. | `map(string)` | `{}` | no |
 | <a name="input_alert_message"></a> [alert\_message](#input\_alert\_message) | Custom message for alert notification. | `string` | `""` | no |
-| <a name="input_alert_recipients"></a> [alert\_recipients](#input\_alert\_recipients) | The delimited list of email addresses to receive the alert when it triggers. Delimiter characters can be a comma, space, TAB, or semicolon. | `string` | `""` | no |
+| <a name="input_alert_recipients"></a> [alert\_recipients](#input\_alert\_recipients) | (Optional) Comma-separated list of email addresses to receive the alert. Each address must be a valid email format (e.g. 'admin@example.com, ops@example.com'). | `string` | `""` | no |
 | <a name="input_alert_threshold"></a> [alert\_threshold](#input\_alert\_threshold) | Threshold value for triggering the alert. | `number` | `1` | no |
 | <a name="input_alert_threshold_type"></a> [alert\_threshold\_type](#input\_alert\_threshold\_type) | Type of threshold. | `string` | `"PERCENTAGE"` | no |
 | <a name="input_alert_type"></a> [alert\_type](#input\_alert\_type) | Type of alert rule. | `string` | `"FORECAST"` | no |

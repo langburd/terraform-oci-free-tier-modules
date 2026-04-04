@@ -216,3 +216,15 @@ run "rejects_fractional_budget_amount" {
     var.budget_amount,
   ]
 }
+
+run "rejects_invalid_email_in_alert_recipients" {
+  command = plan
+
+  variables {
+    alert_recipients = "not-an-email"
+  }
+
+  expect_failures = [
+    var.alert_recipients,
+  ]
+}

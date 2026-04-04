@@ -59,7 +59,7 @@ No modules.
 | <a name="input_log_group_display_name"></a> [log\_group\_display\_name](#input\_log\_group\_display\_name) | (Optional) (Updatable) The display name of the log group. | `string` | `"log-group"` | no |
 | <a name="input_logging_defined_tags"></a> [logging\_defined\_tags](#input\_logging\_defined\_tags) | Defined tags for the logging resources. | `map(string)` | `{}` | no |
 | <a name="input_logging_freeform_tags"></a> [logging\_freeform\_tags](#input\_logging\_freeform\_tags) | Free-form tags for the logging resources. | `map(string)` | `{}` | no |
-| <a name="input_logs"></a> [logs](#input\_logs) | (Optional) Map of logs to create. Keys are used as display names. | <pre>map(object({<br/>    log_type           = string<br/>    source_service     = optional(string)<br/>    source_resource    = optional(string)<br/>    source_category    = optional(string)<br/>    is_enabled         = optional(bool, true)<br/>    retention_duration = optional(number, 30)<br/>  }))</pre> | `{}` | no |
+| <a name="input_logs"></a> [logs](#input\_logs) | (Optional) Map of logs to create. Keys are used as display names. Use log\_type 'SERVICE' for service logs or 'CUSTOM' for custom logs. Note: AUDIT logs are managed at the tenancy level through OCI Audit settings and should NOT be created here -- use this module for SERVICE and CUSTOM log types only. | <pre>map(object({<br/>    log_type           = string<br/>    source_service     = optional(string)<br/>    source_resource    = optional(string)<br/>    source_category    = optional(string)<br/>    is_enabled         = optional(bool, true)<br/>    retention_duration = optional(number, 30)<br/>  }))</pre> | `{}` | no |
 
 ## Outputs
 
