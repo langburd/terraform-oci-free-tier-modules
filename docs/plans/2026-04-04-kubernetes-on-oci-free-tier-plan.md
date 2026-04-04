@@ -115,7 +115,7 @@
 | Parameter | Value | Rationale |
 |-----------|-------|-----------|
 | Cluster type | `BASIC_CLUSTER` | Free; Enhanced adds SLA + features at extra cost |
-| K8s version | Latest stable (e.g., v1.33.x) | Query via `oci ce cluster-options list` |
+| K8s version | Latest stable (e.g., v1.33.x) | Query via `oci ce cluster-options get --cluster-option-id all --compartment-id <compartment-id>` |
 | Pod CIDR | `10.244.0.0/16` | Standard, non-overlapping with VCN |
 | Service CIDR | `10.96.0.0/16` | Standard Kubernetes default |
 | CNI | Flannel (default) | VCN-native requires pod subnet (more complex) |
@@ -983,7 +983,7 @@ Each new module gets a `tests/<module>.tftest.hcl` file with:
 
 | Check | How |
 |-------|-----|
-| Block storage <= 200 GB | `oci bv volume list --compartment-id <id> \| jq '[.data[]."size-in-gbs"] \| add'` |
+| Block storage <= 200 GB | `oci bv volume list --compartment-id <id> \| jq '[.data[]."size-in-gbs"] \| add // 0'` |
 | Compute instances within limits | `oci compute instance list --compartment-id <id> \| jq '.data[] \| {shape: .shape, state: ."lifecycle-state"}'` |
 | LB count <= 1 | `oci lb load-balancer list --compartment-id <id> \| jq '.data \| length'` |
 | NLB count <= 1 | `oci nlb network-load-balancer list --compartment-id <id> \| jq '.data \| length'` |
