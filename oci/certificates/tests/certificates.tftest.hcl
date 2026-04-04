@@ -2,6 +2,7 @@ mock_provider "oci" {}
 
 variables {
   compartment_id = "ocid1.compartment.oc1..aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  kms_key_id     = "ocid1.key.oc1..aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
   ca_name        = "test-root-ca"
   ca_common_name = "Test Root CA"
 }
@@ -38,6 +39,18 @@ run "creates_certificate_when_enabled" {
     condition     = length(oci_certificates_management_certificate.this) == 1
     error_message = "One certificate should be created when create_certificate is true"
   }
+}
+
+run "rejects_invalid_kms_key_id" {
+  command = plan
+
+  variables {
+    kms_key_id = "not-a-valid-ocid"
+  }
+
+  expect_failures = [
+    var.kms_key_id,
+  ]
 }
 
 run "rejects_invalid_compartment_ocid" {

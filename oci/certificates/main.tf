@@ -1,6 +1,14 @@
+locals {
+  # Default CA validity: 3 years from plan time (26280h = 365.25 days * 3 * 24h)
+  ca_not_after = var.ca_validity_time_of_validity_not_after != null ? var.ca_validity_time_of_validity_not_after : timeadd(plantimestamp(), "26280h")
+  # Default cert validity: 1 year from plan time (8766h = 365.25 days * 24h)
+  cert_not_after = var.certificate_validity_time_of_validity_not_after != null ? var.certificate_validity_time_of_validity_not_after : timeadd(plantimestamp(), "8766h")
+}
+
 resource "oci_certificates_management_certificate_authority" "this" {
   compartment_id = var.compartment_id
   name           = var.ca_name
+  kms_key_id     = var.kms_key_id
   defined_tags   = var.certificates_defined_tags
   freeform_tags  = var.certificates_freeform_tags
 
@@ -13,7 +21,7 @@ resource "oci_certificates_management_certificate_authority" "this" {
     }
 
     validity {
-      time_of_validity_not_after = var.ca_validity_time_of_validity_not_after
+      time_of_validity_not_after = local.ca_not_after
     }
   }
 }
@@ -37,7 +45,7 @@ resource "oci_certificates_management_certificate" "this" {
     }
 
     validity {
-      time_of_validity_not_after = var.certificate_validity_time_of_validity_not_after
+      time_of_validity_not_after = local.cert_not_after
     }
   }
 }

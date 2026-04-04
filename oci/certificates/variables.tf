@@ -8,6 +8,16 @@ variable "compartment_id" {
   }
 }
 
+variable "kms_key_id" {
+  description = "(Required) OCID of the KMS key used to protect the certificate authority's private key."
+  type        = string
+
+  validation {
+    condition     = can(regex("^ocid1\\.[a-z]+\\.[a-z][a-z0-9-]*\\.[a-z0-9-]*\\.[a-z0-9]+$", var.kms_key_id))
+    error_message = "kms_key_id must be a valid OCI OCID (e.g. ocid1.key.oc1..aaaaaa...)."
+  }
+}
+
 variable "ca_name" {
   description = "(Required) Name of the certificate authority."
   type        = string
@@ -36,9 +46,9 @@ variable "ca_signing_algorithm" {
 }
 
 variable "ca_validity_time_of_validity_not_after" {
-  description = "(Optional) RFC3339 timestamp after which the CA certificate is no longer valid."
+  description = "(Optional) RFC3339 timestamp after which the CA certificate is no longer valid. Defaults to 3 years from plan time. Rotate CA certificates before expiry -- use OCI Certificate Authority rotation features for seamless renewal."
   type        = string
-  default     = "2035-01-01T00:00:00Z"
+  default     = null
 }
 
 variable "create_certificate" {
@@ -88,9 +98,9 @@ variable "certificate_key_algorithm" {
 }
 
 variable "certificate_validity_time_of_validity_not_after" {
-  description = "(Optional) RFC3339 timestamp after which the certificate is no longer valid."
+  description = "(Optional) RFC3339 timestamp after which the certificate is no longer valid. Defaults to 1 year from plan time. Certificates should be rotated annually or sooner -- automate renewal to avoid service outages."
   type        = string
-  default     = "2034-01-01T00:00:00Z"
+  default     = null
 }
 
 variable "certificates_defined_tags" {
