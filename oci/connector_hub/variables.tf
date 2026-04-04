@@ -66,6 +66,11 @@ variable "target_topic_id" {
   description = "(Optional) The OCID of the target notifications topic. Required when target_kind is notifications."
   type        = string
   default     = null
+
+  validation {
+    condition     = var.target_topic_id == null || can(regex("^ocid1\\.[a-z]+\\.[a-z][a-z0-9-]*\\.[a-z0-9-]*\\.[a-z0-9]+$", var.target_topic_id))
+    error_message = "target_topic_id must be a valid OCI OCID or null."
+  }
 }
 
 variable "connector_state" {

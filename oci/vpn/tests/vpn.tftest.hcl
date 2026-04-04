@@ -61,3 +61,11 @@ run "rejects_invalid_vcn_ocid" {
     var.vcn_id,
   ]
 }
+
+run "rejects_invalid_static_route" {
+  command = plan
+  variables {
+    static_routes = ["not-a-cidr"]
+  }
+  expect_failures = [var.static_routes]
+}

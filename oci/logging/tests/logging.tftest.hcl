@@ -110,3 +110,16 @@ run "rejects_invalid_compartment_ocid" {
     var.compartment_id,
   ]
 }
+
+run "rejects_invalid_log_type" {
+  command = plan
+  variables {
+    logs = {
+      app = {
+        display_name = "app-log"
+        log_type     = "INVALID"
+      }
+    }
+  }
+  expect_failures = [var.logs]
+}

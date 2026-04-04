@@ -72,3 +72,11 @@ run "rejects_invalid_compartment_ocid" {
     var.compartment_id,
   ]
 }
+
+run "rejects_invalid_destination_ocid" {
+  command = plan
+  variables {
+    destinations = ["not-an-ocid"]
+  }
+  expect_failures = [var.destinations]
+}

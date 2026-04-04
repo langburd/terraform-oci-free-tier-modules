@@ -53,6 +53,14 @@ variable "alarm_is_enabled" {
 variable "destinations" {
   description = "(Required) A list of destinations to which the notifications for this alarm are sent. Each destination is a topic OCID."
   type        = list(string)
+
+  validation {
+    condition = alltrue([
+      for d in var.destinations :
+      can(regex("^ocid1\\.[a-z]+\\.[a-z][a-z0-9-]*\\.[a-z0-9-]*\\.[a-z0-9]+$", d))
+    ])
+    error_message = "Each destination must be a valid OCI OCID (e.g. ocid1.onstopic.oc1..aaaaaa...)."
+  }
 }
 
 variable "alarm_body" {

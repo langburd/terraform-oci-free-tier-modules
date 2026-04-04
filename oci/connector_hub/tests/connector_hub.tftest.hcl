@@ -66,3 +66,15 @@ run "rejects_invalid_compartment_ocid" {
     var.compartment_id,
   ]
 }
+
+run "rejects_invalid_target_kind" {
+  command = plan
+
+  variables {
+    target_kind = "invalid"
+  }
+
+  expect_failures = [
+    var.target_kind,
+  ]
+}

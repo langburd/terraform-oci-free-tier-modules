@@ -9,7 +9,7 @@ resource "oci_core_drg_attachment" "this" {
   count = var.vcn_id != null ? 1 : 0
 
   drg_id       = oci_core_drg.this.id
-  display_name = var.drg_display_name
+  display_name = var.drg_attachment_display_name
 
   network_details {
     id   = var.vcn_id

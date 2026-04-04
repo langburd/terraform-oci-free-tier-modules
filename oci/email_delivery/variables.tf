@@ -33,6 +33,11 @@ variable "dkim_name" {
   description = "(Optional) The name of the DKIM selector. Used as the DKIM selector prefix."
   type        = string
   default     = "dkim"
+
+  validation {
+    condition     = var.dkim_name == null || can(regex("^[a-zA-Z0-9-]{1,36}$", var.dkim_name))
+    error_message = "dkim_name must be 1–36 characters, alphanumeric and hyphens only."
+  }
 }
 
 variable "email_defined_tags" {

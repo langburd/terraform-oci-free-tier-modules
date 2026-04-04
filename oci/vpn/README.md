@@ -27,7 +27,7 @@ module "vpn" {
 
 | Name | Version |
 |------|---------|
-| <a name="provider_oci"></a> [oci](#provider\_oci) | >= 6.0 |
+| <a name="provider_oci"></a> [oci](#provider\_oci) | 8.8.0 |
 
 ## Modules
 
@@ -49,6 +49,7 @@ No modules.
 | <a name="input_compartment_id"></a> [compartment\_id](#input\_compartment\_id) | (Required) The OCID of the compartment containing the VPN resources. | `string` | n/a | yes |
 | <a name="input_cpe_display_name"></a> [cpe\_display\_name](#input\_cpe\_display\_name) | (Optional) (Updatable) Display name for the Customer-Premises Equipment resource. | `string` | `"cpe"` | no |
 | <a name="input_cpe_ip_address"></a> [cpe\_ip\_address](#input\_cpe\_ip\_address) | (Required) The public IP address of the on-premises Customer-Premises Equipment (CPE). | `string` | n/a | yes |
+| <a name="input_drg_attachment_display_name"></a> [drg\_attachment\_display\_name](#input\_drg\_attachment\_display\_name) | Display name for the DRG VCN attachment. | `string` | `"drg-attachment"` | no |
 | <a name="input_drg_display_name"></a> [drg\_display\_name](#input\_drg\_display\_name) | (Optional) (Updatable) Display name for the Dynamic Routing Gateway. | `string` | `"drg"` | no |
 | <a name="input_ipsec_display_name"></a> [ipsec\_display\_name](#input\_ipsec\_display\_name) | (Optional) (Updatable) Display name for the IPSec connection. | `string` | `"ipsec-connection"` | no |
 | <a name="input_static_routes"></a> [static\_routes](#input\_static\_routes) | (Required) Static routes for the IPSec connection. List of CIDR blocks representing the on-premises networks. | `list(string)` | n/a | yes |

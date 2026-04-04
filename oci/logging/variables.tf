@@ -33,6 +33,14 @@ variable "logs" {
     ])
     error_message = "retention_duration must be a multiple of 30 between 30 and 180 (e.g. 30, 60, 90, 120, 150, 180)."
   }
+
+  validation {
+    condition = alltrue([
+      for k, v in var.logs :
+      contains(["CUSTOM", "SERVICE", "AUDIT"], v.log_type)
+    ])
+    error_message = "log_type must be one of: CUSTOM, SERVICE, AUDIT."
+  }
 }
 
 variable "logging_defined_tags" {

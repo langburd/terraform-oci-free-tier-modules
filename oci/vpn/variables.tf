@@ -50,6 +50,20 @@ variable "ipsec_display_name" {
 variable "static_routes" {
   description = "(Required) Static routes for the IPSec connection. List of CIDR blocks representing the on-premises networks."
   type        = list(string)
+
+  validation {
+    condition = alltrue([
+      for r in var.static_routes :
+      can(cidrnetmask(r))
+    ])
+    error_message = "Each static_route must be a valid CIDR block (e.g. 10.0.0.0/8)."
+  }
+}
+
+variable "drg_attachment_display_name" {
+  description = "Display name for the DRG VCN attachment."
+  type        = string
+  default     = "drg-attachment"
 }
 
 variable "vpn_defined_tags" {
