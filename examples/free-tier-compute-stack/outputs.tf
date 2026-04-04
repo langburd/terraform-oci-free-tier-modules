@@ -17,3 +17,8 @@ output "compute_public_ip" {
   description = "Public IP address of the compute instance."
   value       = module.compute.instance_public_ip
 }
+
+output "block_volume_id" {
+  description = "OCID of the block volume attached to the compute instance."
+  value       = module.block_volume.volume_id
+}

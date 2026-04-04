@@ -71,6 +71,14 @@ module "compute" {
   }
 }
 
+module "block_volume" {
+  source              = "../../oci/block_volume"
+  compartment_id      = module.compartment.compartment_id
+  availability_domain = module.compute.availability_domain
+  instance_id         = module.compute.instance_id
+  volume_display_name = "free-tier-data-volume"
+}
+
 # Bastion module is part of Phase 3 and not yet available.
 # Uncomment when oci/bastion module is released.
 # module "bastion" {
