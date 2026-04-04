@@ -83,6 +83,7 @@ kubectl get nodes
 | Name | Type |
 |------|------|
 | [oci_core_images.oracle_linux_arm](https://registry.terraform.io/providers/oracle/oci/latest/docs/data-sources/core_images) | data source |
+| [oci_core_services.all](https://registry.terraform.io/providers/oracle/oci/latest/docs/data-sources/core_services) | data source |
 
 ## Inputs
 

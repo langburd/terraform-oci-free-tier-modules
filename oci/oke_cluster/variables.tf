@@ -104,9 +104,9 @@ variable "is_kubernetes_dashboard_enabled" {
 }
 
 variable "is_pod_security_policy_enabled" {
-  description = "(Optional) Whether pod security policy admission controller is enabled."
+  description = "(Optional) Whether pod security policy admission controller is enabled. PSP was removed in Kubernetes 1.25+; leave as false unless using an older cluster version."
   type        = bool
-  default     = true
+  default     = false
 }
 
 variable "cluster_defined_tags" {

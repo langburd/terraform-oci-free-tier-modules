@@ -23,13 +23,11 @@ variable "nsg_display_name" {
 }
 
 variable "ingress_rules" {
-  description = "Map of ingress (inbound) security rules. Each rule's `source` field specifies the source CIDR; `destination` is not used for ingress."
+  description = "Map of ingress (inbound) security rules. Use `source` and `source_type` to specify the traffic origin."
   type = map(object({
-    protocol         = string
-    source           = optional(string)
-    source_type      = optional(string, "CIDR_BLOCK")
-    destination      = optional(string)
-    destination_type = optional(string, "CIDR_BLOCK")
+    protocol    = string
+    source      = optional(string)
+    source_type = optional(string, "CIDR_BLOCK")
     tcp_options = optional(object({
       destination_port_range = object({
         min = number
@@ -52,11 +50,9 @@ variable "ingress_rules" {
 }
 
 variable "egress_rules" {
-  description = "Map of egress (outbound) security rules. Each rule's `destination` field specifies the destination CIDR; `source` is not used for egress."
+  description = "Map of egress (outbound) security rules. Use `destination` and `destination_type` to specify the traffic target."
   type = map(object({
     protocol         = string
-    source           = optional(string)
-    source_type      = optional(string, "CIDR_BLOCK")
     destination      = optional(string)
     destination_type = optional(string, "CIDR_BLOCK")
     tcp_options = optional(object({

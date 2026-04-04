@@ -90,6 +90,7 @@ kubectl get nodes
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_allowed_mgmt_cidrs"></a> [allowed\_mgmt\_cidrs](#input\_allowed\_mgmt\_cidrs) | CIDR blocks allowed for SSH (port 22) and K3s API (port 6443) access. WARNING: defaults to 0.0.0.0/0 (open to all). Restrict to your IP range in production. | `list(string)` | <pre>[<br/>  "0.0.0.0/0"<br/>]</pre> | no |
 | <a name="input_compartment_name"></a> [compartment\_name](#input\_compartment\_name) | Name of the OCI compartment to create. | `string` | `"free-tier-k3s-cluster"` | no |
 | <a name="input_k3s_version"></a> [k3s\_version](#input\_k3s\_version) | K3s version to install. Must start with 'v' (e.g. 'v1.31.12+k3s1'). | `string` | `"v1.31.12+k3s1"` | no |
 | <a name="input_oci_config_profile"></a> [oci\_config\_profile](#input\_oci\_config\_profile) | (Required) OCI CLI config file profile name to use for authentication. | `string` | n/a | yes |

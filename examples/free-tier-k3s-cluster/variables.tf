@@ -14,3 +14,9 @@ variable "k3s_version" {
   type        = string
   default     = "v1.31.12+k3s1"
 }
+
+variable "allowed_mgmt_cidrs" {
+  description = "CIDR blocks allowed for SSH (port 22) and K3s API (port 6443) access. WARNING: defaults to 0.0.0.0/0 (open to all). Restrict to your IP range in production."
+  type        = list(string)
+  default     = ["0.0.0.0/0"]
+}

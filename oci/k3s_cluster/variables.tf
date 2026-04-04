@@ -14,9 +14,15 @@ variable "agent_ips" {
 }
 
 variable "ssh_user" {
-  description = "SSH username to connect to K3s nodes."
+  description = "SSH username to connect to K3s nodes. Oracle Linux images use 'opc'; Ubuntu images use 'ubuntu'."
   type        = string
-  default     = "ubuntu"
+  default     = "opc"
+}
+
+variable "ssh_extra_args" {
+  description = "Additional SSH arguments passed to Ansible. Defaults to disabling host key checking for initial provisioning. Set to '' or override for stricter security in trusted environments."
+  type        = string
+  default     = "-o StrictHostKeyChecking=no"
 }
 
 variable "ssh_private_key_path" {

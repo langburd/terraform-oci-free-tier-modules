@@ -16,10 +16,10 @@ resource "oci_core_network_security_group_security_rule" "this" {
   direction                 = each.value.direction
   protocol                  = each.value.protocol
   description               = each.value.description
-  source                    = each.value.direction == "INGRESS" ? each.value.source : null
-  source_type               = each.value.direction == "INGRESS" ? each.value.source_type : null
-  destination               = each.value.direction == "EGRESS" ? each.value.destination : null
-  destination_type          = each.value.direction == "EGRESS" ? each.value.destination_type : null
+  source                    = each.value.direction == "INGRESS" ? lookup(each.value, "source", null) : null
+  source_type               = each.value.direction == "INGRESS" ? lookup(each.value, "source_type", "CIDR_BLOCK") : null
+  destination               = each.value.direction == "EGRESS" ? lookup(each.value, "destination", null) : null
+  destination_type          = each.value.direction == "EGRESS" ? lookup(each.value, "destination_type", "CIDR_BLOCK") : null
 
   dynamic "tcp_options" {
     for_each = each.value.tcp_options != null ? [each.value.tcp_options] : []

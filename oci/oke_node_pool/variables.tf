@@ -49,12 +49,12 @@ variable "subnet_id" {
 }
 
 variable "node_shape" {
-  description = "Shape of each node. Only Flex and Micro free-tier shapes are supported."
+  description = "Shape of each node. Only VM.Standard.A1.Flex is supported for OKE; VM.Standard.E2.1.Micro is not compatible with OKE node pools."
   type        = string
   default     = "VM.Standard.A1.Flex"
   validation {
-    condition     = contains(["VM.Standard.A1.Flex", "VM.Standard.E2.1.Micro"], var.node_shape)
-    error_message = "node_shape must be one of: VM.Standard.A1.Flex, VM.Standard.E2.1.Micro."
+    condition     = var.node_shape == "VM.Standard.A1.Flex"
+    error_message = "node_shape must be VM.Standard.A1.Flex. VM.Standard.E2.1.Micro is not supported by OKE."
   }
 }
 
@@ -79,7 +79,7 @@ variable "node_shape_memory_in_gbs" {
 }
 
 variable "node_count" {
-  description = "Total number of nodes across all ADs."
+  description = "Total number of nodes to provision across all Availability Domains. Nodes are distributed round-robin across ADs; for even distribution use a multiple of the AD count in your region."
   type        = number
   default     = 2
   validation {

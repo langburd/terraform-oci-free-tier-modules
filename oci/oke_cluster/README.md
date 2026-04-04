@@ -31,7 +31,7 @@ module "oke_cluster" {
 
 | Name | Version |
 |------|---------|
-| <a name="provider_oci"></a> [oci](#provider\_oci) | >= 8.0, < 9.0 |
+| <a name="provider_oci"></a> [oci](#provider\_oci) | 8.8.0 |
 
 ## Modules
 
@@ -57,7 +57,7 @@ No modules.
 | <a name="input_endpoint_nsg_ids"></a> [endpoint\_nsg\_ids](#input\_endpoint\_nsg\_ids) | (Optional) List of NSG OCIDs to associate with the Kubernetes API endpoint. | `list(string)` | `[]` | no |
 | <a name="input_endpoint_subnet_id"></a> [endpoint\_subnet\_id](#input\_endpoint\_subnet\_id) | (Required) The OCID of the subnet for the Kubernetes API endpoint. | `string` | n/a | yes |
 | <a name="input_is_kubernetes_dashboard_enabled"></a> [is\_kubernetes\_dashboard\_enabled](#input\_is\_kubernetes\_dashboard\_enabled) | (Optional) Whether the Kubernetes Dashboard add-on is enabled. | `bool` | `false` | no |
-| <a name="input_is_pod_security_policy_enabled"></a> [is\_pod\_security\_policy\_enabled](#input\_is\_pod\_security\_policy\_enabled) | (Optional) Whether pod security policy admission controller is enabled. | `bool` | `true` | no |
+| <a name="input_is_pod_security_policy_enabled"></a> [is\_pod\_security\_policy\_enabled](#input\_is\_pod\_security\_policy\_enabled) | (Optional) Whether pod security policy admission controller is enabled. PSP was removed in Kubernetes 1.25+; leave as false unless using an older cluster version. | `bool` | `false` | no |
 | <a name="input_kubernetes_version"></a> [kubernetes\_version](#input\_kubernetes\_version) | (Required) The Kubernetes version to use for the OKE cluster (e.g. v1.32.1). | `string` | n/a | yes |
 | <a name="input_pods_cidr"></a> [pods\_cidr](#input\_pods\_cidr) | (Optional) CIDR block for pods in the Kubernetes cluster. | `string` | `"10.244.0.0/16"` | no |
 | <a name="input_service_lb_subnet_ids"></a> [service\_lb\_subnet\_ids](#input\_service\_lb\_subnet\_ids) | (Optional) List of subnet OCIDs for Kubernetes service load balancers. | `list(string)` | `[]` | no |

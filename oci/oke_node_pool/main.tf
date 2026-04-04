@@ -32,6 +32,10 @@ resource "oci_containerengine_node_pool" "this" {
     nsg_ids                             = var.nsg_ids
     is_pv_encryption_in_transit_enabled = var.is_pv_encryption_in_transit_enabled
 
+    # Nodes are distributed round-robin across all available Availability Domains
+    # in the region. OCI schedules `node_count` nodes evenly across the ADs listed
+    # here, so the actual count per AD may not be equal if node_count is not a
+    # multiple of the number of ADs.
     dynamic "placement_configs" {
       for_each = data.oci_identity_availability_domains.this.availability_domains
       content {

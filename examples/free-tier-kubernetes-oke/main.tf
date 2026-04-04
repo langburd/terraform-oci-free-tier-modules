@@ -1,11 +1,18 @@
 locals {
   oci_profile_data = module.oci_profile_reader.oci_profile_data
+  # Dynamically resolve the Oracle Services Network CIDR label for the current region
+  # instead of hard-coding the IAD-specific label "all-iad-services-in-oracle-services-network".
+  oci_services_cidr = [for s in data.oci_core_services.all.services :
+    s.cidr_block if length(regexall("All .* Services In Oracle Services Network", s.name)) > 0
+  ][0]
 }
 
 module "oci_profile_reader" {
   source       = "../../oci/oci_profile_reader"
   profile_name = var.oci_config_profile
 }
+
+data "oci_core_services" "all" {}
 
 module "k8s_compartment" {
   source               = "../../oci/identity"
@@ -98,7 +105,7 @@ module "api_endpoint_nsg" {
     }
     api_to_oci_services = {
       protocol         = "6"
-      destination      = "all-iad-services-in-oracle-services-network"
+      destination      = local.oci_services_cidr
       destination_type = "SERVICE_CIDR_BLOCK"
       tcp_options      = { destination_port_range = { min = 443, max = 443 } }
       description      = "OKE cluster to OCI services"
@@ -163,7 +170,7 @@ module "worker_nsg" {
     }
     worker_to_oci_services = {
       protocol         = "6"
-      destination      = "all-iad-services-in-oracle-services-network"
+      destination      = local.oci_services_cidr
       destination_type = "SERVICE_CIDR_BLOCK"
       description      = "Worker to OCI services"
     }
