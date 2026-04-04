@@ -1,0 +1,4 @@
+profile1         = "TENANCY1"
+profile2         = "TENANCY2"
+budget_amount    = 1
+alert_recipients = "you@example.com"
