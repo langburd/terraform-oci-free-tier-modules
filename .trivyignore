@@ -1,0 +1,3 @@
+# Trivy ignore file for OCI Free Tier Modules
+# Add Trivy check IDs here to suppress known false positives or free-tier exceptions
+# Format: one check ID per line, with optional comment after #

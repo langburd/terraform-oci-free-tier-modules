@@ -1,0 +1,7 @@
+---
+skip-check:
+  - CKV_OCI_9   # CMK encryption requires paid OCI Vault -- variable exposed, default null (free tier)
+  - CKV_OCI_2   # Block volume backup requires paid storage -- variable exposed, default null (free tier)
+  - CKV_OCI_3   # Block volume CMK requires paid OCI Vault -- variable exposed, default null (free tier)
+  - CKV_OCI_16  # VCN security list intentionally empty -- consumers define rules via subnet module
+  - CKV_OCI_19  # Same empty security list -- no ingress rules by design
