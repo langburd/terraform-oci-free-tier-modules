@@ -72,7 +72,9 @@
 | Network LB | 1 | 0-1 | 0-1 | 0-1 | 0-1 |
 | VCNs | 2 | 1 | 1 | 1 | 1 |
 
-**Storage constraint:** Each node requires a minimum 50 GB boot volume (enforced by the `oci/compute` module). With the 200 GB total limit, the maximum node count is **4** across both approaches. Five nodes would require 250 GB (5×50 GB), exceeding the limit.
+**Storage constraint:** Each node requires a minimum 50 GB boot volume. With the 200 GB total limit, the maximum node count is **4** across both approaches. Five nodes would require 250 GB (5×50 GB), exceeding the limit.
+
+> **Note on AMD Micro boot volume minimum:** The OCI Console allows AMD Micro (`VM.Standard.E2.1.Micro`) Always Free instances to use as little as 47 GB for a boot volume. However, the OCI Terraform provider (`oracle/oci` v8.x) enforces a **50 GB minimum** for all shapes — both `VM.Standard.E2.1.Micro` and `VM.Standard.A1.Flex`. Setting `boot_volume_size_in_gbs = 47` in Terraform will be rejected at plan time. Use 50 GB for all nodes when provisioning with Terraform.
 
 **Note:** OKE can also run 4 nodes (1 OCPU + 6 GB each) consuming all Arm resources, with 50 GB boot volumes (200 GB total). This leaves 2 AMD Micros unused (OKE worker nodes must be managed via node pools, which don't support AMD Micro shapes for K8s workloads).
 
