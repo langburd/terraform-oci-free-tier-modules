@@ -55,7 +55,7 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_admin_password"></a> [admin\_password](#input\_admin\_password) | (Required) The password for the ADMIN user. Must be 12 to 30 characters and contain at least one uppercase, one lowercase, and one numeric character. | `string` | n/a | yes |
+| <a name="input_admin_password"></a> [admin\_password](#input\_admin\_password) | (Required) The password for the ADMIN user. Must be 12 to 30 characters and contain at least one uppercase, one lowercase, one numeric, and one special character. | `string` | n/a | yes |
 | <a name="input_autonomous_database_defined_tags"></a> [autonomous\_database\_defined\_tags](#input\_autonomous\_database\_defined\_tags) | (Optional) (Updatable) Defined tags for the Autonomous Database resource. | `map(string)` | `{}` | no |
 | <a name="input_autonomous_database_freeform_tags"></a> [autonomous\_database\_freeform\_tags](#input\_autonomous\_database\_freeform\_tags) | (Optional) (Updatable) Free-form tags for the Autonomous Database resource. | `map(string)` | `{}` | no |
 | <a name="input_compartment_id"></a> [compartment\_id](#input\_compartment\_id) | (Required) The OCID of the compartment where the Autonomous Database will be created. | `string` | n/a | yes |
@@ -67,8 +67,8 @@ No modules.
 | <a name="input_db_workload"></a> [db\_workload](#input\_db\_workload) | (Optional) (Updatable) The Autonomous Database workload type. Valid values: OLTP, DW, AJD, APEX. | `string` | `"OLTP"` | no |
 | <a name="input_display_name"></a> [display\_name](#input\_display\_name) | (Optional) (Updatable) The user-friendly name for the Autonomous Database. | `string` | `"autonomous-database"` | no |
 | <a name="input_is_free_tier"></a> [is\_free\_tier](#input\_is\_free\_tier) | (Optional) Indicates if the database is an Always Free resource. Always Free databases have no additional charges. | `bool` | `true` | no |
-| <a name="input_is_mtls_connection_required"></a> [is\_mtls\_connection\_required](#input\_is\_mtls\_connection\_required) | (Optional) (Updatable) Indicates whether the Autonomous Database requires mTLS connections. Set to false to allow TLS connections. | `bool` | `false` | no |
-| <a name="input_whitelisted_ips"></a> [whitelisted\_ips](#input\_whitelisted\_ips) | (Optional) (Updatable) The client IP access control list (ACL). This feature is available for databases on shared Exadata infrastructure. | `list(string)` | `[]` | no |
+| <a name="input_is_mtls_connection_required"></a> [is\_mtls\_connection\_required](#input\_is\_mtls\_connection\_required) | (Optional) (Updatable) Indicates whether the Autonomous Database requires mTLS connections. Defaults to true (secure). Set to false only if your client library cannot use mTLS. | `bool` | `true` | no |
+| <a name="input_whitelisted_ips"></a> [whitelisted\_ips](#input\_whitelisted\_ips) | (Optional) (Updatable) Client IP access control list (ACL). For private deployments, configure IP ACLs to restrict database access to known CIDR ranges or OCID-based sources. When empty, no IP restriction is applied. | `list(string)` | `[]` | no |
 
 ## Outputs
 

@@ -30,8 +30,8 @@ run "creates_autonomous_database_with_defaults" {
   }
 
   assert {
-    condition     = oci_database_autonomous_database.this.is_mtls_connection_required == false
-    error_message = "is_mtls_connection_required should default to false"
+    condition     = oci_database_autonomous_database.this.is_mtls_connection_required == true
+    error_message = "is_mtls_connection_required should default to true"
   }
 }
 
@@ -126,4 +126,16 @@ run "rejects_invalid_compute_model" {
     compute_model = "INVALID"
   }
   expect_failures = [var.compute_model]
+}
+
+run "rejects_weak_admin_password" {
+  command = plan
+
+  variables {
+    admin_password = "weakpassword"
+  }
+
+  expect_failures = [
+    var.admin_password,
+  ]
 }
