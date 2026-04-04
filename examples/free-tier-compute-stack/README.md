@@ -1,6 +1,6 @@
 # examples/free-tier-compute-stack
 
-Demonstrates a complete OCI Always Free compute stack using Phase 1 modules.
+Demonstrates a complete OCI Always Free compute stack: identity, networking (VCN + subnets), compute, and block storage.
 
 ## Architecture
 
@@ -16,7 +16,7 @@ Bastion access is included in `main.tf` but commented out. It requires the `oci/
 
 ## Usage
 
-This example authenticates via the `oci_config_profile` Terraform variable, which reads credentials from your local `~/.oci/config` file. This is simpler than the environment-variable approach used in `examples/dynamic-profile` and is recommended for local development.
+This example authenticates via the `oci_config_profile` Terraform variable, which reads credentials from your local `~/.oci/config` file. This approach is recommended for local development.
 
 ```hcl
 # terraform.tfvars

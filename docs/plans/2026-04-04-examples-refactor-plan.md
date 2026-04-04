@@ -422,16 +422,17 @@ git commit -m "feat(examples): add dual-tenancy example with identity and budget
 
 ---
 
-## Task 3: Delete `two-profiles` and `two-tenancies`
+## Task 3: Delete `two-profiles`, `two-tenancies`, and `dynamic-profile`
 
 **Files:**
 - Delete: `examples/two-profiles/` (entire directory)
 - Delete: `examples/two-tenancies/` (entire directory)
+- Delete: `examples/dynamic-profile/` (entire directory)
 
-- [ ] **Step 1: Remove both directories**
+- [ ] **Step 1: Remove all three directories**
 
 ```bash
-rm -rf examples/two-profiles examples/two-tenancies
+rm -rf examples/two-profiles examples/two-tenancies examples/dynamic-profile
 ```
 
 - [ ] **Step 2: Confirm they are gone**
@@ -443,13 +444,12 @@ ls examples/
 Expected output (order may vary):
 ```
 dual-tenancy
-dynamic-profile
 free-tier-compute-stack
 ```
 
 - [ ] **Step 3: Commit**
 
 ```bash
-git add -A examples/two-profiles examples/two-tenancies
-git commit -m "chore(examples): remove two-profiles and two-tenancies (replaced by dual-tenancy)"
+git add -A examples/two-profiles examples/two-tenancies examples/dynamic-profile
+git commit -m "chore(examples): remove two-profiles, two-tenancies, and dynamic-profile (replaced by dual-tenancy)"
 ```

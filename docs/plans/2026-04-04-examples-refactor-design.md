@@ -71,16 +71,16 @@ budget_amount     = 1
 alert_recipients  = "you@example.com"
 ```
 
-### 3. Delete `two-profiles` and `two-tenancies`
+### 3. Delete `two-profiles`, `two-tenancies`, and `dynamic-profile`
 
-Both `examples/two-profiles/` and `examples/two-tenancies/` are removed entirely.
+`examples/two-profiles/`, `examples/two-tenancies/`, and `examples/dynamic-profile/` are removed entirely.
 
 ## Module Coverage After Refactor
 
 | Module | Covered by |
 |--------|-----------|
 | `oci_profile_reader` | `free-tier-compute-stack`, `dual-tenancy` |
-| `identity` | `free-tier-compute-stack`, `dual-tenancy`, `dynamic-profile` |
+| `identity` | `free-tier-compute-stack`, `dual-tenancy` |
 | `vcn` | `free-tier-compute-stack` |
 | `subnet` | `free-tier-compute-stack` |
 | `compute` | `free-tier-compute-stack` |
