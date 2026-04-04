@@ -16,14 +16,22 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
 
-      - name: Find modules with tests
+      - name: Find changed modules with tests
         id: find
+        env:
+          BASE_REF: ${{ github.base_ref }}
         run: |
           set -euo pipefail
+          changed_files=$(git diff --name-only "origin/${BASE_REF}...HEAD")
           modules=$(find oci -path '*/tests/*.tftest.hcl' -type f \
             | sed 's|/tests/[^/]*$||' \
             | sort -u \
+            | while read -r module; do
+                echo "$changed_files" | grep -q "^${module}/" && echo "$module" || true
+              done \
             | jq -R . \
             | jq -sc .)
           echo "modules=$modules" >> "$GITHUB_OUTPUT"
