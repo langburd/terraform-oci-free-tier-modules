@@ -30,6 +30,7 @@ When creating or updating a module, you MUST:
 - Run all pre-commit checks: `pre-commit run --all-files`
 - CI runs tests automatically via `.github/workflows/terraform-tests.yml` (dynamic module discovery)
 - When running `pre-commit run --all-files` locally, do NOT run `terraform init` first in module directories. If you have already initialized, delete `.terraform.lock.hcl` before running pre-commit. Otherwise `terraform_docs` will embed the resolved provider version (e.g. `8.8.0`) instead of the constraint (`>= 8.0`), causing CI to fail.
+- **When fixing CI failures:** always run `pre-commit run --all-files` (from the repo root, with no `.terraform.lock.hcl` present in any module directory) as the final step before pushing. Running targeted tools on only modified files misses stale READMEs in unrelated modules that CI also checks.
 
 ## Git Workflow
 
