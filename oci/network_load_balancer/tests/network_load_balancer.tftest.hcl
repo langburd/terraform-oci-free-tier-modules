@@ -61,3 +61,15 @@ run "rejects_invalid_compartment_ocid" {
     var.compartment_id,
   ]
 }
+
+run "rejects_invalid_policy" {
+  command = plan
+
+  variables {
+    backend_set_policy = "INVALID_POLICY"
+  }
+
+  expect_failures = [
+    var.backend_set_policy,
+  ]
+}

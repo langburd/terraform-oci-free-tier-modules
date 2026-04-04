@@ -86,6 +86,11 @@ variable "listener_protocol" {
   description = "(Optional) Protocol for the listener."
   type        = string
   default     = "HTTP"
+
+  validation {
+    condition     = contains(["HTTP", "HTTPS", "TCP", "UDP"], var.listener_protocol)
+    error_message = "listener_protocol must be one of: HTTP, HTTPS, TCP, UDP."
+  }
 }
 
 variable "backends" {

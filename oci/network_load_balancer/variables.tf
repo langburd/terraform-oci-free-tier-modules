@@ -80,6 +80,11 @@ variable "listener_protocol" {
   description = "(Optional) Protocol for the listener."
   type        = string
   default     = "TCP"
+
+  validation {
+    condition     = contains(["TCP", "UDP", "TCP_AND_UDP", "ANY"], var.listener_protocol)
+    error_message = "listener_protocol must be one of: TCP, UDP, TCP_AND_UDP, ANY."
+  }
 }
 
 variable "backends" {

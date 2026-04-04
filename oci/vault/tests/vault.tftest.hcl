@@ -77,3 +77,11 @@ run "rejects_invalid_compartment_ocid" {
     var.compartment_id,
   ]
 }
+
+run "rejects_invalid_vault_type" {
+  command = plan
+  variables {
+    vault_type = "INVALID_TYPE"
+  }
+  expect_failures = [var.vault_type]
+}

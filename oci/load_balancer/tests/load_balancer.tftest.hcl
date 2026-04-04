@@ -37,6 +37,16 @@ run "creates_load_balancer_with_defaults" {
     condition     = length(oci_load_balancer_backend.this) == 0
     error_message = "No backends should be created by default"
   }
+
+  assert {
+    condition     = oci_load_balancer_load_balancer.this.shape_details[0].minimum_bandwidth_in_mbps == 10
+    error_message = "Minimum bandwidth must be 10 Mbps for free tier"
+  }
+
+  assert {
+    condition     = oci_load_balancer_load_balancer.this.shape_details[0].maximum_bandwidth_in_mbps == 10
+    error_message = "Maximum bandwidth must be 10 Mbps for free tier"
+  }
 }
 
 run "creates_backends_when_provided" {

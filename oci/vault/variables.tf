@@ -18,6 +18,11 @@ variable "vault_type" {
   description = "(Optional) Type of vault. DEFAULT is free tier. WARNING: VIRTUAL_PRIVATE vault type incurs cost and cannot be changed after creation."
   type        = string
   default     = "DEFAULT"
+
+  validation {
+    condition     = contains(["DEFAULT", "VIRTUAL_PRIVATE"], var.vault_type)
+    error_message = "Supported values are: DEFAULT, VIRTUAL_PRIVATE. WARNING: VIRTUAL_PRIVATE incurs cost and cannot be changed after creation."
+  }
 }
 
 variable "create_key" {

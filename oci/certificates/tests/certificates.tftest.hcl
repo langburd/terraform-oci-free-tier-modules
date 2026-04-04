@@ -51,3 +51,28 @@ run "rejects_invalid_compartment_ocid" {
     var.compartment_id,
   ]
 }
+
+run "rejects_invalid_ca_config_type" {
+  command = plan
+  variables {
+    ca_config_type = "INVALID"
+  }
+  expect_failures = [var.ca_config_type]
+}
+
+run "rejects_invalid_certificate_config_type" {
+  command = plan
+  variables {
+    certificate_config_type = "INVALID"
+  }
+  expect_failures = [var.certificate_config_type]
+}
+
+run "rejects_certificate_without_common_name" {
+  command = plan
+  variables {
+    create_certificate      = true
+    certificate_common_name = null
+  }
+  expect_failures = [var.certificate_common_name]
+}

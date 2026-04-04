@@ -32,7 +32,7 @@ module "network_load_balancer" {
 
 | Name | Version |
 |------|---------|
-| <a name="provider_oci"></a> [oci](#provider\_oci) | >= 6.0 |
+| <a name="provider_oci"></a> [oci](#provider\_oci) | 8.8.0 |
 
 ## Modules
 

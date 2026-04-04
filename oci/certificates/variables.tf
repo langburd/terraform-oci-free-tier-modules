@@ -17,6 +17,11 @@ variable "ca_config_type" {
   description = "(Optional) Configuration type for the certificate authority."
   type        = string
   default     = "ROOT_CA_GENERATED_INTERNALLY"
+
+  validation {
+    condition     = contains(["ROOT_CA_GENERATED_INTERNALLY", "SUBORDINATE_CA_ISSUED_BY_INTERNAL_CA"], var.ca_config_type)
+    error_message = "ca_config_type must be one of: ROOT_CA_GENERATED_INTERNALLY, SUBORDINATE_CA_ISSUED_BY_INTERNAL_CA."
+  }
 }
 
 variable "ca_common_name" {
@@ -52,12 +57,22 @@ variable "certificate_config_type" {
   description = "(Optional) Configuration type for the certificate."
   type        = string
   default     = "ISSUED_BY_INTERNAL_CA"
+
+  validation {
+    condition     = contains(["ISSUED_BY_INTERNAL_CA", "MANAGED_EXTERNALLY_ISSUED_BY_INTERNAL_CA", "IMPORTED"], var.certificate_config_type)
+    error_message = "certificate_config_type must be one of: ISSUED_BY_INTERNAL_CA, MANAGED_EXTERNALLY_ISSUED_BY_INTERNAL_CA, IMPORTED."
+  }
 }
 
 variable "certificate_common_name" {
   description = "(Optional) Common name (CN) for the certificate subject. Required when create_certificate is true."
   type        = string
   default     = null
+
+  validation {
+    condition     = !var.create_certificate || var.certificate_common_name != null
+    error_message = "certificate_common_name must be set when create_certificate is true."
+  }
 }
 
 variable "certificate_profile_type" {
