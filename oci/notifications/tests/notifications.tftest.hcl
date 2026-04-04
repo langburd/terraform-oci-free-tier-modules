@@ -78,3 +78,20 @@ run "rejects_invalid_topic_name" {
   }
   expect_failures = [var.topic_name]
 }
+
+run "rejects_invalid_subscription_protocol" {
+  command = plan
+
+  variables {
+    subscriptions = {
+      bad_sub = {
+        protocol = "INVALID_PROTOCOL"
+        endpoint = "test@example.com"
+      }
+    }
+  }
+
+  expect_failures = [
+    var.subscriptions,
+  ]
+}

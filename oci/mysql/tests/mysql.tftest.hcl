@@ -97,3 +97,15 @@ run "rejects_highly_available" {
   }
   expect_failures = [var.is_highly_available]
 }
+
+run "rejects_weak_admin_password" {
+  command = plan
+
+  variables {
+    admin_password = "weakpass"
+  }
+
+  expect_failures = [
+    var.admin_password,
+  ]
+}

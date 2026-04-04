@@ -59,7 +59,7 @@ variable "health_check_protocol" {
 }
 
 variable "health_check_port" {
-  description = "(Optional) Port for the health checker. 0 means use listener port."
+  description = "(Optional) Port for the health checker. 0 means use the listener port. Note: this port is not validated against backend ports configured in the backends map."
   type        = number
   default     = 0
 }
@@ -77,7 +77,7 @@ variable "listener_port" {
 }
 
 variable "listener_protocol" {
-  description = "(Optional) Protocol for the listener."
+  description = "(Optional) Protocol for the listener. Use TCP or UDP for specific protocols. ANY accepts all traffic on the configured port -- use with caution."
   type        = string
   default     = "TCP"
 

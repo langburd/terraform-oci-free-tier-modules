@@ -149,9 +149,9 @@ When implementing modules, avoid these deprecated provider arguments:
 
 ### All modules — Version & style standardization ✅ (PR #28)
 
-- Standardized Terraform version constraint to `>= 1.6.4` across all modules
+- Standardized Terraform version constraint to `>= 1.0` across all modules
 - Standardized OCI provider version constraint to `>= 6.0` across all modules
-- Aligned example provider versions to `~> 6.0`
+- Aligned example provider versions to `~> 8.0`
 - Standardized variable block ordering (`description` → `type` → `default` → `validation`) across all modules
 
 ### CI & Pre-commit ✅ (PR #28)
@@ -182,7 +182,7 @@ When implementing modules, avoid these deprecated provider arguments:
 ### Conventions (from existing modules + terraform skill)
 
 - File structure: `main.tf`, `variables.tf`, `outputs.tf`, `providers.tf`, `README.md`, `tests/<module>.tftest.hcl`
-- Provider block: `terraform >= 1.6.4`, `oci >= 6.0`
+- Provider block: `terraform >= 1.0`, `oci >= 6.0`
 - Resource naming: `"this"` for singleton resources only; descriptive names for multiples
 - Tag variables: `<prefix>_defined_tags` + `<prefix>_freeform_tags` (both `map(string)`, default `{}`)
 - OCID validation regex: `^ocid1\.[a-z]+\.[a-z][a-z0-9-]*\.[a-z0-9-]*\.[a-z0-9]+$`
@@ -228,11 +228,13 @@ VCN with internet gateway, NAT gateway, optional service gateway, route tables, 
 **Outputs:** `vcn_id`, `vcn_cidr_blocks`, `internet_gateway_id`, `nat_gateway_id`, `service_gateway_id`, `public_route_table_id`, `private_route_table_id`, `default_security_list_id`
 
 **Route table design:**
+
 - Public route table: `0.0.0.0/0` → IGW (+ service CIDR → SGW if service gateway created)
 - Private route table: `0.0.0.0/0` → NAT (+ service CIDR → SGW if service gateway created)
 - Uses `destination` + `destination_type`, NOT deprecated `cidr_block`
 
 **Test scenarios:**
+
 1. Default — VCN + IGW + public route table created, no NAT/SGW
 2. All gateways — `create_nat_gateway = true`, `create_service_gateway = true`
 3. No gateways — both false, only VCN + security list
@@ -267,6 +269,7 @@ Individual subnet within a VCN.
 **Outputs:** `subnet_id`, `subnet_cidr_block`
 
 **Test scenarios:**
+
 1. Default — public regional subnet
 2. Private subnet — `prohibit_internet_ingress = true`
 3. With route table and security list IDs
@@ -304,6 +307,7 @@ Compute instance supporting AMD Micro and Arm A1 Flex shapes.
 | `compute_freeform_tags` | `map(string)` | No | `{}` | — |
 
 **Design:**
+
 - `dynamic "shape_config"` block renders only when `shape` contains "Flex"
 - Uses `source_details` block (not deprecated `image` argument): `source_type = "image"`, `source_id = var.image_id`, `boot_volume_size_in_gbs`
 - Uses `create_vnic_details` block: `subnet_id`, `assign_public_ip`, `nsg_ids`
@@ -317,6 +321,7 @@ Compute instance supporting AMD Micro and Arm A1 Flex shapes.
 **Aggregate storage warning:** Boot volumes count toward the 200GB free tier block storage limit. There is no cross-module enforcement — users must manually track total boot + block volume consumption.
 
 **Test scenarios:**
+
 1. AMD Micro default — no shape_config block rendered
 2. A1 Flex — shape_config with ocpus + memory
 3. Shape validation — reject invalid shape names
@@ -354,6 +359,7 @@ Block volume with optional instance attachment.
 **Aggregate storage warning:** There is no cross-module enforcement of the 200GB aggregate free tier limit. Users must manually track total boot volume + block volume consumption across all instances.
 
 **Test scenarios:**
+
 1. Default — 50GB volume, no attachment
 2. With attachment — paravirtualized
 3. Size validation — reject > 200, reject < 50
@@ -388,6 +394,7 @@ Object Storage bucket.
 **Important:** `storage_tier` is **immutable after creation** — changing it requires destroying and recreating the bucket.
 
 **Test scenarios:**
+
 1. Default — Standard tier, no public access, no versioning
 2. Public read access
 3. Archive tier
@@ -453,6 +460,7 @@ MySQL HeatWave standalone system.
 **Key variables:** `compartment_id`, `subnet_id` (required — MySQL needs private subnet), `availability_domain`, `shape_name` (validated against `data.oci_mysql_shapes`), `admin_username`, `admin_password` (sensitive), `data_storage_size_in_gb` (validated <= 50), `backup_is_enabled`, `is_highly_available` (false for free), `deletion_policy` (default `is_delete_protected = true`), `backup_policy` nested block
 
 **Notes:**
+
 - Home region only for Always Free
 - Shape name varies by region — use `data.oci_mysql_shapes` to discover
 - Includes `deletion_policy { is_delete_protected = true }` by default
@@ -522,6 +530,7 @@ KMS Vault with optional software key.
 **Key variables:** `compartment_id`, `vault_display_name`, `vault_type` ("DEFAULT"), `create_key` (default true), `key_display_name`, `key_algorithm`, `key_length`, `key_protection_mode` ("SOFTWARE"/"HSM")
 
 **Design notes:**
+
 - `management_endpoint` on `oci_kms_key` must reference `oci_kms_vault.this.management_endpoint`
 - `vault_type` is **immutable** after creation — use `DEFAULT` for free tier
 - Auto-rotation is only available for `VIRTUAL_PRIVATE` vaults (not free tier)
@@ -628,6 +637,7 @@ Service Connector (moves data between OCI services).
 **Key variables:** `compartment_id`, `connector_display_name`, `source_kind` (`logging`/`monitoring`/`streaming`), `target_kind` (`objectStorage`/`notifications`/`streaming`/`monitoring`/`functions`/`loggingAnalytics`), plus kind-specific source/target config variables
 
 **Design notes:**
+
 - Complex due to conditional source/target configs — uses extensive `dynamic` blocks
 - Source and target arguments are conditional on `kind`
 - IAM policies must be created for the connector to access source and target resources

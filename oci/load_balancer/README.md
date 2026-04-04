@@ -25,14 +25,14 @@ module "load_balancer" {
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.6.4 |
-| <a name="requirement_oci"></a> [oci](#requirement\_oci) | >= 6.0 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
+| <a name="requirement_oci"></a> [oci](#requirement\_oci) | >= 8.0, < 9.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_oci"></a> [oci](#provider\_oci) | >= 6.0 |
+| <a name="provider_oci"></a> [oci](#provider\_oci) | >= 8.0, < 9.0 |
 
 ## Modules
 
@@ -55,7 +55,7 @@ No modules.
 | <a name="input_backend_set_policy"></a> [backend\_set\_policy](#input\_backend\_set\_policy) | (Optional) Load balancing policy. Supported values: ROUND\_ROBIN, LEAST\_CONNECTIONS, IP\_HASH. | `string` | `"ROUND_ROBIN"` | no |
 | <a name="input_backends"></a> [backends](#input\_backends) | (Optional) Map of backends to add to the backend set. Keys are unique identifiers; values specify ip\_address and port. | <pre>map(object({<br/>    ip_address = string<br/>    port       = number<br/>  }))</pre> | `{}` | no |
 | <a name="input_compartment_id"></a> [compartment\_id](#input\_compartment\_id) | (Required) OCID of the compartment in which to create the load balancer. | `string` | n/a | yes |
-| <a name="input_health_check_port"></a> [health\_check\_port](#input\_health\_check\_port) | (Optional) Port for the health checker. | `number` | `80` | no |
+| <a name="input_health_check_port"></a> [health\_check\_port](#input\_health\_check\_port) | (Optional) Port for the health checker. Set to the actual port your backend services listen on. Note: this port is not validated against backend ports configured in the backends map. | `number` | `80` | no |
 | <a name="input_health_check_protocol"></a> [health\_check\_protocol](#input\_health\_check\_protocol) | (Optional) Protocol for the health checker. Supported values: HTTP, HTTPS, TCP. | `string` | `"HTTP"` | no |
 | <a name="input_health_check_url_path"></a> [health\_check\_url\_path](#input\_health\_check\_url\_path) | (Optional) URL path for the health checker (HTTP/HTTPS only). | `string` | `"/"` | no |
 | <a name="input_is_private"></a> [is\_private](#input\_is\_private) | (Optional) Whether the load balancer is private (no public IP). | `bool` | `false` | no |
@@ -63,8 +63,8 @@ No modules.
 | <a name="input_lb_display_name"></a> [lb\_display\_name](#input\_lb\_display\_name) | (Optional) Display name for the load balancer. | `string` | `"load-balancer"` | no |
 | <a name="input_lb_freeform_tags"></a> [lb\_freeform\_tags](#input\_lb\_freeform\_tags) | (Optional) Free-form tags for the load balancer. | `map(string)` | `{}` | no |
 | <a name="input_listener_name"></a> [listener\_name](#input\_listener\_name) | (Optional) Name of the listener. | `string` | `"listener"` | no |
-| <a name="input_listener_port"></a> [listener\_port](#input\_listener\_port) | (Optional) Port for the listener. | `number` | `80` | no |
-| <a name="input_listener_protocol"></a> [listener\_protocol](#input\_listener\_protocol) | (Optional) Protocol for the listener. | `string` | `"HTTP"` | no |
+| <a name="input_listener_port"></a> [listener\_port](#input\_listener\_port) | (Optional) Port for the listener. Defaults to 443 when listener\_protocol is HTTPS. | `number` | `443` | no |
+| <a name="input_listener_protocol"></a> [listener\_protocol](#input\_listener\_protocol) | (Optional) Protocol for the listener. Defaults to HTTPS (secure). Set to HTTP only for non-public or legacy endpoints where TLS termination occurs upstream. | `string` | `"HTTPS"` | no |
 | <a name="input_subnet_ids"></a> [subnet\_ids](#input\_subnet\_ids) | (Required) List of subnet OCIDs for the load balancer. Must contain at least one element. | `list(string)` | n/a | yes |
 
 ## Outputs

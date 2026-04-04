@@ -25,9 +25,10 @@ jobs:
         with:
           directory: oci/
           framework: terraform
+          config_file: .checkov.yml
           output_format: sarif
           output_file_path: checkov-results.sarif
-          soft_fail: true
+          soft_fail: false
 
       - name: Upload Checkov SARIF to GitHub Security
         uses: github/codeql-action/upload-sarif@v4

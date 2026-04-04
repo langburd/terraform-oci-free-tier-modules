@@ -19,14 +19,14 @@ module "subnet" {
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.6.4 |
-| <a name="requirement_oci"></a> [oci](#requirement\_oci) | >= 6.0 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
+| <a name="requirement_oci"></a> [oci](#requirement\_oci) | >= 8.0, < 9.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_oci"></a> [oci](#provider\_oci) | >= 6.0 |
+| <a name="provider_oci"></a> [oci](#provider\_oci) | >= 8.0, < 9.0 |
 
 ## Modules
 
@@ -50,7 +50,7 @@ No modules.
 | <a name="input_subnet_cidr_block"></a> [subnet\_cidr\_block](#input\_subnet\_cidr\_block) | (Required) The CIDR block assigned to the subnet (e.g. 10.0.1.0/24). | `string` | n/a | yes |
 | <a name="input_subnet_defined_tags"></a> [subnet\_defined\_tags](#input\_subnet\_defined\_tags) | (Optional) (Updatable) Defined tags for the subnet. | `map(string)` | `{}` | no |
 | <a name="input_subnet_display_name"></a> [subnet\_display\_name](#input\_subnet\_display\_name) | (Optional) (Updatable) A user-friendly name for the subnet. | `string` | `"subnet"` | no |
-| <a name="input_subnet_dns_label"></a> [subnet\_dns\_label](#input\_subnet\_dns\_label) | (Optional) A DNS label for the subnet. Must match ^[a-z][a-z0-9]{0,14}$ or be null. | `string` | `null` | no |
+| <a name="input_subnet_dns_label"></a> [subnet\_dns\_label](#input\_subnet\_dns\_label) | (Optional) A DNS label for the subnet. Must be lowercase, start with a letter, max 15 chars (e.g. 'web', 'db01', 'private1'). Used to form FQDNs for VNICs in the subnet. Set to null to omit. | `string` | `null` | no |
 | <a name="input_subnet_freeform_tags"></a> [subnet\_freeform\_tags](#input\_subnet\_freeform\_tags) | (Optional) (Updatable) Free-form tags for the subnet. | `map(string)` | `{}` | no |
 | <a name="input_vcn_id"></a> [vcn\_id](#input\_vcn\_id) | (Required) The OCID of the VCN in which to create the subnet. | `string` | n/a | yes |
 

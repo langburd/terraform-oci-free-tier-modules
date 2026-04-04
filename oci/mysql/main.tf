@@ -1,3 +1,9 @@
+# OCI MySQL HeatWave enforces TLS encryption for all client connections at the
+# service level. There is no ssl_mode attribute in oci_mysql_mysql_db_system --
+# TLS cannot be disabled via Terraform configuration.
+# OCI MySQL HeatWave encrypts data at rest by default using Oracle-managed keys.
+# Customer-managed key (CMK) encryption is not available for the Always Free tier
+# and is not exposed as a variable in this module.
 resource "oci_mysql_mysql_db_system" "this" {
   compartment_id      = var.compartment_id
   subnet_id           = var.subnet_id

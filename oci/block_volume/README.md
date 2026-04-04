@@ -39,14 +39,14 @@ module "block_volume" {
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.6.4 |
-| <a name="requirement_oci"></a> [oci](#requirement\_oci) | >= 6.0 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
+| <a name="requirement_oci"></a> [oci](#requirement\_oci) | >= 8.0, < 9.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_oci"></a> [oci](#provider\_oci) | >= 6.0 |
+| <a name="provider_oci"></a> [oci](#provider\_oci) | >= 8.0, < 9.0 |
 
 ## Modules
 
@@ -65,9 +65,11 @@ No modules.
 |------|-------------|------|---------|:--------:|
 | <a name="input_attachment_type"></a> [attachment\_type](#input\_attachment\_type) | (Optional) The type of volume attachment. Must be 'iscsi' or 'paravirtualized'. | `string` | `"paravirtualized"` | no |
 | <a name="input_availability_domain"></a> [availability\_domain](#input\_availability\_domain) | (Required) The availability domain in which to create the block volume. | `string` | n/a | yes |
+| <a name="input_backup_policy_id"></a> [backup\_policy\_id](#input\_backup\_policy\_id) | (Optional) The OCID of a backup policy to assign to the volume. Null disables automated backups. Note: automated backups require paid storage -- free-tier users should leave this null. | `string` | `null` | no |
 | <a name="input_compartment_id"></a> [compartment\_id](#input\_compartment\_id) | (Required) The OCID of the compartment in which to create the block volume. | `string` | n/a | yes |
 | <a name="input_instance_id"></a> [instance\_id](#input\_instance\_id) | (Optional) The OCID of the instance to attach this volume to. When null, no volume attachment is created. | `string` | `null` | no |
 | <a name="input_is_read_only"></a> [is\_read\_only](#input\_is\_read\_only) | (Optional) Whether the attachment is read-only. | `bool` | `false` | no |
+| <a name="input_kms_key_id"></a> [kms\_key\_id](#input\_kms\_key\_id) | (Optional) The OCID of a KMS key to use for volume encryption (customer-managed key). Null uses Oracle-managed encryption. Note: CMK requires a paid OCI Vault -- free-tier users should leave this null. | `string` | `null` | no |
 | <a name="input_volume_defined_tags"></a> [volume\_defined\_tags](#input\_volume\_defined\_tags) | (Optional) (Updatable) Defined tags for the block volume. | `map(string)` | `{}` | no |
 | <a name="input_volume_display_name"></a> [volume\_display\_name](#input\_volume\_display\_name) | (Optional) A user-friendly name for the block volume. | `string` | `"block-volume"` | no |
 | <a name="input_volume_freeform_tags"></a> [volume\_freeform\_tags](#input\_volume\_freeform\_tags) | (Optional) (Updatable) Free-form tags for the block volume. | `map(string)` | `{}` | no |

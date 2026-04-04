@@ -1,9 +1,10 @@
 mock_provider "oci" {}
 
 variables {
-  compartment_id   = "ocid1.compartment.oc1..aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-  bastion_name     = "MyBastion"
-  target_subnet_id = "ocid1.subnet.oc1.iad.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  compartment_id               = "ocid1.compartment.oc1..aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  bastion_name                 = "MyBastion"
+  target_subnet_id             = "ocid1.subnet.oc1.iad.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  client_cidr_block_allow_list = ["10.0.0.0/8"]
 }
 
 run "creates_bastion_with_defaults" {
@@ -15,8 +16,8 @@ run "creates_bastion_with_defaults" {
   }
 
   assert {
-    condition     = oci_bastion_bastion.this.max_session_ttl_in_seconds == 10800
-    error_message = "Max session TTL should default to 10800"
+    condition     = oci_bastion_bastion.this.max_session_ttl_in_seconds == 1800
+    error_message = "Max session TTL should default to 1800"
   }
 
   assert {
@@ -35,6 +36,20 @@ run "creates_bastion_with_custom_ttl" {
   assert {
     condition     = oci_bastion_bastion.this.max_session_ttl_in_seconds == 3600
     error_message = "Max session TTL should be the custom value"
+  }
+}
+
+run "creates_bastion_with_explicit_cidrs" {
+  command = plan
+
+  variables {
+    client_cidr_block_allow_list = ["10.0.0.0/8", "192.168.1.0/24"]
+    max_session_ttl_in_seconds   = 3600
+  }
+
+  assert {
+    condition     = length(oci_bastion_bastion.this.client_cidr_block_allow_list) == 2
+    error_message = "Bastion should accept multiple CIDR blocks"
   }
 }
 
@@ -59,6 +74,18 @@ run "rejects_ttl_above_maximum" {
 
   expect_failures = [
     var.max_session_ttl_in_seconds,
+  ]
+}
+
+run "rejects_empty_cidr_list" {
+  command = plan
+
+  variables {
+    client_cidr_block_allow_list = []
+  }
+
+  expect_failures = [
+    var.client_cidr_block_allow_list,
   ]
 }
 

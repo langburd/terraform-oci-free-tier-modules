@@ -66,9 +66,9 @@ variable "subnet_id" {
 }
 
 variable "assign_public_ip" {
-  description = "(Optional) Whether to assign a public IP to the instance's primary VNIC."
+  description = "(Optional) Whether to assign a public IP to the instance's primary VNIC. Defaults to false (secure). Set to true only when the instance must be reachable from the internet."
   type        = bool
-  default     = true
+  default     = false
 }
 
 variable "ssh_authorized_keys" {
@@ -76,10 +76,14 @@ variable "ssh_authorized_keys" {
   type        = string
   default     = null
   sensitive   = true
+  validation {
+    condition     = var.ssh_authorized_keys == null || can(regex("^(ssh-rsa|ssh-ed25519|ecdsa-sha2-nistp256) ", var.ssh_authorized_keys))
+    error_message = "ssh_authorized_keys must be null or start with a valid key type prefix (ssh-rsa, ssh-ed25519, or ecdsa-sha2-nistp256)."
+  }
 }
 
 variable "user_data" {
-  description = "(Optional) Base64-encoded cloud-init user data to pass to the instance. Null omits user_data from instance metadata."
+  description = "(Optional) Base64-encoded cloud-init user data to pass to the instance. Treat cloud-init scripts as trusted code — they run as root on first boot and are visible in the OCI console. Null omits user_data from instance metadata."
   type        = string
   default     = null
 }

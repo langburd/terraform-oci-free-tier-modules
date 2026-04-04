@@ -59,7 +59,7 @@ variable "health_check_protocol" {
 }
 
 variable "health_check_port" {
-  description = "(Optional) Port for the health checker."
+  description = "(Optional) Port for the health checker. Set to the actual port your backend services listen on. Note: this port is not validated against backend ports configured in the backends map."
   type        = number
   default     = 80
 }
@@ -77,15 +77,15 @@ variable "listener_name" {
 }
 
 variable "listener_port" {
-  description = "(Optional) Port for the listener."
+  description = "(Optional) Port for the listener. Defaults to 443 when listener_protocol is HTTPS."
   type        = number
-  default     = 80
+  default     = 443
 }
 
 variable "listener_protocol" {
-  description = "(Optional) Protocol for the listener."
+  description = "(Optional) Protocol for the listener. Defaults to HTTPS (secure). Set to HTTP only for non-public or legacy endpoints where TLS termination occurs upstream."
   type        = string
-  default     = "HTTP"
+  default     = "HTTPS"
 
   validation {
     condition     = contains(["HTTP", "HTTPS", "TCP", "UDP"], var.listener_protocol)

@@ -48,5 +48,8 @@ jobs:
           sudo unzip -o /tmp/tflint.zip -d /usr/local/bin tflint
           sudo chmod +x /usr/local/bin/tflint
 
+      - name: Initialize tflint plugins
+        run: tflint --init
+
       - name: Run pre-commit action
         uses: pre-commit/action@v3.0.1

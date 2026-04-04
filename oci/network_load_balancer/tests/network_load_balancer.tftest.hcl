@@ -32,6 +32,11 @@ run "creates_nlb_with_defaults" {
     condition     = length(oci_network_load_balancer_backend.this) == 0
     error_message = "No backends should be created by default"
   }
+
+  assert {
+    condition     = oci_network_load_balancer_listener.this.protocol == "TCP"
+    error_message = "Listener protocol should default to TCP"
+  }
 }
 
 run "creates_backends_when_provided" {

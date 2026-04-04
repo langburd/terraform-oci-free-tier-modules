@@ -15,7 +15,7 @@ variable "log_group_display_name" {
 }
 
 variable "logs" {
-  description = "(Optional) Map of logs to create. Keys are used as display names."
+  description = "(Optional) Map of logs to create. Keys are used as display names. Use log_type 'SERVICE' for service logs or 'CUSTOM' for custom logs. Note: AUDIT logs are managed at the tenancy level through OCI Audit settings and should NOT be created here -- use this module for SERVICE and CUSTOM log types only."
   type = map(object({
     log_type           = string
     source_service     = optional(string)

@@ -29,6 +29,14 @@ variable "subscriptions" {
     endpoint = string
   }))
   default = {}
+
+  validation {
+    condition = alltrue([
+      for k, v in var.subscriptions :
+      contains(["EMAIL", "HTTPS", "SLACK", "PAGERDUTY", "GFC"], v.protocol)
+    ])
+    error_message = "Each subscription protocol must be one of: EMAIL, HTTPS, SLACK, PAGERDUTY, GFC."
+  }
 }
 
 variable "notifications_defined_tags" {

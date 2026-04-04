@@ -61,8 +61,8 @@ Reusable Terraform modules for Oracle Cloud Infrastructure (OCI) Always Free Tie
 
 ## Requirements
 
-- Terraform >= 1.6.4
-- OCI provider >= 6.0
+- Terraform >= 1.0
+- OCI provider >= 8.0
 
 ## Versioning and Releases
 

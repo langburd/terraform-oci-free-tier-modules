@@ -36,6 +36,14 @@ resource "oci_core_instance" "this" {
     nsg_ids          = var.nsg_ids
   }
 
+  launch_options {
+    is_pv_encryption_in_transit_enabled = true
+  }
+
+  instance_options {
+    are_legacy_imds_endpoints_disabled = true
+  }
+
   defined_tags  = var.compute_defined_tags
   freeform_tags = var.compute_freeform_tags
 }

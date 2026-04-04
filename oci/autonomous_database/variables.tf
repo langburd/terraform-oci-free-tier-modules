@@ -17,9 +17,20 @@ variable "db_name" {
 }
 
 variable "admin_password" {
-  description = "(Required) The password for the ADMIN user. Must be 12 to 30 characters and contain at least one uppercase, one lowercase, and one numeric character."
+  description = "(Required) The password for the ADMIN user. Must be 12 to 30 characters and contain at least one uppercase, one lowercase, one numeric, and one special character."
   type        = string
   sensitive   = true
+  validation {
+    condition = (
+      length(var.admin_password) >= 12 &&
+      length(var.admin_password) <= 30 &&
+      can(regex("[A-Z]", var.admin_password)) &&
+      can(regex("[a-z]", var.admin_password)) &&
+      can(regex("[0-9]", var.admin_password)) &&
+      can(regex("[^a-zA-Z0-9]", var.admin_password))
+    )
+    error_message = "admin_password must be 12-30 characters and contain at least one uppercase letter, one lowercase letter, one digit, and one special character."
+  }
 }
 
 variable "db_workload" {
@@ -71,15 +82,15 @@ variable "db_version" {
 }
 
 variable "whitelisted_ips" {
-  description = "(Optional) (Updatable) The client IP access control list (ACL). This feature is available for databases on shared Exadata infrastructure."
+  description = "(Optional) (Updatable) Client IP access control list (ACL). For private deployments, configure IP ACLs to restrict database access to known CIDR ranges or OCID-based sources. When empty, no IP restriction is applied."
   type        = list(string)
   default     = []
 }
 
 variable "is_mtls_connection_required" {
-  description = "(Optional) (Updatable) Indicates whether the Autonomous Database requires mTLS connections. Set to false to allow TLS connections."
+  description = "(Optional) (Updatable) Indicates whether the Autonomous Database requires mTLS connections. Defaults to true (secure). Set to false only if your client library cannot use mTLS."
   type        = bool
-  default     = false
+  default     = true
 }
 
 variable "display_name" {
