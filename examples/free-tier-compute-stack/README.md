@@ -42,12 +42,13 @@ terraform apply
 
 | Name | Version |
 |------|---------|
-| <a name="provider_oci"></a> [oci](#provider\_oci) | ~> 6.0 |
+| <a name="provider_oci"></a> [oci](#provider\_oci) | 8.8.0 |
 
 ## Modules
 
 | Name | Source | Version |
 |------|--------|---------|
+| <a name="module_block_volume"></a> [block\_volume](#module\_block\_volume) | ../../oci/block_volume | n/a |
 | <a name="module_compartment"></a> [compartment](#module\_compartment) | ../../oci/identity | n/a |
 | <a name="module_compute"></a> [compute](#module\_compute) | ../../oci/compute | n/a |
 | <a name="module_oci_profile_reader"></a> [oci\_profile\_reader](#module\_oci\_profile\_reader) | ../../oci/oci_profile_reader | n/a |
@@ -73,6 +74,7 @@ terraform apply
 
 | Name | Description |
 |------|-------------|
+| <a name="output_block_volume_id"></a> [block\_volume\_id](#output\_block\_volume\_id) | OCID of the block volume attached to the compute instance. |
 | <a name="output_compartment_id"></a> [compartment\_id](#output\_compartment\_id) | OCID of the created compartment. |
 | <a name="output_compute_instance_id"></a> [compute\_instance\_id](#output\_compute\_instance\_id) | OCID of the compute instance. |
 | <a name="output_compute_public_ip"></a> [compute\_public\_ip](#output\_compute\_public\_ip) | Public IP address of the compute instance. |
