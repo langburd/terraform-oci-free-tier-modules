@@ -8,6 +8,7 @@ Demonstrates a complete OCI Always Free compute stack using Phase 1 modules.
 - **VCN**: Virtual Cloud Network with Internet Gateway
 - **Subnets**: Public subnet (for compute) and private subnet
 - **Compute**: AMD Micro (VM.Standard.E2.1.Micro) instance on public subnet
+- **Block Volume**: 50 GB data volume attached to the compute instance
 
 ## Bastion (Phase 3)
 
@@ -36,7 +37,7 @@ terraform apply
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.6.4 |
-| <a name="requirement_oci"></a> [oci](#requirement\_oci) | ~> 6.0 |
+| <a name="requirement_oci"></a> [oci](#requirement\_oci) | ~> 8.0 |
 
 ## Providers
 
