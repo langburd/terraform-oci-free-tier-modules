@@ -1,6 +1,6 @@
 # OCI Always Free Tier — Comprehensive Terraform Modules Plan
 
-**Date:** 2026-04-02 (revised 2026-04-03)
+**Date:** 2026-04-02 (revised 2026-04-04)
 **Research source:** [OCI Always Free Resources docs](https://docs.oracle.com/en-us/iaas/Content/FreeTier/freetier_topic-Always_Free_Resources.htm)
 
 ## Context
@@ -696,15 +696,15 @@ oci_profile_reader --> identity (compartment)
 
 > **Use sub-agents for parallel implementation.** Modules within the same phase that have no dependencies on each other should be implemented concurrently using sub-agents (e.g., `oci/vcn` and `oci/object_storage` in Phase 1 can be built in parallel). Each sub-agent should receive the full module spec from this plan, the conventions section, and a pointer to a gold-standard module (`oci/budget`) as reference. Use the `/superpowers:dispatching-parallel-agents` or `/superpowers:subagent-driven-development` skill to coordinate.
 
-### Phase 1 — Foundation
+### Phase 1 — Foundation ✅ Complete
 
 1. ~~Fix `oci/identity` validation~~ ✅ Done in PR #28 (also fixed budget, oci_profile_reader, CI, and added tests for all 3 existing modules)
-2. `oci/vcn` → `feat(vcn): add VCN module with internet, NAT, and service gateways`
-3. `oci/subnet` → `feat(subnet): add subnet module`
-4. `oci/compute` → `feat(compute): add compute module for AMD Micro and Ampere A1 Flex`
-5. `oci/block_volume` → `feat(block_volume): add block volume module with optional attachment`
-6. `oci/object_storage` → `feat(object_storage): add object storage bucket module`
-7. `examples/free-tier-compute-stack` → `feat(examples): add free-tier-compute-stack example`
+2. ~~`oci/vcn`~~ ✅ Done (`feat(vcn): add VCN module with internet, NAT, and service gateways`)
+3. ~~`oci/subnet`~~ ✅ Done (`feat(subnet): add subnet module`)
+4. ~~`oci/compute`~~ ✅ Done (`feat(compute): add compute module for AMD Micro and Ampere A1 Flex`)
+5. ~~`oci/block_volume`~~ ✅ Done (`feat(block_volume): add block volume module with optional attachment`)
+6. ~~`oci/object_storage`~~ ✅ Done (`feat(object_storage): add object storage bucket module`)
+7. ~~`examples/free-tier-compute-stack`~~ ✅ Done (`feat(examples): add free-tier-compute-stack example`)
 
 ### Phase 2 — Databases + Notifications
 
@@ -754,9 +754,11 @@ For each module:
 |--------|-------|
 | Existing modules improved | 3 of 3 ✅ (identity, budget, oci_profile_reader — PR #28) |
 | CI/testing infrastructure | ✅ Added terraform-tests workflow + tests for all existing modules (PR #28) |
-| New modules to create | 20 |
+| New modules completed | 6 of 20 ✅ (vcn, subnet, compute, block_volume, object_storage — Phase 1 complete) |
+| New modules remaining | 14 (Phases 2–4) |
 | Services excluded | 6 |
-| New examples to create | 6 |
+| New examples completed | 1 of 6 ✅ (free-tier-compute-stack) |
+| New examples remaining | 5 |
 | Total Terraform resources across new modules | ~35 |
 | Estimated total variables across new modules | ~180 |
 
