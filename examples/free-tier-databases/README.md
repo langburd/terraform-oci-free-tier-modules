@@ -64,7 +64,7 @@ terraform apply
 
 | Name | Version |
 |------|---------|
-| <a name="provider_oci"></a> [oci](#provider\_oci) | 6.37.0 |
+| <a name="provider_oci"></a> [oci](#provider\_oci) | ~> 6.0 |
 
 ## Modules
 
