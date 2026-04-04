@@ -27,6 +27,7 @@ When creating or updating a module, you MUST:
 - Lint: pre-commit hooks handle `terraform_fmt`, `terraform_tflint`, `terraform_docs`, and YAML validation
 - Run all pre-commit checks: `pre-commit run --all-files`
 - CI runs tests automatically via `.github/workflows/terraform-tests.yml` (dynamic module discovery)
+- When running `pre-commit run --all-files` locally, do NOT run `terraform init` first in module directories. If you have already initialized, delete `.terraform.lock.hcl` before running pre-commit. Otherwise `terraform_docs` will embed the resolved provider version (e.g. `8.8.0`) instead of the constraint (`>= 6.0`), causing CI to fail.
 
 ## Git Workflow
 
@@ -41,3 +42,32 @@ When creating or updating a module, you MUST:
 - Use `validation` blocks on variables to enforce input constraints
 - Each module must declare its own `required_providers` in `providers.tf`
 - Examples should demonstrate realistic usage patterns and include README with terraform-docs markers
+
+## Coding Conventions
+
+### Resource naming
+- Use `"this"` as the Terraform resource name for all singleton resources
+- Use `count` for on/off conditionals (`count = var.create_x ? 1 : 0`)
+- Use `for_each` for collections (multiple backends, subscriptions, logs, etc.)
+
+### Variable ordering
+Order variables within `variables.tf`: `compartment_id` first, then required inputs (no default), then optional inputs (with default).
+
+### Validation blocks
+Every constrained variable MUST have a `validation` block:
+- **Enums**: `contains(["A", "B", "C"], var.x)`
+- **OCIDs**: `can(regex("^ocid1\\.[a-z]+\\.[a-z][a-z0-9-]*\\.[a-z0-9-]*\\.[a-z0-9]+$", var.x))`
+- **Nullable OCIDs**: `var.x == null || can(regex(...))`
+- **CIDR blocks**: `can(cidrnetmask(var.x))`
+- **List/map elements**: use `alltrue([for v in var.x : <check>])`
+- **Cross-variable guards**: `!var.create_x || var.required_when_x != null`
+- **Numeric ranges**: include both lower AND upper bounds
+
+### Sensitive outputs
+Mark any output `sensitive = true` when it contains connection strings, URLs, private keys, passwords, or session tokens.
+
+### Tests
+Tests use `mock_provider "oci" {}` with `command = plan`. Every module's test file MUST include:
+1. A defaults run (only required inputs)
+2. A custom-inputs run (exercising optional inputs)
+3. One rejection run per `validation` block (`expect_failures = [var.x]`)

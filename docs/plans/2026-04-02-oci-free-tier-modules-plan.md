@@ -1,6 +1,6 @@
 # OCI Always Free Tier — Comprehensive Terraform Modules Plan
 
-**Date:** 2026-04-02 (revised 2026-04-04)
+**Date:** 2026-04-02 (revised 2026-04-04; final review complete 2026-04-04)
 **Research source:** [OCI Always Free Resources docs](https://docs.oracle.com/en-us/iaas/Content/FreeTier/freetier_topic-Always_Free_Resources.htm)
 
 ## Context
@@ -706,32 +706,55 @@ oci_profile_reader --> identity (compartment)
 6. ~~`oci/object_storage`~~ ✅ Done (`feat(object_storage): add object storage bucket module`)
 7. ~~`examples/free-tier-compute-stack`~~ ✅ Done (`feat(examples): add free-tier-compute-stack example`)
 
-### Phase 2 — Databases + Notifications
+### Phase 2 — Databases + Notifications ✅ Complete (PR #33)
 
-1. `oci/autonomous_database` → `feat(autonomous_database): add Always Free autonomous database module`
-2. `oci/nosql` → `feat(nosql): add NoSQL table module with index support`
-3. `oci/mysql` → `feat(mysql): add MySQL HeatWave standalone module`
-4. `oci/notifications` → `feat(notifications): add notification topic and subscription module`
-5. `examples/free-tier-databases` → `feat(examples): add free-tier-databases example`
+1. ~~`oci/autonomous_database`~~ ✅ Done (`feat(autonomous_database): add Always Free autonomous database module`)
+2. ~~`oci/nosql`~~ ✅ Done (`feat(nosql): add NoSQL table module with index support`)
+3. ~~`oci/mysql`~~ ✅ Done (`feat(mysql): add MySQL HeatWave standalone module`)
+4. ~~`oci/notifications`~~ ✅ Done (`feat(notifications): add notification topic and subscription module`)
+5. ~~`examples/free-tier-databases`~~ ✅ Done (`feat(examples): add free-tier-databases example`)
 
-### Phase 3 — Networking Extras + Security + Bastion
+### Phase 3 — Networking Extras + Security + Bastion ✅ Complete (PR #34)
 
-1. `oci/load_balancer` → `feat(load_balancer): add flexible load balancer module`
-2. `oci/network_load_balancer` → `feat(network_load_balancer): add network load balancer module`
-3. `oci/vault` → `feat(vault): add KMS vault and key module`
-4. `oci/certificates` → `feat(certificates): add certificate authority and certificate module`
-5. `oci/bastion` → `feat(bastion): add bastion service module`
-6. `examples/free-tier-web-app` + `examples/free-tier-security` → examples
+1. ~~`oci/load_balancer`~~ ✅ Done (`feat(load_balancer): add flexible load balancer module`)
+2. ~~`oci/network_load_balancer`~~ ✅ Done (`feat(network_load_balancer): add network load balancer module`)
+3. ~~`oci/vault`~~ ✅ Done (`feat(vault): add KMS vault and key module`)
+4. ~~`oci/certificates`~~ ✅ Done (`feat(certificates): add certificate authority and certificate module`)
+5. ~~`oci/bastion`~~ ✅ Done (`feat(bastion): add bastion service module`)
+6. ~~`examples/free-tier-web-app` + `examples/free-tier-security`~~ ✅ Done
 
-### Phase 4 — Observability + VPN
+### Phase 4 — Observability + VPN ✅ Complete (PR #35)
 
-1. `oci/monitoring` → `feat(monitoring): add monitoring alarm module`
-2. `oci/email_delivery` → `feat(email_delivery): add email domain, sender, and DKIM module`
-3. `oci/logging` → `feat(logging): add log group and log module`
-4. `oci/apm` → `feat(apm): add APM domain module`
-5. `oci/connector_hub` → `feat(connector_hub): add service connector module`
-6. `oci/vpn` → `feat(vpn): add site-to-site VPN module with DRG`
-7. `examples/free-tier-observability` + `examples/free-tier-arm-server` → examples
+1. ~~`oci/monitoring`~~ ✅ Done (`feat(monitoring): add monitoring alarm module`)
+2. ~~`oci/email_delivery`~~ ✅ Done (`feat(email_delivery): add email domain, sender, and DKIM module`)
+3. ~~`oci/logging`~~ ✅ Done (`feat(logging): add log group and log module`)
+4. ~~`oci/apm`~~ ✅ Done (`feat(apm): add APM domain module`)
+5. ~~`oci/connector_hub`~~ ✅ Done (`feat(connector_hub): add service connector module`)
+6. ~~`oci/vpn`~~ ✅ Done (`feat(vpn): add site-to-site VPN module with DRG`)
+7. ~~`examples/free-tier-observability` + `examples/free-tier-arm-server`~~ ✅ Done
+
+---
+
+## Post-Merge Quality Review (2026-04-04)
+
+After merging Phases 2–4, a comprehensive code review was performed across PRs #33, #34, and #35. 26 inline review comments were posted and addressed before merge.
+
+### Recurring Findings (now documented in CLAUDE.md)
+
+| Category | Examples Fixed |
+|---|---|
+| Missing `sensitive = true` on outputs | `autonomous_database` connection_strings, connection_urls |
+| Enum validation missing | `compute_model`, `vault_type`, `listener_protocol` (LB + NLB), `ca_config_type`, `certificate_config_type`, `log_type` |
+| OCID/CIDR validation on list/map elements | `destinations` (monitoring), `static_routes` (VPN), `target_topic_id` (connector_hub) |
+| Cross-variable guards | `certificate_common_name` required when `create_certificate = true` |
+| Numeric range missing lower bound | `data_storage_size_in_gb` (>= 1 omitted) |
+| Free-tier constraint not enforced | `is_highly_available = false` (MySQL), bandwidth 10 Mbps (LB) not asserted in tests |
+| Missing rejection test cases | All modules — one rejection test per validation block is required |
+| DRG attachment display_name | Reused `drg_display_name` — added dedicated `drg_attachment_display_name` variable |
+
+### CI Gotcha Documented
+
+`terraform_docs` in CI uses the `required_providers` constraint version (`>= 6.0`). Running `terraform init` locally before pre-commit causes the lock file version (e.g. `8.8.0`) to be embedded in READMEs instead, failing CI. Documented in CLAUDE.md under Commands.
 
 ---
 
@@ -754,11 +777,11 @@ For each module:
 |--------|-------|
 | Existing modules improved | 3 of 3 ✅ (identity, budget, oci_profile_reader — PR #28) |
 | CI/testing infrastructure | ✅ Added terraform-tests workflow + tests for all existing modules (PR #28) |
-| New modules completed | 6 of 20 ✅ (vcn, subnet, compute, block_volume, object_storage — Phase 1 complete) |
-| New modules remaining | 14 (Phases 2–4) |
+| New modules completed | 20 of 20 ✅ (Phases 1–4 complete — PRs #33, #34, #35) |
+| New modules remaining | 0 |
 | Services excluded | 6 |
-| New examples completed | 1 of 6 ✅ (free-tier-compute-stack) |
-| New examples remaining | 5 |
+| New examples completed | 6 of 6 ✅ (all examples complete — PRs #33, #34, #35) |
+| New examples remaining | 0 |
 | Total Terraform resources across new modules | ~35 |
 | Estimated total variables across new modules | ~180 |
 
