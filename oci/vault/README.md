@@ -54,7 +54,7 @@ No modules.
 | <a name="input_key_algorithm"></a> [key\_algorithm](#input\_key\_algorithm) | (Optional) Algorithm for the KMS key. Supported values: AES, RSA, ECDSA. | `string` | `"AES"` | no |
 | <a name="input_key_display_name"></a> [key\_display\_name](#input\_key\_display\_name) | (Optional) Display name for the KMS key. | `string` | `"key"` | no |
 | <a name="input_key_length"></a> [key\_length](#input\_key\_length) | (Optional) Key length in bytes. For AES: 16, 24, or 32. For RSA: 256, 384, or 512. For ECDSA: 32, 48, or 66. | `number` | `32` | no |
-| <a name="input_key_protection_mode"></a> [key\_protection\_mode](#input\_key\_protection\_mode) | (Optional) Protection mode for the key. SOFTWARE allows unlimited free key versions. HSM uses hardware security module. | `string` | `"SOFTWARE"` | no |
+| <a name="input_key_protection_mode"></a> [key\_protection\_mode](#input\_key\_protection\_mode) | (Optional) Protection mode for the key. SOFTWARE (default) is free and suitable for development. HSM (hardware security module) is recommended for production workloads handling sensitive data, but incurs cost and limits key version counts. | `string` | `"SOFTWARE"` | no |
 | <a name="input_vault_defined_tags"></a> [vault\_defined\_tags](#input\_vault\_defined\_tags) | (Optional) Defined tags for the vault and key. | `map(string)` | `{}` | no |
 | <a name="input_vault_display_name"></a> [vault\_display\_name](#input\_vault\_display\_name) | (Optional) Display name for the vault. | `string` | `"vault"` | no |
 | <a name="input_vault_freeform_tags"></a> [vault\_freeform\_tags](#input\_vault\_freeform\_tags) | (Optional) Free-form tags for the vault and key. | `map(string)` | `{}` | no |

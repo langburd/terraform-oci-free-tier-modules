@@ -55,7 +55,7 @@ variable "key_length" {
 }
 
 variable "key_protection_mode" {
-  description = "(Optional) Protection mode for the key. SOFTWARE allows unlimited free key versions. HSM uses hardware security module."
+  description = "(Optional) Protection mode for the key. SOFTWARE (default) is free and suitable for development. HSM (hardware security module) is recommended for production workloads handling sensitive data, but incurs cost and limits key version counts."
   type        = string
   default     = "SOFTWARE"
 
