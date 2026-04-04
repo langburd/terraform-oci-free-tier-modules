@@ -15,7 +15,9 @@ Reusable Terraform modules for Oracle Cloud Infrastructure (OCI) Free Tier resou
 
 Every module follows this structure: `main.tf`, `variables.tf`, `outputs.tf`, `providers.tf`, `README.md`, `tests/<module>.tftest.hcl`.
 
-When adding or changing module behavior, always update `tests/<module>.tftest.hcl` to cover the change. Tests must cover defaults, custom inputs, and validation rejection cases.
+When creating or updating a module, you MUST:
+1. Write or update `tests/<module>.tftest.hcl` to cover the change — defaults, custom inputs, and validation rejection cases
+2. Run `terraform init && terraform test` from within the module directory to verify all tests pass before committing
 
 ## Commands
 
