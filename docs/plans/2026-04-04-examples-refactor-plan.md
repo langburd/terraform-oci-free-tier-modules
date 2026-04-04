@@ -6,18 +6,20 @@
 
 **Architecture:** Three independent changes — one module addition to an existing example, one new example directory, one deletion. Each change is validated and committed independently.
 
-**Tech Stack:** Terraform >= 1.6.4, OCI provider ~> 8.0, pre-commit (terraform-fmt, terraform-tflint, terraform-docs)
+**Tech Stack:** Terraform >= 1.0, OCI provider ~> 8.0, pre-commit (terraform-fmt, terraform-tflint, terraform-docs)
 
 ---
 
 ## File Map
 
 ### Task 1 — Extend `free-tier-compute-stack`
+
 - Modify: `examples/free-tier-compute-stack/main.tf` — add `module "block_volume"` block
 - Modify: `examples/free-tier-compute-stack/outputs.tf` — add `block_volume_id` output
 - Auto-updated by pre-commit: `examples/free-tier-compute-stack/README.md` (terraform-docs section)
 
 ### Task 2 — Create `dual-tenancy` example
+
 - Create: `examples/dual-tenancy/providers.tf`
 - Create: `examples/dual-tenancy/variables.tf`
 - Create: `examples/dual-tenancy/main.tf`
@@ -26,6 +28,7 @@
 - Create: `examples/dual-tenancy/README.md`
 
 ### Task 3 — Delete old examples
+
 - Delete: `examples/two-profiles/` (entire directory)
 - Delete: `examples/two-tenancies/` (entire directory)
 
@@ -34,6 +37,7 @@
 ## Task 1: Add `block_volume` to `free-tier-compute-stack`
 
 **Files:**
+
 - Modify: `examples/free-tier-compute-stack/main.tf`
 - Modify: `examples/free-tier-compute-stack/outputs.tf`
 
@@ -212,6 +216,7 @@ git commit -m "feat(examples): add block_volume to free-tier-compute-stack"
 ## Task 2: Create `dual-tenancy` example
 
 **Files:**
+
 - Create: `examples/dual-tenancy/providers.tf`
 - Create: `examples/dual-tenancy/variables.tf`
 - Create: `examples/dual-tenancy/main.tf`
@@ -223,7 +228,7 @@ git commit -m "feat(examples): add block_volume to free-tier-compute-stack"
 
 ```hcl
 terraform {
-  required_version = ">= 1.6.4"
+  required_version = ">= 1.0"
 
   required_providers {
     oci = {
@@ -425,6 +430,7 @@ git commit -m "feat(examples): add dual-tenancy example with identity and budget
 ## Task 3: Delete `two-profiles`, `two-tenancies`, and `dynamic-profile`
 
 **Files:**
+
 - Delete: `examples/two-profiles/` (entire directory)
 - Delete: `examples/two-tenancies/` (entire directory)
 - Delete: `examples/dynamic-profile/` (entire directory)
@@ -442,6 +448,7 @@ ls examples/
 ```
 
 Expected output (order may vary):
+
 ```
 dual-tenancy
 free-tier-compute-stack

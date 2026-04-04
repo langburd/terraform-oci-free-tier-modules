@@ -23,14 +23,14 @@ module "monitoring" {
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.6.4 |
-| <a name="requirement_oci"></a> [oci](#requirement\_oci) | >= 6.0, < 7.0 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
+| <a name="requirement_oci"></a> [oci](#requirement\_oci) | >= 8.0, < 9.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_oci"></a> [oci](#provider\_oci) | >= 6.0, < 7.0 |
+| <a name="provider_oci"></a> [oci](#provider\_oci) | >= 8.0, < 9.0 |
 
 ## Modules
 

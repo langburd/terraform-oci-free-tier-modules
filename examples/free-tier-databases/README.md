@@ -13,7 +13,7 @@ This example demonstrates deploying OCI Always Free database resources using the
 ## Prerequisites
 
 - OCI CLI configured with a valid profile (`~/.oci/config`)
-- Terraform >= 1.6.4
+- Terraform >= 1.0
 - MySQL.Free shape available in your region
 
 ## Usage
@@ -57,14 +57,14 @@ terraform apply
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.6.4 |
-| <a name="requirement_oci"></a> [oci](#requirement\_oci) | ~> 6.0 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
+| <a name="requirement_oci"></a> [oci](#requirement\_oci) | ~> 8.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_oci"></a> [oci](#provider\_oci) | ~> 6.0 |
+| <a name="provider_oci"></a> [oci](#provider\_oci) | ~> 8.0 |
 
 ## Modules
 

@@ -5,6 +5,7 @@ Terraform module creating an OCI Bastion service for secure SSH access to privat
 ## Prerequisites
 
 The bastion must be placed in a **public subnet** that has:
+
 - An Internet Gateway attached to the VCN
 - A route rule sending `0.0.0.0/0` traffic to the Internet Gateway
 
@@ -29,14 +30,14 @@ module "bastion" {
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.6.4 |
-| <a name="requirement_oci"></a> [oci](#requirement\_oci) | >= 6.0, < 7.0 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
+| <a name="requirement_oci"></a> [oci](#requirement\_oci) | >= 8.0, < 9.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_oci"></a> [oci](#provider\_oci) | >= 6.0, < 7.0 |
+| <a name="provider_oci"></a> [oci](#provider\_oci) | >= 8.0, < 9.0 |
 
 ## Modules
 

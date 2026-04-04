@@ -1,6 +1,7 @@
 # Free Tier Security Example
 
 Demonstrates OCI security services using free tier resources:
+
 - KMS Vault (DEFAULT type, free tier) with a SOFTWARE-protected AES-256 key
 - Certificate Authority (Root CA) with a TLS server/client certificate
 
@@ -30,8 +31,8 @@ terraform apply
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.6.4 |
-| <a name="requirement_oci"></a> [oci](#requirement\_oci) | >= 6.0 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
+| <a name="requirement_oci"></a> [oci](#requirement\_oci) | ~> 8.0 |
 
 ## Providers
 
