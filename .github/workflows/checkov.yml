@@ -25,6 +25,7 @@ jobs:
         with:
           directory: oci/
           framework: terraform
+          config_file: .checkov.yml
           output_format: sarif
           output_file_path: checkov-results.sarif
           soft_fail: true

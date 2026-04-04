@@ -25,6 +25,7 @@ jobs:
         with:
           scan-type: config
           scan-ref: oci/
+          trivyignores: .trivyignore
           format: sarif
           output: trivy-results.sarif
           exit-code: "0"
