@@ -8,8 +8,8 @@ Reusable Terraform modules for Oracle Cloud Infrastructure (OCI) Free Tier resou
 
 ## Structure
 
-- `oci/` — reusable modules (budget, identity, network, oci_profile_reader)
-- `examples/` — usage examples demonstrating authentication and multi-tenancy patterns
+- `oci/` — reusable modules (see README.md for complete inventory)
+- `examples/` — usage examples demonstrating realistic deployment patterns (see README.md for complete inventory)
 
 ## Module Layout
 
