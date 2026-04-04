@@ -14,7 +14,7 @@ run "default_volume_no_attachment" {
   }
 
   assert {
-    condition     = oci_core_volume.this.vpus_per_gb == 10
+    condition     = tostring(oci_core_volume.this.vpus_per_gb) == "10"
     error_message = "Default vpus_per_gb must be 10 (Balanced, Free Tier safe)"
   }
 
@@ -32,7 +32,7 @@ run "accepts_vpus_zero" {
   }
 
   assert {
-    condition     = oci_core_volume.this.vpus_per_gb == 0
+    condition     = tostring(oci_core_volume.this.vpus_per_gb) == "0"
     error_message = "vpus_per_gb = 0 should be accepted"
   }
 }
