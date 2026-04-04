@@ -19,8 +19,8 @@ run "default_bucket" {
   }
 
   assert {
-    condition     = oci_objectstorage_bucket.this.versioning == "Disabled"
-    error_message = "versioning should default to Disabled"
+    condition     = oci_objectstorage_bucket.this.versioning == "Enabled"
+    error_message = "versioning should default to Enabled"
   }
 
   assert {
@@ -29,8 +29,8 @@ run "default_bucket" {
   }
 
   assert {
-    condition     = oci_objectstorage_bucket.this.object_events_enabled == false
-    error_message = "object_events_enabled should default to false"
+    condition     = oci_objectstorage_bucket.this.object_events_enabled == true
+    error_message = "object_events_enabled should default to true"
   }
 }
 
@@ -38,13 +38,26 @@ run "public_read_access" {
   command = plan
 
   variables {
-    bucket_access_type = "ObjectRead"
+    bucket_access_type  = "ObjectRead"
+    allow_public_access = true
   }
 
   assert {
     condition     = oci_objectstorage_bucket.this.access_type == "ObjectRead"
     error_message = "access_type should be ObjectRead"
   }
+}
+
+run "rejects_public_access_without_guard" {
+  command = plan
+
+  variables {
+    bucket_access_type = "ObjectRead"
+  }
+
+  expect_failures = [
+    var.bucket_access_type,
+  ]
 }
 
 run "archive_tier" {

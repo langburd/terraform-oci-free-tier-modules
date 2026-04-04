@@ -17,13 +17,23 @@ variable "bucket_name" {
 }
 
 variable "bucket_access_type" {
-  description = "(Optional) (Updatable) Access type for the bucket. Supported values: NoPublicAccess, ObjectRead, ObjectReadWithoutList."
+  description = "(Optional) (Updatable) Access type for the bucket. Supported values: NoPublicAccess, ObjectRead, ObjectReadWithoutList. Set allow_public_access = true before using ObjectRead or ObjectReadWithoutList."
   type        = string
   default     = "NoPublicAccess"
   validation {
     condition     = contains(["NoPublicAccess", "ObjectRead", "ObjectReadWithoutList"], var.bucket_access_type)
     error_message = "Supported values are: NoPublicAccess, ObjectRead, ObjectReadWithoutList."
   }
+  validation {
+    condition     = var.bucket_access_type == "NoPublicAccess" || var.allow_public_access == true
+    error_message = "allow_public_access must be set to true before using ObjectRead or ObjectReadWithoutList access types."
+  }
+}
+
+variable "allow_public_access" {
+  description = "(Optional) Safety guard: must be set to true before bucket_access_type can be set to ObjectRead or ObjectReadWithoutList. Defaults to false to prevent accidental public exposure."
+  type        = bool
+  default     = false
 }
 
 variable "storage_tier" {
@@ -37,9 +47,9 @@ variable "storage_tier" {
 }
 
 variable "versioning" {
-  description = "(Optional) (Updatable) Versioning state for the bucket. Supported values: Enabled, Suspended, Disabled."
+  description = "(Optional) (Updatable) Versioning state for the bucket. Defaults to Enabled for data protection. Supported values: Enabled, Suspended, Disabled."
   type        = string
-  default     = "Disabled"
+  default     = "Enabled"
   validation {
     condition     = contains(["Enabled", "Suspended", "Disabled"], var.versioning)
     error_message = "Supported values are: Enabled, Suspended, Disabled."
@@ -57,9 +67,9 @@ variable "auto_tiering" {
 }
 
 variable "object_events_enabled" {
-  description = "(Optional) (Updatable) Whether object-level events are emitted for this bucket."
+  description = "(Optional) (Updatable) Whether object-level events are emitted for this bucket. Defaults to true to enable audit trails."
   type        = bool
-  default     = false
+  default     = true
 }
 
 variable "bucket_defined_tags" {
@@ -72,4 +82,14 @@ variable "bucket_freeform_tags" {
   description = "(Optional) (Updatable) Free-form tags for the bucket."
   type        = map(string)
   default     = {}
+}
+
+variable "kms_key_id" {
+  description = "(Optional) The OCID of a KMS key for customer-managed encryption (CMK). Null uses Oracle-managed encryption. Note: CMK requires a paid OCI Vault -- free-tier users should leave this null."
+  type        = string
+  default     = null
+  validation {
+    condition     = var.kms_key_id == null || can(regex("^ocid1\\.[a-z]+\\.[a-z][a-z0-9-]*\\.[a-z0-9-]*\\.[a-z0-9]+$", var.kms_key_id))
+    error_message = "kms_key_id must be a valid OCI OCID or null."
+  }
 }
