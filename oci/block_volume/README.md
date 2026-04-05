@@ -81,6 +81,7 @@ No modules.
 
 | Name | Description |
 |------|-------------|
+| <a name="output_backup_policy_assignment_id"></a> [backup\_policy\_assignment\_id](#output\_backup\_policy\_assignment\_id) | OCID of the volume backup policy assignment. Returns null when no backup\_policy\_id is provided. |
 | <a name="output_volume_attachment_id"></a> [volume\_attachment\_id](#output\_volume\_attachment\_id) | OCID of the volume attachment. Returns null when no instance\_id is provided. |
 | <a name="output_volume_id"></a> [volume\_id](#output\_volume\_id) | OCID of the block volume. |
 <!-- END_TF_DOCS -->

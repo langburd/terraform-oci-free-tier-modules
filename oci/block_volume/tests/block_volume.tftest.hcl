@@ -22,6 +22,11 @@ run "default_volume_no_attachment" {
     condition     = length(oci_core_volume_attachment.this) == 0
     error_message = "No attachment should be created when instance_id is null"
   }
+
+  assert {
+    condition     = length(oci_core_volume_backup_policy_assignment.this) == 0
+    error_message = "No backup policy assignment should be created when backup_policy_id is null"
+  }
 }
 
 run "accepts_vpus_zero" {
@@ -141,7 +146,48 @@ run "with_kms_and_backup_policy" {
   }
 
   assert {
+    condition     = length(oci_core_volume_backup_policy_assignment.this) == 1
+    error_message = "Exactly one backup policy assignment should be created when backup_policy_id is provided"
+  }
+
+  assert {
     condition     = oci_core_volume_backup_policy_assignment.this[0].policy_id == "ocid1.volumebackuppolicy.oc1..aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
     error_message = "backup_policy_id should be passed through to the backup policy assignment resource"
   }
+}
+
+run "rejects_invalid_backup_policy_id" {
+  command = plan
+
+  variables {
+    backup_policy_id = "not-a-valid-ocid"
+  }
+
+  expect_failures = [
+    var.backup_policy_id,
+  ]
+}
+
+run "rejects_invalid_kms_key_id" {
+  command = plan
+
+  variables {
+    kms_key_id = "not-a-valid-ocid"
+  }
+
+  expect_failures = [
+    var.kms_key_id,
+  ]
+}
+
+run "rejects_empty_availability_domain" {
+  command = plan
+
+  variables {
+    availability_domain = "   "
+  }
+
+  expect_failures = [
+    var.availability_domain,
+  ]
 }
