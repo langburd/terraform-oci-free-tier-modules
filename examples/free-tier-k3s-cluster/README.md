@@ -61,9 +61,9 @@ kubectl get nodes
 
 | Name | Version |
 |------|---------|
-| <a name="provider_local"></a> [local](#provider\_local) | 2.8.0 |
-| <a name="provider_oci"></a> [oci](#provider\_oci) | 8.8.0 |
-| <a name="provider_tls"></a> [tls](#provider\_tls) | 4.2.1 |
+| <a name="provider_local"></a> [local](#provider\_local) | >= 2.0 |
+| <a name="provider_oci"></a> [oci](#provider\_oci) | >= 8.0, < 9.0 |
+| <a name="provider_tls"></a> [tls](#provider\_tls) | >= 4.0 |
 
 ## Modules
 
