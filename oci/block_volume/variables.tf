@@ -43,12 +43,16 @@ variable "vpus_per_gb" {
 }
 
 variable "create_attachment" {
-  description = "(Optional) Whether to create a volume attachment to the instance specified by instance_id. Must be false when instance_id is null."
+  description = "(Optional) Whether to create a volume attachment to the instance specified by instance_id."
   type        = bool
   default     = false
   validation {
     condition     = !var.create_attachment || var.instance_id != null
     error_message = "instance_id must be provided when create_attachment is true."
+  }
+  validation {
+    condition     = var.create_attachment || var.instance_id == null
+    error_message = "create_attachment must be true when instance_id is provided."
   }
 }
 
