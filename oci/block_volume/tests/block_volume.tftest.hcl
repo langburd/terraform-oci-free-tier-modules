@@ -52,7 +52,7 @@ run "with_attachment" {
 
   assert {
     condition     = length(oci_core_volume_attachment.this) == 1
-    error_message = "Attachment should be created when instance_id is provided"
+    error_message = "Attachment should be created when create_attachment is true"
   }
 
   assert {
@@ -94,6 +94,18 @@ run "rejects_invalid_instance_id" {
 
   expect_failures = [
     var.instance_id,
+  ]
+}
+
+run "rejects_create_attachment_without_instance_id" {
+  command = plan
+
+  variables {
+    create_attachment = true
+  }
+
+  expect_failures = [
+    var.create_attachment,
   ]
 }
 

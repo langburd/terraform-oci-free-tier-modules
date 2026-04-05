@@ -46,6 +46,10 @@ variable "create_attachment" {
   description = "(Optional) Whether to create a volume attachment to the instance specified by instance_id. Must be false when instance_id is null."
   type        = bool
   default     = false
+  validation {
+    condition     = !var.create_attachment || var.instance_id != null
+    error_message = "instance_id must be provided when create_attachment is true."
+  }
 }
 
 variable "instance_id" {

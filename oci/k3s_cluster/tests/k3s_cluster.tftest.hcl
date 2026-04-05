@@ -16,6 +16,11 @@ run "creates_cluster_with_defaults" {
     condition     = local.api_endpoint == "1.2.3.4"
     error_message = "API endpoint should default to first server IP"
   }
+
+  assert {
+    condition     = ansible_playbook.k3s_server["0"].name == "1.2.3.4"
+    error_message = "Server playbook name should be the IP address (index-keyed for_each, name = each.value)"
+  }
 }
 
 run "uses_custom_api_endpoint" {
