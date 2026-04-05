@@ -1,6 +1,6 @@
 # terraform-oci-free-tier-modules
 
-Reusable Terraform modules for Oracle Cloud Infrastructure (OCI) Always Free Tier resources. Consumed by the sibling [terraform-oci-free-tier-infra](https://github.com/langburd/terraform-oci-free-tier-infra) repo.
+Reusable Terraform modules for Oracle Cloud Infrastructure (OCI) Always Free Tier resources.
 
 ## Oracle Cloud Free Tier
 
