@@ -141,7 +141,7 @@ run "with_kms_and_backup_policy" {
   }
 
   assert {
-    condition     = oci_core_volume.this.backup_policy_id == "ocid1.volumebackuppolicy.oc1..aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-    error_message = "backup_policy_id should be passed through to the volume resource"
+    condition     = oci_core_volume_backup_policy_assignment.this[0].policy_id == "ocid1.volumebackuppolicy.oc1..aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    error_message = "backup_policy_id should be passed through to the backup policy assignment resource"
   }
 }
