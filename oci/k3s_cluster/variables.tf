@@ -31,9 +31,9 @@ variable "ssh_extra_args" {
 }
 
 variable "k3s_version" {
-  description = "K3s version to install. Must start with 'v' (e.g. 'v1.31.12+k3s1')."
+  description = "K3s version to install. Must start with 'v' (e.g. 'v1.35.3+k3s1')."
   type        = string
-  default     = "v1.31.12+k3s1"
+  default     = "v1.35.3+k3s1"
   validation {
     condition     = can(regex("^v", var.k3s_version))
     error_message = "k3s_version must start with 'v'."

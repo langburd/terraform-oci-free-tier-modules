@@ -4,11 +4,17 @@ resource "oci_core_volume" "this" {
   display_name        = var.volume_display_name
   size_in_gbs         = var.volume_size_in_gbs
   vpus_per_gb         = var.vpus_per_gb
-  backup_policy_id    = var.backup_policy_id
   kms_key_id          = var.kms_key_id
 
   defined_tags  = var.volume_defined_tags
   freeform_tags = var.volume_freeform_tags
+}
+
+resource "oci_core_volume_backup_policy_assignment" "this" {
+  count = var.backup_policy_id != null ? 1 : 0
+
+  asset_id  = oci_core_volume.this.id
+  policy_id = var.backup_policy_id
 }
 
 resource "oci_core_volume_attachment" "this" {

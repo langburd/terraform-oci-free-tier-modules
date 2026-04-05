@@ -1,20 +1,38 @@
 ---
 name: verify
-description: Run Terraform formatting check, validation, and docs generation to verify module changes are correct. Use before committing or when asked to check work.
+description: Run Terraform verification (format, validate, test, docs) before committing or when completing module work. Invoke whenever the user says "check my changes", "verify this", "before I commit", "does this look right", or finishes implementing a module change — even if they don't say "verify".
 ---
 
-Run the following verification steps. Detect which module or example directory was changed and run validation there:
+Detect which module or example directories were changed (use `git diff --name-only` if unsure), then run these steps:
 
-1. `terraform fmt -check -recursive` — check formatting from repo root (fix with `terraform fmt -recursive` if needed)
-2. For each changed module/example directory:
-   - `terraform init -backend=false` — initialize without backend (if .terraform doesn't exist)
-   - `terraform validate` — validate configuration
-3. For each changed module directory under `oci/` (skip `examples/` — they have no tests):
-   - `terraform test` — run the module's test suite (already initialized above)
-4. Before regenerating docs, delete all `.terraform/` dirs and `.terraform.lock.hcl` files from `oci/` — otherwise terraform-docs embeds the resolved provider version instead of the constraint string, causing CI to fail:
+1. **Format** — from repo root:
+   ```
+   terraform fmt -check -recursive
+   ```
+   If it fails, fix with `terraform fmt -recursive`, then re-check.
+
+2. **Validate** — for each changed module or example directory:
+   ```
+   terraform init -backend=false
+   terraform validate
+   ```
+   Skip `terraform init` if `.terraform/` already exists in that directory.
+
+3. **Test** — for each changed directory under `oci/` (skip `examples/` — they have no tests):
+   ```
+   terraform test
+   ```
+
+4. **Clean lock files** — before regenerating docs, remove `.terraform/` and `.terraform.lock.hcl` from all `oci/` directories. If these exist when terraform-docs runs, it embeds the resolved provider version (e.g. `8.8.0`) instead of the constraint (`>= 8.0`), which causes CI to fail:
    ```
    find oci -name ".terraform.lock.hcl" -delete && find oci -type d -name ".terraform" -exec rm -rf {} + 2>/dev/null; true
    ```
-5. `pre-commit run terraform_docs --all-files` — regenerate docs (run twice; first run modifies files, second confirms clean)
 
-Report results as a table: directory, step, status (pass/fail), and any error details.
+5. **Docs** — run terraform-docs twice. The first pass modifies README files; the second pass must exit clean to confirm no stale content remains:
+   ```
+   pre-commit run terraform_docs --all-files
+   pre-commit run terraform_docs --all-files
+   ```
+   Both runs must succeed. If only the first fails but the second passes, that's expected — it just means docs were stale and have been regenerated.
+
+Report results as a table: directory | step | status | notes.

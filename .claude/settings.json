@@ -7,6 +7,10 @@
           {
             "type": "command",
             "command": "jq -r '.tool_input.file_path // .tool_response.filePath' | { read -r f; case \"$f\" in *.tf) terraform fmt \"$f\" ;; esac; } 2>/dev/null || true"
+          },
+          {
+            "type": "command",
+            "command": "jq -r '.tool_input.file_path // .tool_response.filePath' | { read -r f; case \"$f\" in *.yaml|*.yml) yamlfmt \"$f\" ;; esac; } 2>/dev/null || true"
           }
         ]
       }

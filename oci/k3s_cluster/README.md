@@ -78,7 +78,7 @@ No modules.
 | <a name="input_extra_agent_args"></a> [extra\_agent\_args](#input\_extra\_agent\_args) | Additional arguments to pass to k3s agent. | `string` | `""` | no |
 | <a name="input_extra_server_args"></a> [extra\_server\_args](#input\_extra\_server\_args) | Additional arguments to pass to k3s server. | `string` | `""` | no |
 | <a name="input_k3s_ansible_path"></a> [k3s\_ansible\_path](#input\_k3s\_ansible\_path) | Path to the k3s-ansible directory containing playbooks. | `string` | `""` | no |
-| <a name="input_k3s_version"></a> [k3s\_version](#input\_k3s\_version) | K3s version to install. Must start with 'v' (e.g. 'v1.31.12+k3s1'). | `string` | `"v1.31.12+k3s1"` | no |
+| <a name="input_k3s_version"></a> [k3s\_version](#input\_k3s\_version) | K3s version to install. Must start with 'v' (e.g. 'v1.35.3+k3s1'). | `string` | `"v1.35.3+k3s1"` | no |
 | <a name="input_server_ips"></a> [server\_ips](#input\_server\_ips) | List of public IP addresses for K3s server (control plane) nodes. At least one required. | `list(string)` | n/a | yes |
 | <a name="input_ssh_extra_args"></a> [ssh\_extra\_args](#input\_ssh\_extra\_args) | Additional SSH arguments passed to Ansible. Defaults to disabling host key checking for initial provisioning. Set to '' or override for stricter security in trusted environments. | `string` | `"-o StrictHostKeyChecking=no"` | no |
 | <a name="input_ssh_private_key_path"></a> [ssh\_private\_key\_path](#input\_ssh\_private\_key\_path) | Path to the SSH private key file for connecting to K3s nodes. | `string` | n/a | yes |
