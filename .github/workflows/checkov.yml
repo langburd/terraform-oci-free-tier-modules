@@ -31,7 +31,7 @@ jobs:
           fi
           changed_files=$(git diff --name-only "origin/${BASE_REF}...HEAD")
           modules=$(echo "$changed_files" \
-            | grep '^oci/' \
+            | { grep '^oci/' || true; } \
             | cut -d'/' -f1-2 \
             | sort -u \
             | jq -R . \
@@ -39,7 +39,7 @@ jobs:
           echo "modules=$modules" >> "$GITHUB_OUTPUT"
   checkov:
     needs: discover
-    if: ${{ needs.discover.outputs.modules != '[]' }}
+    if: ${{ needs.discover.outputs.modules != '' && needs.discover.outputs.modules != '[]' }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
