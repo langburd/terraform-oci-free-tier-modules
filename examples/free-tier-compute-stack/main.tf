@@ -75,6 +75,7 @@ module "block_volume" {
   source              = "../../oci/block_volume"
   compartment_id      = module.compartment.compartment_id
   availability_domain = module.compute.availability_domain
+  create_attachment   = true
   instance_id         = module.compute.instance_id
   volume_display_name = "free-tier-data-volume"
 }

@@ -46,7 +46,8 @@ run "with_attachment" {
   command = plan
 
   variables {
-    instance_id = "ocid1.instance.oc1..aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    create_attachment = true
+    instance_id       = "ocid1.instance.oc1..aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
   }
 
   assert {

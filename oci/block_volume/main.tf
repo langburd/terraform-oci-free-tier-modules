@@ -18,7 +18,7 @@ resource "oci_core_volume_backup_policy_assignment" "this" {
 }
 
 resource "oci_core_volume_attachment" "this" {
-  count = var.instance_id != null ? 1 : 0
+  count = var.create_attachment ? 1 : 0
 
   attachment_type = var.attachment_type
   instance_id     = var.instance_id

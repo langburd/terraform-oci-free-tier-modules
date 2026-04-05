@@ -12,10 +12,10 @@ resource "random_password" "k3s_token" {
 # Servers must be provisioned before agents so that the API endpoint is
 # available when agent nodes join the cluster.
 resource "ansible_playbook" "k3s_server" {
-  for_each = toset(var.server_ips)
+  for_each = { for idx, ip in var.server_ips : tostring(idx) => ip }
 
   playbook   = "${local.k3s_ansible_path}/playbooks/site.yml"
-  name       = each.key
+  name       = each.value
   replayable = false
 
   groups = ["server", "k3s_cluster"]
@@ -38,10 +38,10 @@ resource "ansible_playbook" "k3s_server" {
 # are provisioned. Agent nodes use api_endpoint from extra_vars to join the
 # cluster, so they must run after the server resource completes.
 resource "ansible_playbook" "k3s_agent" {
-  for_each = toset(var.agent_ips)
+  for_each = { for idx, ip in var.agent_ips : tostring(idx) => ip }
 
   playbook   = "${local.k3s_ansible_path}/playbooks/site.yml"
-  name       = each.key
+  name       = each.value
   replayable = false
 
   groups = ["agent", "k3s_cluster"]

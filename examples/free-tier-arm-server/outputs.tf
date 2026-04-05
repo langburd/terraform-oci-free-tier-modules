@@ -16,6 +16,7 @@ output "compute_instance_id" {
 output "compute_public_ip" {
   description = "Public IP address of the compute instance."
   value       = module.compute.instance_public_ip
+  sensitive   = true
 }
 
 output "block_volume_id" {
