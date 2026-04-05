@@ -29,9 +29,9 @@ When creating or updating a module, you MUST:
 - Lint: pre-commit hooks handle `terraform_fmt`, `terraform_tflint`, `terraform_docs`, and YAML validation
 - Run all pre-commit checks: `pre-commit run --all-files`
 - CI runs tests automatically via `.github/workflows/terraform-tests.yml` (dynamic module discovery)
-- When running `pre-commit run --all-files` locally, do NOT run `terraform init` first in module directories. If you have already initialized, delete `.terraform.lock.hcl` before running pre-commit. Otherwise `terraform_docs` will embed the resolved provider version (e.g. `8.8.0`) instead of the constraint (`>= 8.0`), causing CI to fail.
+- When running `pre-commit run --all-files` locally, do NOT run `terraform init` first in any `oci/` or `examples/` directory. If you have already initialized, delete `.terraform.lock.hcl` from both `oci/` and `examples/` before running pre-commit. Otherwise `terraform_docs` will embed the resolved provider version (e.g. `8.8.0`) instead of the constraint (`>= 8.0`), causing CI to fail.
 - Local pre-commit runs require `~/.oci/config` and `~/.oci/oci_api_key.pem` to exist — `terraform_tflint` and `terraform_docs` call `terraform init` internally and need valid OCI credentials.
-- **When fixing CI failures:** always run `pre-commit run --all-files` (from the repo root, with no `.terraform.lock.hcl` present in any module directory) as the final step before pushing. Running targeted tools on only modified files misses stale READMEs in unrelated modules that CI also checks.
+- **When fixing CI failures:** always run `pre-commit run --all-files` (from the repo root, with no `.terraform.lock.hcl` present in any `oci/` or `examples/` directory) as the final step before pushing. Running targeted tools on only modified files misses stale READMEs in unrelated modules that CI also checks.
 
 ## Git Workflow
 
@@ -56,6 +56,7 @@ When creating or updating a module, you MUST:
 - Use `"this"` as the Terraform resource name for all singleton resources
 - Use `count` for on/off conditionals (`count = var.create_x ? 1 : 0`)
 - Use `for_each` for collections (multiple backends, subscriptions, logs, etc.)
+- **Never use apply-time values as `count` or `for_each` keys.** `count = var.x != null ? 1 : 0` and `for_each = toset(var.ips)` fail at plan time when `x` or `ips` come from resource outputs. Use a static boolean (`count = var.create_x ? 1 : 0`) for conditionals, and use index-keyed maps (`{ for idx, ip in var.ips : tostring(idx) => ip }`) for collections whose values are apply-time.
 
 ### Variable ordering
 
@@ -75,7 +76,7 @@ Every constrained variable MUST have a `validation` block:
 
 ### Sensitive outputs
 
-Mark any output `sensitive = true` when it contains connection strings, URLs, private keys, passwords, or session tokens.
+Mark any output `sensitive = true` when it contains connection strings, URLs, private keys, passwords, session tokens, or IP addresses. Also mark an output `sensitive = true` if its `value` references any module output or resource attribute that is itself sensitive — Terraform requires sensitivity to be propagated explicitly up the output chain.
 
 ### Tests
 

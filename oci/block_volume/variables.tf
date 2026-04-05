@@ -42,8 +42,22 @@ variable "vpus_per_gb" {
   }
 }
 
+variable "create_attachment" {
+  description = "(Optional) Whether to create a volume attachment to the instance specified by instance_id."
+  type        = bool
+  default     = false
+  validation {
+    condition     = !var.create_attachment || var.instance_id != null
+    error_message = "instance_id must be provided when create_attachment is true."
+  }
+  validation {
+    condition     = var.create_attachment || var.instance_id == null
+    error_message = "create_attachment must be true when instance_id is provided."
+  }
+}
+
 variable "instance_id" {
-  description = "(Optional) The OCID of the instance to attach this volume to. When null, no volume attachment is created."
+  description = "(Optional) The OCID of the instance to attach this volume to. Required when create_attachment is true."
   type        = string
   default     = null
   validation {

@@ -16,6 +16,11 @@ run "creates_cluster_with_defaults" {
     condition     = local.api_endpoint == "1.2.3.4"
     error_message = "API endpoint should default to first server IP"
   }
+
+  assert {
+    condition     = ansible_playbook.k3s_server["0"].name == "1.2.3.4"
+    error_message = "Server playbook name should be the IP address (index-keyed for_each, name = each.value)"
+  }
 }
 
 run "uses_custom_api_endpoint" {
@@ -28,6 +33,24 @@ run "uses_custom_api_endpoint" {
   assert {
     condition     = local.api_endpoint == "5.6.7.8"
     error_message = "Should use custom api_endpoint when provided"
+  }
+}
+
+run "with_agent_nodes" {
+  command = plan
+
+  variables {
+    agent_ips = ["5.6.7.8"]
+  }
+
+  assert {
+    condition     = length(ansible_playbook.k3s_agent) == 1
+    error_message = "One agent playbook should be created for one agent IP"
+  }
+
+  assert {
+    condition     = ansible_playbook.k3s_agent["0"].name == "5.6.7.8"
+    error_message = "Agent playbook name should be the IP address (index-keyed for_each, name = each.value)"
   }
 }
 

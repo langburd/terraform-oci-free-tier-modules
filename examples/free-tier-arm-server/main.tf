@@ -72,6 +72,7 @@ module "block_volume" {
 
   compartment_id      = module.compartment.compartment_id
   availability_domain = module.compute.availability_domain
+  create_attachment   = true
   instance_id         = module.compute.instance_id
   volume_display_name = "arm-server-data-volume"
   volume_size_in_gbs  = 50

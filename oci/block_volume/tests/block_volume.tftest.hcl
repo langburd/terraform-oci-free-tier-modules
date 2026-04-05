@@ -20,7 +20,7 @@ run "default_volume_no_attachment" {
 
   assert {
     condition     = length(oci_core_volume_attachment.this) == 0
-    error_message = "No attachment should be created when instance_id is null"
+    error_message = "No attachment should be created when create_attachment is false"
   }
 
   assert {
@@ -46,12 +46,13 @@ run "with_attachment" {
   command = plan
 
   variables {
-    instance_id = "ocid1.instance.oc1..aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    create_attachment = true
+    instance_id       = "ocid1.instance.oc1..aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
   }
 
   assert {
     condition     = length(oci_core_volume_attachment.this) == 1
-    error_message = "Attachment should be created when instance_id is provided"
+    error_message = "Attachment should be created when create_attachment is true"
   }
 
   assert {
@@ -93,6 +94,30 @@ run "rejects_invalid_instance_id" {
 
   expect_failures = [
     var.instance_id,
+  ]
+}
+
+run "rejects_create_attachment_without_instance_id" {
+  command = plan
+
+  variables {
+    create_attachment = true
+  }
+
+  expect_failures = [
+    var.create_attachment,
+  ]
+}
+
+run "rejects_instance_id_without_create_attachment" {
+  command = plan
+
+  variables {
+    instance_id = "ocid1.instance.oc1..aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  }
+
+  expect_failures = [
+    var.create_attachment,
   ]
 }
 
