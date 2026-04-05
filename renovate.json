@@ -9,7 +9,8 @@
   "enabledManagers": [
     "github-actions",
     "pre-commit",
-    "terraform"
+    "terraform",
+    "tflint"
   ],
   "packageRules": [
     {
@@ -35,6 +36,18 @@
         "patch"
       ],
       "groupName": "pre-commit hooks",
+      "automerge": true
+    },
+    {
+      "description": "Group tflint plugin updates and automerge minor/patch",
+      "matchManagers": [
+        "tflint"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "groupName": "tflint plugins",
       "automerge": true
     },
     {
