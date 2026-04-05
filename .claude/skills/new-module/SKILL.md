@@ -45,8 +45,8 @@ variable "compartment_id" {
   type        = string
 
   validation {
-    condition     = can(regex("^ocid1\\.compartment\\.[a-z][a-z0-9-]*\\.[a-z0-9-]*\\.[a-z0-9]+$", var.compartment_id))
-    error_message = "compartment_id must be a valid compartment OCID."
+    condition     = can(regex("^ocid1\\.[a-z]+\\.[a-z][a-z0-9-]*\\.[a-z0-9-]*\\.[a-z0-9]+$", var.compartment_id))
+    error_message = "compartment_id must be a valid OCI OCID (e.g. ocid1.compartment.oc1..aaaaaa...)."
   }
 }
 ```
@@ -76,7 +76,7 @@ run "defaults" {
   command = plan
 
   variables {
-    compartment_id = "ocid1.compartment.oc1..aaaaaaaa"
+    compartment_id = "ocid1.compartment.oc1..aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
   }
 
   assert {
@@ -90,7 +90,7 @@ run "custom_inputs" {
   command = plan
 
   variables {
-    compartment_id = "ocid1.compartment.oc1..aaaaaaaa"
+    compartment_id = "ocid1.compartment.oc1..aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
     # set optional vars here
   }
 }

@@ -90,6 +90,8 @@ In addition to Terraform, you need:
 
 OCI credentials are required because `terraform_docs` and `tflint` call `terraform init` internally during pre-commit.
 
+The pinned versions for `terraform-docs` and `tflint` match what CI uses (see `.github/workflows/pre-commit.yml`). Using different local versions may produce output that diverges from CI.
+
 After installing tools, install the pre-commit hooks:
 
 ```bash
