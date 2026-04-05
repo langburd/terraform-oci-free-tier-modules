@@ -2,6 +2,75 @@
 
 Reusable Terraform modules for Oracle Cloud Infrastructure (OCI) Always Free Tier resources. Consumed by the sibling [terraform-oci-free-tier-infra](https://github.com/langburd/terraform-oci-free-tier-infra) repo.
 
+## Oracle Cloud Free Tier
+
+[OCI Always Free](https://www.oracle.com/cloud/free/) gives you a set of cloud resources that never expire and never charge your card — no trial period, no automatic upgrade. This repo provides ready-to-use Terraform modules for every provisionable Always Free resource.
+
+Key resources included in the free allocation:
+
+| Category | Resource | Free Allocation |
+|---|---|---|
+| Compute | AMD Micro (VM.Standard.E2.1.Micro) | 2 instances |
+| Compute | Arm A1 Flex (VM.Standard.A1.Flex) | 4 OCPUs + 24 GB RAM total |
+| Storage | Block Volume | 200 GB total (boot + block combined) |
+| Storage | Object Storage | 20 GB |
+| Database | Autonomous Database | 2 instances, 1 ECPU, 20 GB each |
+| Database | MySQL HeatWave | 1 instance, 50 GB storage |
+| Database | NoSQL | 3 tables, 25 GB each |
+| Networking | VCN | 2 VCNs |
+| Networking | Flexible Load Balancer | 1 LB, 10 Mbps |
+| Networking | Network Load Balancer | 1 NLB |
+| Security | Vault / KMS | Unlimited software keys |
+| Observability | Monitoring | 500M ingestion data points/month |
+| Observability | Logging | 10 GB/month |
+| Notifications | ONS | 1M HTTPS + 1K email/month |
+
+**References:** [Always Free Resources](https://docs.oracle.com/en-us/iaas/Content/FreeTier/freetier_topic-Always_Free_Resources.htm) · [Sign up](https://www.oracle.com/cloud/free/) · [Free Tier FAQ](https://www.oracle.com/cloud/free/faq/)
+
+## Quick Start
+
+### 1. Create an OCI account
+
+Sign up at [oracle.com/cloud/free](https://www.oracle.com/cloud/free/). Always Free resources are available immediately after sign-up with no credit card charge.
+
+### 2. Install the OCI CLI
+
+```bash
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/oracle/oci-cli/master/scripts/install/install.sh)"
+```
+
+See the [OCI CLI install docs](https://docs.oracle.com/en-us/iaas/Content/API/SDKDocs/cliinstall.htm) for alternative methods (Homebrew, pip, etc.).
+
+### 3. Configure credentials
+
+```bash
+oci setup config
+```
+
+This generates `~/.oci/config` and `~/.oci/oci_api_key.pem`. You will be prompted for your tenancy OCID, user OCID, and region. See the [CLI configuration docs](https://docs.oracle.com/en-us/iaas/Content/API/SDKDocs/cliconfigure.htm) for details.
+
+### 4. Install Terraform >= 1.0
+
+See [developer.hashicorp.com/terraform/install](https://developer.hashicorp.com/terraform/install). On macOS:
+
+```bash
+brew tap hashicorp/tap && brew install hashicorp/tap/terraform
+```
+
+### 5. Pick a module or example
+
+Browse the [Examples](#examples) table below. [`examples/free-tier-compute-stack`](examples/free-tier-compute-stack) is the simplest starting point — it provisions a VCN, two subnets, an AMD Micro instance, and a bastion.
+
+### 6. Initialize and plan
+
+```bash
+cd examples/free-tier-compute-stack
+terraform init
+terraform plan
+```
+
+No real resources are created until you run `terraform apply`.
+
 ## Modules
 
 ### Foundation
