@@ -10,6 +10,10 @@ resource "oci_budget_budget" "this" {
   reset_period                          = var.budget_reset_period
   target_type                           = var.budget_target_type
   targets                               = var.budget_targets
+
+  lifecycle {
+    ignore_changes = [defined_tags]
+  }
 }
 
 resource "oci_budget_alert_rule" "this" {
@@ -25,4 +29,8 @@ resource "oci_budget_alert_rule" "this" {
   threshold      = var.alert_threshold
   threshold_type = var.alert_threshold_type
   type           = var.alert_type
+
+  lifecycle {
+    ignore_changes = [defined_tags]
+  }
 }

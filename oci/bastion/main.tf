@@ -7,4 +7,8 @@ resource "oci_bastion_bastion" "this" {
   max_session_ttl_in_seconds   = var.max_session_ttl_in_seconds
   defined_tags                 = var.bastion_defined_tags
   freeform_tags                = var.bastion_freeform_tags
+
+  lifecycle {
+    ignore_changes = [defined_tags]
+  }
 }

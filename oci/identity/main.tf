@@ -5,4 +5,8 @@ resource "oci_identity_compartment" "this" {
   enable_delete  = var.compartment_enable_delete
   freeform_tags  = var.compartment_freeform_tags
   name           = var.compartment_name
+
+  lifecycle {
+    ignore_changes = [defined_tags]
+  }
 }

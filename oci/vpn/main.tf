@@ -3,6 +3,10 @@ resource "oci_core_drg" "this" {
   display_name   = var.drg_display_name
   defined_tags   = var.vpn_defined_tags
   freeform_tags  = var.vpn_freeform_tags
+
+  lifecycle {
+    ignore_changes = [defined_tags]
+  }
 }
 
 resource "oci_core_drg_attachment" "this" {
@@ -23,6 +27,10 @@ resource "oci_core_cpe" "this" {
   display_name   = var.cpe_display_name
   defined_tags   = var.vpn_defined_tags
   freeform_tags  = var.vpn_freeform_tags
+
+  lifecycle {
+    ignore_changes = [defined_tags]
+  }
 }
 
 resource "oci_core_ipsec" "this" {
@@ -33,4 +41,8 @@ resource "oci_core_ipsec" "this" {
   static_routes  = var.static_routes
   defined_tags   = var.vpn_defined_tags
   freeform_tags  = var.vpn_freeform_tags
+
+  lifecycle {
+    ignore_changes = [defined_tags]
+  }
 }

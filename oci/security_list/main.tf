@@ -5,6 +5,10 @@ resource "oci_core_security_list" "this" {
   defined_tags   = var.security_list_defined_tags
   freeform_tags  = var.security_list_freeform_tags
 
+  lifecycle {
+    ignore_changes = [defined_tags]
+  }
+
   dynamic "ingress_security_rules" {
     for_each = var.ingress_security_rules
     content {

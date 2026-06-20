@@ -9,6 +9,10 @@ resource "oci_network_load_balancer_network_load_balancer" "this" {
   is_private     = var.is_private
   defined_tags   = var.nlb_defined_tags
   freeform_tags  = var.nlb_freeform_tags
+
+  lifecycle {
+    ignore_changes = [defined_tags]
+  }
 }
 
 resource "oci_network_load_balancer_backend_set" "this" {

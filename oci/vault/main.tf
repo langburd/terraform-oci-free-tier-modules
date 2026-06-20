@@ -4,6 +4,10 @@ resource "oci_kms_vault" "this" {
   vault_type     = var.vault_type
   defined_tags   = var.vault_defined_tags
   freeform_tags  = var.vault_freeform_tags
+
+  lifecycle {
+    ignore_changes = [defined_tags]
+  }
 }
 
 resource "oci_kms_key" "this" {
@@ -14,6 +18,10 @@ resource "oci_kms_key" "this" {
   management_endpoint = oci_kms_vault.this.management_endpoint
   defined_tags        = var.vault_defined_tags
   freeform_tags       = var.vault_freeform_tags
+
+  lifecycle {
+    ignore_changes = [defined_tags]
+  }
 
   key_shape {
     algorithm = var.key_algorithm

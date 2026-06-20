@@ -5,6 +5,10 @@ resource "oci_nosql_table" "this" {
   defined_tags   = var.nosql_defined_tags
   freeform_tags  = var.nosql_freeform_tags
 
+  lifecycle {
+    ignore_changes = [defined_tags]
+  }
+
   table_limits {
     max_read_units     = var.table_limits_max_read_units
     max_write_units    = var.table_limits_max_write_units

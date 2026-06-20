@@ -11,6 +11,10 @@ resource "oci_containerengine_node_pool" "this" {
   freeform_tags      = var.node_pool_freeform_tags
   ssh_public_key     = var.ssh_public_key
 
+  lifecycle {
+    ignore_changes = [defined_tags]
+  }
+
   node_shape = var.node_shape
 
   dynamic "node_shape_config" {

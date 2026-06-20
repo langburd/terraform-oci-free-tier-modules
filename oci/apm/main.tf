@@ -5,4 +5,8 @@ resource "oci_apm_apm_domain" "this" {
   is_free_tier   = var.is_free_tier
   defined_tags   = var.apm_defined_tags
   freeform_tags  = var.apm_freeform_tags
+
+  lifecycle {
+    ignore_changes = [defined_tags]
+  }
 }

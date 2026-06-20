@@ -3,6 +3,10 @@ resource "oci_email_email_domain" "this" {
   name           = var.email_domain_name
   defined_tags   = var.email_defined_tags
   freeform_tags  = var.email_freeform_tags
+
+  lifecycle {
+    ignore_changes = [defined_tags]
+  }
 }
 
 resource "oci_email_sender" "this" {
@@ -10,6 +14,10 @@ resource "oci_email_sender" "this" {
   email_address  = var.sender_email_address
   defined_tags   = var.email_defined_tags
   freeform_tags  = var.email_freeform_tags
+
+  lifecycle {
+    ignore_changes = [defined_tags]
+  }
 }
 
 resource "oci_email_dkim" "this" {
@@ -19,4 +27,8 @@ resource "oci_email_dkim" "this" {
   name            = var.dkim_name
   defined_tags    = var.email_defined_tags
   freeform_tags   = var.email_freeform_tags
+
+  lifecycle {
+    ignore_changes = [defined_tags]
+  }
 }

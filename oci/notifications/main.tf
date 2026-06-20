@@ -4,6 +4,10 @@ resource "oci_ons_notification_topic" "this" {
   description    = var.topic_description
   defined_tags   = var.notifications_defined_tags
   freeform_tags  = var.notifications_freeform_tags
+
+  lifecycle {
+    ignore_changes = [defined_tags]
+  }
 }
 
 resource "oci_ons_subscription" "this" {

@@ -4,6 +4,10 @@ resource "oci_core_network_security_group" "this" {
   display_name   = var.nsg_display_name
   defined_tags   = var.nsg_defined_tags
   freeform_tags  = var.nsg_freeform_tags
+
+  lifecycle {
+    ignore_changes = [defined_tags]
+  }
 }
 
 resource "oci_core_network_security_group_security_rule" "this" {
