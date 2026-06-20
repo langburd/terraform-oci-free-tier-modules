@@ -58,7 +58,13 @@ variable "create_nat_gateway" {
 }
 
 variable "create_service_gateway" {
-  description = "(Optional) Whether to create a Service Gateway. When enabled, a service route is added to the public and/or private route tables."
+  description = "(Optional) Whether to create a Service Gateway. When enabled, a service route is added to the private route table (and optionally the public route table — see add_service_gateway_to_public_rt)."
+  type        = bool
+  default     = false
+}
+
+variable "add_service_gateway_to_public_rt" {
+  description = "(Optional) Whether to add a Service Gateway route to the public route table. Defaults to false because OCI rejects combining an Internet Gateway and an 'All Services' Service Gateway route in the same route table."
   type        = bool
   default     = false
 }

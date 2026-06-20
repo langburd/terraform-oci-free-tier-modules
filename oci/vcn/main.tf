@@ -75,7 +75,7 @@ resource "oci_core_route_table" "public" {
   }
 
   dynamic "route_rules" {
-    for_each = var.create_service_gateway ? [1] : []
+    for_each = var.create_service_gateway && var.add_service_gateway_to_public_rt ? [1] : []
     content {
       destination       = local.service.cidr_block
       destination_type  = "SERVICE_CIDR_BLOCK"
