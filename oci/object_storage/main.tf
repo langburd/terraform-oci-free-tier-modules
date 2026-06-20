@@ -18,4 +18,8 @@ resource "oci_objectstorage_bucket" "this" {
   kms_key_id            = var.kms_key_id
   defined_tags          = var.bucket_defined_tags
   freeform_tags         = var.bucket_freeform_tags
+
+  lifecycle {
+    ignore_changes = [defined_tags]
+  }
 }

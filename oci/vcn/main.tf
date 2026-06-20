@@ -15,6 +15,10 @@ resource "oci_core_vcn" "this" {
 
   defined_tags  = var.vcn_defined_tags
   freeform_tags = var.vcn_freeform_tags
+
+  lifecycle {
+    ignore_changes = [defined_tags]
+  }
 }
 
 resource "oci_core_internet_gateway" "this" {
@@ -26,6 +30,10 @@ resource "oci_core_internet_gateway" "this" {
   display_name   = "${var.vcn_display_name}-igw"
   enabled        = true
   freeform_tags  = var.vcn_freeform_tags
+
+  lifecycle {
+    ignore_changes = [defined_tags]
+  }
 }
 
 resource "oci_core_nat_gateway" "this" {
@@ -36,6 +44,10 @@ resource "oci_core_nat_gateway" "this" {
   defined_tags   = var.vcn_defined_tags
   display_name   = "${var.vcn_display_name}-natgw"
   freeform_tags  = var.vcn_freeform_tags
+
+  lifecycle {
+    ignore_changes = [defined_tags]
+  }
 }
 
 resource "oci_core_service_gateway" "this" {
@@ -52,6 +64,7 @@ resource "oci_core_service_gateway" "this" {
   }
 
   lifecycle {
+    ignore_changes = [defined_tags]
     precondition {
       condition     = local.service != null
       error_message = "No OCI service matching 'All .* Services In Oracle Services Network' was found in this region. Cannot create service gateway."
@@ -84,6 +97,7 @@ resource "oci_core_route_table" "public" {
   }
 
   lifecycle {
+    ignore_changes = [defined_tags]
     precondition {
       condition     = !var.add_service_gateway_to_public_rt || var.create_service_gateway
       error_message = "add_service_gateway_to_public_rt requires create_service_gateway = true."
@@ -99,6 +113,10 @@ resource "oci_core_route_table" "private" {
   defined_tags   = var.vcn_defined_tags
   display_name   = "${var.vcn_display_name}-private-rt"
   freeform_tags  = var.vcn_freeform_tags
+
+  lifecycle {
+    ignore_changes = [defined_tags]
+  }
 
   route_rules {
     destination       = "0.0.0.0/0"
@@ -131,4 +149,8 @@ resource "oci_core_security_list" "this" {
   defined_tags   = var.vcn_defined_tags
   display_name   = "${var.vcn_display_name}-security-list"
   freeform_tags  = var.vcn_freeform_tags
+
+  lifecycle {
+    ignore_changes = [defined_tags]
+  }
 }

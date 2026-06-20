@@ -12,6 +12,10 @@ resource "oci_certificates_management_certificate_authority" "this" {
   defined_tags   = var.certificates_defined_tags
   freeform_tags  = var.certificates_freeform_tags
 
+  lifecycle {
+    ignore_changes = [defined_tags]
+  }
+
   certificate_authority_config {
     config_type       = var.ca_config_type
     signing_algorithm = var.ca_signing_algorithm
@@ -33,6 +37,10 @@ resource "oci_certificates_management_certificate" "this" {
   name           = var.certificate_name
   defined_tags   = var.certificates_defined_tags
   freeform_tags  = var.certificates_freeform_tags
+
+  lifecycle {
+    ignore_changes = [defined_tags]
+  }
 
   certificate_config {
     config_type                     = var.certificate_config_type

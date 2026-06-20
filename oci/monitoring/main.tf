@@ -10,4 +10,8 @@ resource "oci_monitoring_alarm" "this" {
   body                  = var.alarm_body
   defined_tags          = var.alarm_defined_tags
   freeform_tags         = var.alarm_freeform_tags
+
+  lifecycle {
+    ignore_changes = [defined_tags]
+  }
 }

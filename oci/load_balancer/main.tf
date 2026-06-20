@@ -7,6 +7,10 @@ resource "oci_load_balancer_load_balancer" "this" {
   defined_tags   = var.lb_defined_tags
   freeform_tags  = var.lb_freeform_tags
 
+  lifecycle {
+    ignore_changes = [defined_tags]
+  }
+
   shape_details {
     minimum_bandwidth_in_mbps = 10
     maximum_bandwidth_in_mbps = 10

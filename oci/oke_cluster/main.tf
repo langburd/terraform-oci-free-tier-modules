@@ -7,6 +7,10 @@ resource "oci_containerengine_cluster" "this" {
   defined_tags       = var.cluster_defined_tags
   freeform_tags      = var.cluster_freeform_tags
 
+  lifecycle {
+    ignore_changes = [defined_tags]
+  }
+
   endpoint_config {
     subnet_id            = var.endpoint_subnet_id
     is_public_ip_enabled = var.endpoint_is_public_ip_enabled

@@ -16,6 +16,10 @@ resource "oci_mysql_mysql_db_system" "this" {
   defined_tags        = var.mysql_defined_tags
   freeform_tags       = var.mysql_freeform_tags
 
+  lifecycle {
+    ignore_changes = [defined_tags]
+  }
+
   data_storage_size_in_gb = var.data_storage_size_in_gb
 
   backup_policy {

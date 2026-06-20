@@ -13,4 +13,8 @@ resource "oci_database_autonomous_database" "this" {
   display_name                = var.display_name
   defined_tags                = var.autonomous_database_defined_tags
   freeform_tags               = var.autonomous_database_freeform_tags
+
+  lifecycle {
+    ignore_changes = [defined_tags]
+  }
 }

@@ -6,6 +6,10 @@ resource "oci_sch_service_connector" "this" {
   defined_tags   = var.connector_defined_tags
   freeform_tags  = var.connector_freeform_tags
 
+  lifecycle {
+    ignore_changes = [defined_tags]
+  }
+
   source {
     kind = var.source_kind
 

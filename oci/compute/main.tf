@@ -46,4 +46,8 @@ resource "oci_core_instance" "this" {
 
   defined_tags  = var.compute_defined_tags
   freeform_tags = var.compute_freeform_tags
+
+  lifecycle {
+    ignore_changes = [defined_tags]
+  }
 }

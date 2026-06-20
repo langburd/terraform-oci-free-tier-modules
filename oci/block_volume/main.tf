@@ -8,6 +8,10 @@ resource "oci_core_volume" "this" {
 
   defined_tags  = var.volume_defined_tags
   freeform_tags = var.volume_freeform_tags
+
+  lifecycle {
+    ignore_changes = [defined_tags]
+  }
 }
 
 resource "oci_core_volume_backup_policy_assignment" "this" {

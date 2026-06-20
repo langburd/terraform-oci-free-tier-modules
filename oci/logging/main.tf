@@ -3,6 +3,10 @@ resource "oci_logging_log_group" "this" {
   display_name   = var.log_group_display_name
   defined_tags   = var.logging_defined_tags
   freeform_tags  = var.logging_freeform_tags
+
+  lifecycle {
+    ignore_changes = [defined_tags]
+  }
 }
 
 resource "oci_logging_log" "this" {
@@ -15,6 +19,10 @@ resource "oci_logging_log" "this" {
   retention_duration = each.value.retention_duration
   defined_tags       = var.logging_defined_tags
   freeform_tags      = var.logging_freeform_tags
+
+  lifecycle {
+    ignore_changes = [defined_tags]
+  }
 
   dynamic "configuration" {
     for_each = each.value.log_type == "SERVICE" ? [1] : []

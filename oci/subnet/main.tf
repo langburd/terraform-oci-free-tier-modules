@@ -11,4 +11,8 @@ resource "oci_core_subnet" "this" {
 
   defined_tags  = var.subnet_defined_tags
   freeform_tags = var.subnet_freeform_tags
+
+  lifecycle {
+    ignore_changes = [defined_tags]
+  }
 }
