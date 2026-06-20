@@ -82,6 +82,13 @@ resource "oci_core_route_table" "public" {
       network_entity_id = oci_core_service_gateway.this[0].id
     }
   }
+
+  lifecycle {
+    precondition {
+      condition     = !var.add_service_gateway_to_public_rt || var.create_service_gateway
+      error_message = "add_service_gateway_to_public_rt requires create_service_gateway = true."
+    }
+  }
 }
 
 resource "oci_core_route_table" "private" {
