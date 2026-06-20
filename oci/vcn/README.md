@@ -51,10 +51,11 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_add_service_gateway_to_public_rt"></a> [add\_service\_gateway\_to\_public\_rt](#input\_add\_service\_gateway\_to\_public\_rt) | (Optional) Whether to add a Service Gateway route to the public route table. Defaults to false because OCI rejects combining an Internet Gateway and an 'All Services' Service Gateway route in the same route table. | `bool` | `false` | no |
 | <a name="input_compartment_id"></a> [compartment\_id](#input\_compartment\_id) | (Required) The OCID of the compartment in which to create the VCN. | `string` | n/a | yes |
 | <a name="input_create_internet_gateway"></a> [create\_internet\_gateway](#input\_create\_internet\_gateway) | (Optional) Whether to create an Internet Gateway and public route table. Defaults to false (secure). Set to true only for subnets that must be reachable from the internet. | `bool` | `false` | no |
 | <a name="input_create_nat_gateway"></a> [create\_nat\_gateway](#input\_create\_nat\_gateway) | (Optional) Whether to create a NAT Gateway and private route table. | `bool` | `false` | no |
-| <a name="input_create_service_gateway"></a> [create\_service\_gateway](#input\_create\_service\_gateway) | (Optional) Whether to create a Service Gateway. When enabled, a service route is added to the public and/or private route tables. | `bool` | `false` | no |
+| <a name="input_create_service_gateway"></a> [create\_service\_gateway](#input\_create\_service\_gateway) | (Optional) Whether to create a Service Gateway. When enabled, a service route is added to the private route table (and optionally the public route table — see add\_service\_gateway\_to\_public\_rt). | `bool` | `false` | no |
 | <a name="input_vcn_cidr_blocks"></a> [vcn\_cidr\_blocks](#input\_vcn\_cidr\_blocks) | (Optional) (Updatable) The list of one or more IPv4 CIDR blocks for the VCN. | `list(string)` | <pre>[<br/>  "10.0.0.0/16"<br/>]</pre> | no |
 | <a name="input_vcn_defined_tags"></a> [vcn\_defined\_tags](#input\_vcn\_defined\_tags) | (Optional) (Updatable) Defined tags for all resources created by this module (VCN, gateways, route tables, and security list). | `map(string)` | `{}` | no |
 | <a name="input_vcn_display_name"></a> [vcn\_display\_name](#input\_vcn\_display\_name) | (Optional) (Updatable) A user-friendly name for the VCN. | `string` | `"vcn"` | no |

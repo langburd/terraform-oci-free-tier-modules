@@ -75,11 +75,18 @@ resource "oci_core_route_table" "public" {
   }
 
   dynamic "route_rules" {
-    for_each = var.create_service_gateway ? [1] : []
+    for_each = var.create_service_gateway && var.add_service_gateway_to_public_rt ? [1] : []
     content {
       destination       = local.service.cidr_block
       destination_type  = "SERVICE_CIDR_BLOCK"
       network_entity_id = oci_core_service_gateway.this[0].id
+    }
+  }
+
+  lifecycle {
+    precondition {
+      condition     = !var.add_service_gateway_to_public_rt || var.create_service_gateway
+      error_message = "add_service_gateway_to_public_rt requires create_service_gateway = true."
     }
   }
 }

@@ -113,13 +113,38 @@ run "all_gateways" {
     error_message = "Private route table should be created"
   }
 
-  # Verify that the service gateway is wired into both route tables by confirming
-  # the SGW variable is true (which drives the dynamic route_rules blocks). A
+  # Verify that the service gateway is wired into the private route table by confirming
+  # the SGW variable is true (which drives the dynamic route_rules block). A
   # length() check on route_rules cannot be used at plan time because the
-  # network_entity_id values are computed and unknown until apply.
+  # network_entity_id values are computed and unknown until apply. The public RT
+  # opt-in (add_service_gateway_to_public_rt) defaults to false and is tested
+  # separately in the sgw_in_public_rt run.
   assert {
     condition     = var.create_service_gateway == true
     error_message = "create_service_gateway must be true for service routes to be added to route tables"
+  }
+}
+
+run "sgw_in_public_rt" {
+  command = plan
+
+  variables {
+    create_internet_gateway          = true
+    create_service_gateway           = true
+    add_service_gateway_to_public_rt = true
+  }
+
+  assert {
+    condition     = length(oci_core_route_table.public) == 1
+    error_message = "Public route table should be created when IGW is enabled"
+  }
+
+  # Verify the opt-in flag is set (which drives the dynamic route_rules block on
+  # the public RT). A length() check on route_rules cannot be used at plan time
+  # because the network_entity_id values are computed and unknown until apply.
+  assert {
+    condition     = var.add_service_gateway_to_public_rt == true
+    error_message = "add_service_gateway_to_public_rt must be true for service routes to be added to the public route table"
   }
 }
 
