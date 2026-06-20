@@ -16,7 +16,7 @@ jobs:
       modules: ${{ steps.find.outputs.modules }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
       - name: Find changed modules
@@ -48,7 +48,7 @@ jobs:
     name: checkov (${{ matrix.module }})
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
       - name: Compute SARIF category
         id: meta
         env:
