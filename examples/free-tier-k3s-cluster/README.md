@@ -54,7 +54,7 @@ kubectl get nodes
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.14 |
 | <a name="requirement_local"></a> [local](#requirement\_local) | >= 2.0 |
-| <a name="requirement_oci"></a> [oci](#requirement\_oci) | >= 8.0, < 9.0 |
+| <a name="requirement_oci"></a> [oci](#requirement\_oci) | ~> 9.0 |
 | <a name="requirement_tls"></a> [tls](#requirement\_tls) | >= 4.0 |
 
 ## Providers
@@ -62,7 +62,7 @@ kubectl get nodes
 | Name | Version |
 |------|---------|
 | <a name="provider_local"></a> [local](#provider\_local) | >= 2.0 |
-| <a name="provider_oci"></a> [oci](#provider\_oci) | >= 8.0, < 9.0 |
+| <a name="provider_oci"></a> [oci](#provider\_oci) | ~> 9.0 |
 | <a name="provider_tls"></a> [tls](#provider\_tls) | >= 4.0 |
 
 ## Modules
