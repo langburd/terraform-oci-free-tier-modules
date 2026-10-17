@@ -93,3 +93,27 @@ variable "kms_key_id" {
     error_message = "kms_key_id must be a valid OCI OCID or null."
   }
 }
+
+variable "previous_version_retention_days" {
+  description = "(Optional) Delete non-current object versions this many days after they stop being current. Creates a lifecycle policy plus the IAM policy the regional Object Storage service needs to run it (requires region). Null disables both."
+  type        = number
+  default     = null
+  validation {
+    condition     = var.previous_version_retention_days == null || coalesce(var.previous_version_retention_days, 1) >= 1
+    error_message = "previous_version_retention_days must be at least 1."
+  }
+  validation {
+    condition     = var.previous_version_retention_days == null || var.region != null
+    error_message = "region must be set when previous_version_retention_days is set."
+  }
+}
+
+variable "region" {
+  description = "(Optional) Region identifier of the bucket (e.g. il-jerusalem-1). Required with previous_version_retention_days, to grant the regional Object Storage service access."
+  type        = string
+  default     = null
+  validation {
+    condition     = var.region == null || can(regex("^[a-z]+-[a-z]+-[0-9]+$", var.region))
+    error_message = "region must be an OCI region identifier such as il-jerusalem-1."
+  }
+}
