@@ -38,14 +38,14 @@ module "block_volume" {
 ## Requirements
 
 | Name | Version |
-|------|---------|
+| ---- | ------- |
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
 | <a name="requirement_oci"></a> [oci](#requirement\_oci) | >= 9.0, < 10.0 |
 
 ## Providers
 
 | Name | Version |
-|------|---------|
+| ---- | ------- |
 | <a name="provider_oci"></a> [oci](#provider\_oci) | >= 9.0, < 10.0 |
 
 ## Modules
@@ -55,7 +55,7 @@ No modules.
 ## Resources
 
 | Name | Type |
-|------|------|
+| ---- | ---- |
 | [oci_core_volume.this](https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/core_volume) | resource |
 | [oci_core_volume_attachment.this](https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/core_volume_attachment) | resource |
 | [oci_core_volume_backup_policy_assignment.this](https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/core_volume_backup_policy_assignment) | resource |
@@ -63,7 +63,7 @@ No modules.
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
+| ---- | ----------- | ---- | ------- | :------: |
 | <a name="input_attachment_type"></a> [attachment\_type](#input\_attachment\_type) | (Optional) The type of volume attachment. Must be 'iscsi' or 'paravirtualized'. | `string` | `"paravirtualized"` | no |
 | <a name="input_availability_domain"></a> [availability\_domain](#input\_availability\_domain) | (Required) The availability domain in which to create the block volume. | `string` | n/a | yes |
 | <a name="input_backup_policy_id"></a> [backup\_policy\_id](#input\_backup\_policy\_id) | (Optional) The OCID of a backup policy to assign to the volume. Null disables automated backups. Note: automated backups require paid storage -- free-tier users should leave this null. | `string` | `null` | no |
@@ -81,7 +81,7 @@ No modules.
 ## Outputs
 
 | Name | Description |
-|------|-------------|
+| ---- | ----------- |
 | <a name="output_backup_policy_assignment_id"></a> [backup\_policy\_assignment\_id](#output\_backup\_policy\_assignment\_id) | OCID of the volume backup policy assignment. Returns null when no backup\_policy\_id is provided. |
 | <a name="output_volume_attachment_id"></a> [volume\_attachment\_id](#output\_volume\_attachment\_id) | OCID of the volume attachment. Returns null when no instance\_id is provided. |
 | <a name="output_volume_id"></a> [volume\_id](#output\_volume\_id) | OCID of the block volume. |

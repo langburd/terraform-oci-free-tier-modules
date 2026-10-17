@@ -23,14 +23,14 @@ module "oke_cluster" {
 ## Requirements
 
 | Name | Version |
-|------|---------|
+| ---- | ------- |
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
 | <a name="requirement_oci"></a> [oci](#requirement\_oci) | >= 9.0, < 10.0 |
 
 ## Providers
 
 | Name | Version |
-|------|---------|
+| ---- | ------- |
 | <a name="provider_oci"></a> [oci](#provider\_oci) | >= 9.0, < 10.0 |
 
 ## Modules
@@ -40,13 +40,13 @@ No modules.
 ## Resources
 
 | Name | Type |
-|------|------|
+| ---- | ---- |
 | [oci_containerengine_cluster.this](https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/containerengine_cluster) | resource |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
+| ---- | ----------- | ---- | ------- | :------: |
 | <a name="input_cluster_defined_tags"></a> [cluster\_defined\_tags](#input\_cluster\_defined\_tags) | (Optional) (Updatable) Defined tags for the OKE cluster. | `map(string)` | `{}` | no |
 | <a name="input_cluster_freeform_tags"></a> [cluster\_freeform\_tags](#input\_cluster\_freeform\_tags) | (Optional) (Updatable) Free-form tags for the OKE cluster. | `map(string)` | `{}` | no |
 | <a name="input_cluster_name"></a> [cluster\_name](#input\_cluster\_name) | (Required) A user-friendly name for the OKE cluster. | `string` | n/a | yes |
@@ -67,7 +67,7 @@ No modules.
 ## Outputs
 
 | Name | Description |
-|------|-------------|
+| ---- | ----------- |
 | <a name="output_cluster_endpoints"></a> [cluster\_endpoints](#output\_cluster\_endpoints) | OKE cluster API endpoints. |
 | <a name="output_cluster_id"></a> [cluster\_id](#output\_cluster\_id) | OCID of the OKE cluster. |
 | <a name="output_cluster_kubernetes_version"></a> [cluster\_kubernetes\_version](#output\_cluster\_kubernetes\_version) | Kubernetes version of the OKE cluster. |

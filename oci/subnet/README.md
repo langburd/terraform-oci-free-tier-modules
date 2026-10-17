@@ -18,14 +18,14 @@ module "subnet" {
 ## Requirements
 
 | Name | Version |
-|------|---------|
+| ---- | ------- |
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
 | <a name="requirement_oci"></a> [oci](#requirement\_oci) | >= 9.0, < 10.0 |
 
 ## Providers
 
 | Name | Version |
-|------|---------|
+| ---- | ------- |
 | <a name="provider_oci"></a> [oci](#provider\_oci) | >= 9.0, < 10.0 |
 
 ## Modules
@@ -35,13 +35,13 @@ No modules.
 ## Resources
 
 | Name | Type |
-|------|------|
+| ---- | ---- |
 | [oci_core_subnet.this](https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/core_subnet) | resource |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
+| ---- | ----------- | ---- | ------- | :------: |
 | <a name="input_availability_domain"></a> [availability\_domain](#input\_availability\_domain) | (Optional) The availability domain for the subnet. Omit (null) for a regional subnet, which spans all ADs and is recommended. | `string` | `null` | no |
 | <a name="input_compartment_id"></a> [compartment\_id](#input\_compartment\_id) | (Required) The OCID of the compartment in which to create the subnet. | `string` | n/a | yes |
 | <a name="input_prohibit_internet_ingress"></a> [prohibit\_internet\_ingress](#input\_prohibit\_internet\_ingress) | (Optional) (Updatable) Whether to disallow ingress from the internet. Set to true for private subnets. | `bool` | `false` | no |
@@ -57,7 +57,7 @@ No modules.
 ## Outputs
 
 | Name | Description |
-|------|-------------|
+| ---- | ----------- |
 | <a name="output_subnet_cidr_block"></a> [subnet\_cidr\_block](#output\_subnet\_cidr\_block) | The CIDR block assigned to the subnet. |
 | <a name="output_subnet_id"></a> [subnet\_id](#output\_subnet\_id) | OCID of the subnet. |
 <!-- END_TF_DOCS -->
