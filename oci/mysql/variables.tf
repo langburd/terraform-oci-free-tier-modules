@@ -93,3 +93,59 @@ variable "mysql_freeform_tags" {
   type        = map(string)
   default     = {}
 }
+
+variable "nsg_ids" {
+  description = "(Optional) (Updatable) OCIDs of the Network Security Groups the DB System's endpoint is added to."
+  type        = list(string)
+  default     = []
+  validation {
+    condition     = alltrue([for id in var.nsg_ids : can(regex("^ocid1\\.[a-z]+\\.[a-z][a-z0-9-]*\\.[a-z0-9-]*\\.[a-z0-9]+$", id))])
+    error_message = "Each nsg_ids entry must be a valid OCI OCID (e.g. ocid1.networksecuritygroup.oc1..aaaaaa...)."
+  }
+}
+
+variable "hostname_label" {
+  description = "(Optional) Hostname for the DB System's primary endpoint. Together with the subnet and VCN DNS labels it forms the FQDN (e.g. mysql.db.myvcn.oraclevcn.com). Null leaves the endpoint without a DNS name."
+  type        = string
+  default     = null
+  validation {
+    condition     = var.hostname_label == null || can(regex("^[a-zA-Z][a-zA-Z0-9-]{0,62}$", var.hostname_label))
+    error_message = "hostname_label must start with a letter and contain only letters, digits and hyphens (max 63 characters)."
+  }
+}
+
+variable "maintenance_window_start_time" {
+  description = "(Optional) (Updatable) Start of the weekly 2-hour maintenance window, as \"{day-of-week} {HH:MM}\" in UTC (e.g. \"sun 02:00\"). Null lets OCI choose."
+  type        = string
+  default     = null
+  validation {
+    condition     = var.maintenance_window_start_time == null || can(regex("^(?i)(mon|tue|wed|thu|fri|sat|sun) ([01][0-9]|2[0-3]):[0-5][0-9]$", var.maintenance_window_start_time))
+    error_message = "maintenance_window_start_time must look like \"sun 02:00\" (day mon-sun, 24h UTC time)."
+  }
+}
+
+variable "is_delete_protected" {
+  description = "(Optional) (Updatable) Whether the DB System is protected against deletion. Must be set to false (and applied) before the DB System can be destroyed."
+  type        = bool
+  default     = true
+}
+
+variable "final_backup" {
+  description = "(Optional) (Updatable) Whether a final backup is taken when the DB System is deleted. Supported values: SKIP_FINAL_BACKUP, REQUIRE_FINAL_BACKUP. Null keeps the OCI default."
+  type        = string
+  default     = null
+  validation {
+    condition     = var.final_backup == null || contains(["SKIP_FINAL_BACKUP", "REQUIRE_FINAL_BACKUP"], coalesce(var.final_backup, "SKIP_FINAL_BACKUP"))
+    error_message = "Supported values are: SKIP_FINAL_BACKUP, REQUIRE_FINAL_BACKUP."
+  }
+}
+
+variable "automatic_backup_retention" {
+  description = "(Optional) (Updatable) Whether automatic backups are kept or deleted when the DB System is deleted. Supported values: DELETE, RETAIN. Null keeps the OCI default."
+  type        = string
+  default     = null
+  validation {
+    condition     = var.automatic_backup_retention == null || contains(["DELETE", "RETAIN"], coalesce(var.automatic_backup_retention, "DELETE"))
+    error_message = "Supported values are: DELETE, RETAIN."
+  }
+}
