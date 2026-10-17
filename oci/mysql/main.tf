@@ -13,6 +13,8 @@ resource "oci_mysql_mysql_db_system" "this" {
   admin_password      = var.admin_password
   display_name        = var.mysql_display_name
   is_highly_available = var.is_highly_available
+  nsg_ids             = var.nsg_ids
+  hostname_label      = var.hostname_label
   defined_tags        = var.mysql_defined_tags
   freeform_tags       = var.mysql_freeform_tags
 
@@ -26,7 +28,16 @@ resource "oci_mysql_mysql_db_system" "this" {
     is_enabled = var.backup_is_enabled
   }
 
+  dynamic "maintenance" {
+    for_each = var.maintenance_window_start_time == null ? [] : [var.maintenance_window_start_time]
+    content {
+      window_start_time = maintenance.value
+    }
+  }
+
   deletion_policy {
-    is_delete_protected = true
+    is_delete_protected        = var.is_delete_protected
+    final_backup               = var.final_backup
+    automatic_backup_retention = var.automatic_backup_retention
   }
 }

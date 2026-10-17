@@ -109,3 +109,123 @@ run "rejects_weak_admin_password" {
     var.admin_password,
   ]
 }
+
+run "maintenance_block_omitted_by_default" {
+  command = plan
+
+  assert {
+    condition     = length(oci_mysql_mysql_db_system.this.maintenance) == 0
+    error_message = "maintenance block should be omitted by default"
+  }
+}
+
+run "creates_mysql_with_network_maintenance_and_deletion_settings" {
+  command = plan
+
+  variables {
+    nsg_ids                       = ["ocid1.networksecuritygroup.oc1..aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"]
+    hostname_label                = "vaultwarden-mysql"
+    maintenance_window_start_time = "sun 02:00"
+    is_delete_protected           = true
+    final_backup                  = "REQUIRE_FINAL_BACKUP"
+    automatic_backup_retention    = "RETAIN"
+  }
+
+  assert {
+    condition     = contains(oci_mysql_mysql_db_system.this.nsg_ids, "ocid1.networksecuritygroup.oc1..aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+    error_message = "nsg_ids should be passed through"
+  }
+
+  assert {
+    condition     = oci_mysql_mysql_db_system.this.hostname_label == "vaultwarden-mysql"
+    error_message = "hostname_label should be passed through"
+  }
+
+  assert {
+    condition     = oci_mysql_mysql_db_system.this.maintenance[0].window_start_time == "sun 02:00"
+    error_message = "maintenance window_start_time should be passed through"
+  }
+
+  assert {
+    condition     = oci_mysql_mysql_db_system.this.deletion_policy[0].final_backup == "REQUIRE_FINAL_BACKUP"
+    error_message = "final_backup should be passed through"
+  }
+
+  assert {
+    condition     = oci_mysql_mysql_db_system.this.deletion_policy[0].automatic_backup_retention == "RETAIN"
+    error_message = "automatic_backup_retention should be passed through"
+  }
+}
+
+run "allows_disabling_delete_protection" {
+  command = plan
+
+  variables {
+    is_delete_protected = false
+  }
+
+  assert {
+    condition     = oci_mysql_mysql_db_system.this.deletion_policy[0].is_delete_protected == false
+    error_message = "is_delete_protected should be configurable"
+  }
+}
+
+run "rejects_invalid_nsg_ocid" {
+  command = plan
+
+  variables {
+    nsg_ids = ["not-a-valid-ocid"]
+  }
+
+  expect_failures = [
+    var.nsg_ids,
+  ]
+}
+
+run "rejects_invalid_hostname_label" {
+  command = plan
+
+  variables {
+    hostname_label = "1-starts-with-digit"
+  }
+
+  expect_failures = [
+    var.hostname_label,
+  ]
+}
+
+run "rejects_invalid_maintenance_window" {
+  command = plan
+
+  variables {
+    maintenance_window_start_time = "sunday 2am"
+  }
+
+  expect_failures = [
+    var.maintenance_window_start_time,
+  ]
+}
+
+run "rejects_invalid_final_backup" {
+  command = plan
+
+  variables {
+    final_backup = "ALWAYS"
+  }
+
+  expect_failures = [
+    var.final_backup,
+  ]
+}
+
+run "rejects_invalid_automatic_backup_retention" {
+  command = plan
+
+  variables {
+    automatic_backup_retention = "KEEP"
+  }
+
+  expect_failures = [
+    var.automatic_backup_retention,
+  ]
+}

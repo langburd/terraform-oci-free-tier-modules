@@ -84,7 +84,7 @@ No real resources are created until you run `terraform apply`.
 | [`oci/subnet`](oci/subnet) | Subnet (public or private, regional or AD-scoped) |
 | [`oci/compute`](oci/compute) | VM instance (AMD Micro or Arm A1 Flex) |
 | [`oci/block_volume`](oci/block_volume) | Block volume + optional instance attachment |
-| [`oci/object_storage`](oci/object_storage) | Object Storage bucket |
+| [`oci/object_storage`](oci/object_storage) | Object Storage bucket + optional old-version lifecycle rule |
 
 ### Databases
 
@@ -103,6 +103,8 @@ No real resources are created until you run `terraform apply`.
 | [`oci/network_security_group`](oci/network_security_group) | Network Security Group + ingress/egress rules |
 | [`oci/security_list`](oci/security_list) | Security list + ingress/egress rules |
 | [`oci/vault`](oci/vault) | KMS vault + optional software key |
+| [`oci/vault_secrets`](oci/vault_secrets) | Vault secrets from a map |
+| [`oci/s3_access_user`](oci/s3_access_user) | IAM user + S3-compatible key limited to selected buckets |
 | [`oci/certificates`](oci/certificates) | Certificate Authority + optional issued certificate |
 | [`oci/bastion`](oci/bastion) | Bastion service (STANDARD type) |
 | [`oci/vpn`](oci/vpn) | Site-to-Site VPN: DRG + optional VCN attachment + CPE + IPSec |

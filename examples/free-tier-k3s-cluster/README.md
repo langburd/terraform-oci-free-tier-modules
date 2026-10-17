@@ -51,7 +51,7 @@ kubectl get nodes
 ## Requirements
 
 | Name | Version |
-|------|---------|
+| ---- | ------- |
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.14 |
 | <a name="requirement_local"></a> [local](#requirement\_local) | >= 2.0 |
 | <a name="requirement_oci"></a> [oci](#requirement\_oci) | ~> 9.0 |
@@ -60,7 +60,7 @@ kubectl get nodes
 ## Providers
 
 | Name | Version |
-|------|---------|
+| ---- | ------- |
 | <a name="provider_local"></a> [local](#provider\_local) | >= 2.0 |
 | <a name="provider_oci"></a> [oci](#provider\_oci) | ~> 9.0 |
 | <a name="provider_tls"></a> [tls](#provider\_tls) | >= 4.0 |
@@ -68,7 +68,7 @@ kubectl get nodes
 ## Modules
 
 | Name | Source | Version |
-|------|--------|---------|
+| ---- | ------ | ------- |
 | <a name="module_k3s_agent"></a> [k3s\_agent](#module\_k3s\_agent) | ../../oci/compute | n/a |
 | <a name="module_k3s_cluster"></a> [k3s\_cluster](#module\_k3s\_cluster) | ../../oci/k3s_cluster | n/a |
 | <a name="module_k3s_compartment"></a> [k3s\_compartment](#module\_k3s\_compartment) | ../../oci/identity | n/a |
@@ -81,7 +81,7 @@ kubectl get nodes
 ## Resources
 
 | Name | Type |
-|------|------|
+| ---- | ---- |
 | [local_sensitive_file.ssh_private_key](https://registry.terraform.io/providers/hashicorp/local/latest/docs/resources/sensitive_file) | resource |
 | [tls_private_key.k3s](https://registry.terraform.io/providers/hashicorp/tls/latest/docs/resources/private_key) | resource |
 | [oci_core_images.oracle_linux_arm](https://registry.terraform.io/providers/oracle/oci/latest/docs/data-sources/core_images) | data source |
@@ -89,7 +89,7 @@ kubectl get nodes
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
+| ---- | ----------- | ---- | ------- | :------: |
 | <a name="input_allowed_mgmt_cidrs"></a> [allowed\_mgmt\_cidrs](#input\_allowed\_mgmt\_cidrs) | CIDR blocks allowed for SSH (port 22) and K3s API (port 6443) access. WARNING: defaults to 0.0.0.0/0 (open to all). Restrict to your IP range in production. | `list(string)` | <pre>[<br/>  "0.0.0.0/0"<br/>]</pre> | no |
 | <a name="input_compartment_name"></a> [compartment\_name](#input\_compartment\_name) | Name of the OCI compartment to create. | `string` | `"free-tier-k3s-cluster"` | no |
 | <a name="input_k3s_version"></a> [k3s\_version](#input\_k3s\_version) | K3s version to install. Must start with 'v' (e.g. 'v1.31.12+k3s1'). | `string` | `"v1.31.12+k3s1"` | no |
@@ -98,7 +98,7 @@ kubectl get nodes
 ## Outputs
 
 | Name | Description |
-|------|-------------|
+| ---- | ----------- |
 | <a name="output_agent_ips"></a> [agent\_ips](#output\_agent\_ips) | Public IPs of the K3s agent nodes. |
 | <a name="output_k3s_token"></a> [k3s\_token](#output\_k3s\_token) | K3s cluster token for joining additional nodes. |
 | <a name="output_kubeconfig_command"></a> [kubeconfig\_command](#output\_kubeconfig\_command) | SSH command to retrieve the kubeconfig from the K3s server. |
