@@ -38,7 +38,15 @@ run "creates_user_group_and_key" {
 }
 
 run "policy_is_scoped_to_buckets" {
-  command = apply
+  command = plan
+
+  override_resource {
+    target          = oci_identity_group.this
+    override_during = plan
+    values = {
+      id = "ocid1.group.oc1..aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    }
+  }
 
   assert {
     condition = oci_identity_policy.this.statements == tolist([
@@ -46,6 +54,41 @@ run "policy_is_scoped_to_buckets" {
       "Allow group id ocid1.group.oc1..aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa to manage objects in compartment id ocid1.compartment.oc1..aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa where any {target.bucket.name = 'app-data', target.bucket.name = 'app-backup'}",
     ])
     error_message = "policy should grant read buckets + manage objects on the listed buckets only"
+  }
+}
+
+run "custom_inputs_are_passed_through" {
+  command = plan
+
+  variables {
+    description   = "custom description"
+    email         = "app-s3@example.com"
+    defined_tags  = { "Operations.CostCenter" = "42" }
+    freeform_tags = { env = "test" }
+  }
+
+  assert {
+    condition     = oci_identity_user.this.email == "app-s3@example.com" && oci_identity_user.this.description == "custom description"
+    error_message = "user should get the custom email and description"
+  }
+
+  assert {
+    condition     = oci_identity_group.this.description == "custom description" && oci_identity_policy.this.description == "custom description"
+    error_message = "group and policy should get the custom description"
+  }
+
+  assert {
+    condition = alltrue([
+      for r in [oci_identity_user.this.freeform_tags, oci_identity_group.this.freeform_tags, oci_identity_policy.this.freeform_tags] : r == tomap({ env = "test" })
+    ])
+    error_message = "freeform tags should be applied to user, group and policy"
+  }
+
+  assert {
+    condition = alltrue([
+      for r in [oci_identity_user.this.defined_tags, oci_identity_group.this.defined_tags, oci_identity_policy.this.defined_tags] : r == tomap({ "Operations.CostCenter" = "42" })
+    ])
+    error_message = "defined tags should be applied to user, group and policy"
   }
 }
 

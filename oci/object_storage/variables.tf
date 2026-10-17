@@ -99,8 +99,8 @@ variable "previous_version_retention_days" {
   type        = number
   default     = null
   validation {
-    condition     = var.previous_version_retention_days == null || coalesce(var.previous_version_retention_days, 1) >= 1
-    error_message = "previous_version_retention_days must be at least 1."
+    condition     = var.previous_version_retention_days == null || (var.previous_version_retention_days >= 1 && var.previous_version_retention_days <= 36500)
+    error_message = "previous_version_retention_days must be between 1 and 36500."
   }
   validation {
     condition     = var.previous_version_retention_days == null || var.region != null

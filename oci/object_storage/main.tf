@@ -55,7 +55,7 @@ resource "oci_identity_policy" "lifecycle" {
   freeform_tags  = var.bucket_freeform_tags
 
   statements = [
-    "Allow service objectstorage-${coalesce(var.region, "unset")} to manage object-family in compartment id ${var.compartment_id} where target.bucket.name = '${var.bucket_name}'",
+    "Allow service objectstorage-${var.region} to manage object-family in compartment id ${var.compartment_id} where target.bucket.name = '${var.bucket_name}'",
   ]
 
   lifecycle {

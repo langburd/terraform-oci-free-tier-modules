@@ -1,18 +1,18 @@
-variable "tenancy_id" {
-  description = "(Required) OCID of the tenancy, where the IAM user and group are created."
-  type        = string
-  validation {
-    condition     = can(regex("^ocid1\\.[a-z]+\\.[a-z][a-z0-9-]*\\.[a-z0-9-]*\\.[a-z0-9]+$", var.tenancy_id))
-    error_message = "tenancy_id must be a valid OCI OCID (e.g. ocid1.tenancy.oc1..aaaaaa...)."
-  }
-}
-
 variable "compartment_id" {
   description = "(Required) OCID of the compartment holding the buckets. The access policy is created there."
   type        = string
   validation {
     condition     = can(regex("^ocid1\\.[a-z]+\\.[a-z][a-z0-9-]*\\.[a-z0-9-]*\\.[a-z0-9]+$", var.compartment_id))
     error_message = "compartment_id must be a valid OCI OCID (e.g. ocid1.compartment.oc1..aaaaaa...)."
+  }
+}
+
+variable "tenancy_id" {
+  description = "(Required) OCID of the tenancy, where the IAM user and group are created."
+  type        = string
+  validation {
+    condition     = can(regex("^ocid1\\.[a-z]+\\.[a-z][a-z0-9-]*\\.[a-z0-9-]*\\.[a-z0-9]+$", var.tenancy_id))
+    error_message = "tenancy_id must be a valid OCI OCID (e.g. ocid1.tenancy.oc1..aaaaaa...)."
   }
 }
 

@@ -76,3 +76,27 @@ run "rejects_invalid_vault_ocid" {
     var.vault_id,
   ]
 }
+
+run "rejects_invalid_compartment_ocid" {
+  command = plan
+
+  variables {
+    compartment_id = "not-a-valid-ocid"
+  }
+
+  expect_failures = [
+    var.compartment_id,
+  ]
+}
+
+run "rejects_invalid_key_ocid" {
+  command = plan
+
+  variables {
+    key_id = "not-a-valid-ocid"
+  }
+
+  expect_failures = [
+    var.key_id,
+  ]
+}

@@ -183,3 +183,29 @@ run "rejects_non_positive_retention" {
     var.previous_version_retention_days,
   ]
 }
+
+run "rejects_retention_days_out_of_range" {
+  command = plan
+
+  variables {
+    previous_version_retention_days = 36501
+    region                          = "il-jerusalem-1"
+  }
+
+  expect_failures = [
+    var.previous_version_retention_days,
+  ]
+}
+
+run "rejects_invalid_region" {
+  command = plan
+
+  variables {
+    previous_version_retention_days = 30
+    region                          = "Jerusalem"
+  }
+
+  expect_failures = [
+    var.region,
+  ]
+}
