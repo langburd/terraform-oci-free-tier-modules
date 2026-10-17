@@ -11,8 +11,8 @@ variable "vault_id" {
   description = "(Required) OCID of the vault holding the secrets."
   type        = string
   validation {
-    condition     = can(regex("^ocid1\\.[a-z]+\\.[a-z][a-z0-9-]*\\.[a-z0-9-]*\\.[a-z0-9]+$", var.vault_id))
-    error_message = "vault_id must be a valid OCI OCID (e.g. ocid1.vault.oc1..aaaaaa...)."
+    condition     = can(regex("^ocid1\\.[a-z]+\\.[a-z][a-z0-9-]*\\.[a-z0-9-]*(\\.[a-z0-9-]+)?\\.[a-z0-9]+$", var.vault_id))
+    error_message = "vault_id must be a valid OCI OCID (e.g. ocid1.vault.oc1.<region>.<vault>.aaaaaa...)."
   }
 }
 
@@ -20,8 +20,8 @@ variable "key_id" {
   description = "(Required) OCID of the master encryption key used to encrypt the secrets."
   type        = string
   validation {
-    condition     = can(regex("^ocid1\\.[a-z]+\\.[a-z][a-z0-9-]*\\.[a-z0-9-]*\\.[a-z0-9]+$", var.key_id))
-    error_message = "key_id must be a valid OCI OCID (e.g. ocid1.key.oc1..aaaaaa...)."
+    condition     = can(regex("^ocid1\\.[a-z]+\\.[a-z][a-z0-9-]*\\.[a-z0-9-]*(\\.[a-z0-9-]+)?\\.[a-z0-9]+$", var.key_id))
+    error_message = "key_id must be a valid OCI OCID (e.g. ocid1.key.oc1.<region>.<vault>.aaaaaa...)."
   }
 }
 

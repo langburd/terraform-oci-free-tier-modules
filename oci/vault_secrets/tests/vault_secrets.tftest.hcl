@@ -49,6 +49,20 @@ run "creates_one_secret_per_entry" {
   }
 }
 
+run "accepts_real_vault_and_key_ocids" {
+  command = plan
+
+  variables {
+    vault_id = "ocid1.vault.oc1.il-jerusalem-1.hzvmvdnuaaa5c.abwxiljrbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    key_id   = "ocid1.key.oc1.il-jerusalem-1.hzvmvdnuaaa5c.abwxiljrcccccccccccccccccccccccccccccccccccccccccccccccccccc"
+  }
+
+  assert {
+    condition     = oci_vault_secret.this["app-token"].vault_id == var.vault_id
+    error_message = "region-scoped vault OCIDs (with the vault segment) should be accepted"
+  }
+}
+
 run "rejects_invalid_secret_name" {
   command = plan
 
