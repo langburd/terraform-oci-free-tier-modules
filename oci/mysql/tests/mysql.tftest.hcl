@@ -304,3 +304,120 @@ run "rejects_invalid_network_compartment_ocid" {
     var.network_compartment_id,
   ]
 }
+
+run "system_certificate_by_default" {
+  command = plan
+
+  assert {
+    condition     = oci_mysql_mysql_db_system.this.secure_connections[0].certificate_generation_type == "SYSTEM"
+    error_message = "certificate_generation_type should default to SYSTEM"
+  }
+
+  assert {
+    condition     = length(oci_identity_policy.certificates) == 0
+    error_message = "SYSTEM certificates need no certificate-read policy"
+  }
+}
+
+run "byoc_sets_secure_connections_and_policy" {
+  command = plan
+
+  variables {
+    certificate_generation_type = "BYOC"
+    certificate_id              = "ocid1.certificate.oc1..aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  }
+
+  assert {
+    condition     = oci_mysql_mysql_db_system.this.secure_connections[0].certificate_generation_type == "BYOC"
+    error_message = "secure_connections should carry BYOC"
+  }
+
+  assert {
+    condition     = oci_mysql_mysql_db_system.this.secure_connections[0].certificate_id == var.certificate_id
+    error_message = "secure_connections should carry certificate_id"
+  }
+
+  assert {
+    condition     = length(oci_identity_policy.certificates) == 1
+    error_message = "BYOC should create the certificate-read policy"
+  }
+
+  assert {
+    condition     = oci_identity_policy.certificates[0].compartment_id == var.compartment_id
+    error_message = "Policy defaults to compartment_id"
+  }
+
+  assert {
+    condition     = oci_identity_policy.certificates[0].statements == tolist(["Allow any-user to read leaf-certificate-family in compartment id ${var.compartment_id} where all {request.principal.type = 'mysqldbsystem', request.resource.compartment.id = '${var.compartment_id}'}"])
+    error_message = "Policy should let the DB system principal read leaf certificates"
+  }
+}
+
+run "byoc_policy_in_separate_certificate_compartment" {
+  command = plan
+
+  variables {
+    certificate_generation_type = "BYOC"
+    certificate_id              = "ocid1.certificate.oc1..aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    certificate_compartment_id  = "ocid1.compartment.oc1..bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+  }
+
+  assert {
+    condition     = oci_identity_policy.certificates[0].compartment_id == "ocid1.compartment.oc1..bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    error_message = "policy should live in the certificate compartment"
+  }
+
+  assert {
+    condition     = strcontains(oci_identity_policy.certificates[0].statements[0], "in compartment id ocid1.compartment.oc1..bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb where all {request.principal.type = 'mysqldbsystem', request.resource.compartment.id = '${var.compartment_id}'}")
+    error_message = "grant targets the certificate compartment, condition the DB system compartment"
+  }
+}
+
+run "rejects_byoc_without_certificate_id" {
+  command = plan
+
+  variables {
+    certificate_generation_type = "BYOC"
+  }
+
+  expect_failures = [
+    var.certificate_id,
+  ]
+}
+
+run "rejects_invalid_certificate_generation_type" {
+  command = plan
+
+  variables {
+    certificate_generation_type = "OTHER"
+  }
+
+  expect_failures = [
+    var.certificate_generation_type,
+  ]
+}
+
+run "rejects_invalid_certificate_id" {
+  command = plan
+
+  variables {
+    certificate_generation_type = "BYOC"
+    certificate_id              = "not-a-valid-ocid"
+  }
+
+  expect_failures = [
+    var.certificate_id,
+  ]
+}
+
+run "rejects_invalid_certificate_compartment_ocid" {
+  command = plan
+
+  variables {
+    certificate_compartment_id = "not-a-valid-ocid"
+  }
+
+  expect_failures = [
+    var.certificate_compartment_id,
+  ]
+}

@@ -5,9 +5,10 @@
 # Customer-managed key (CMK) encryption is not available for the Always Free tier
 # and is not exposed as a variable in this module.
 locals {
-  is_free                = var.shape_name == "MySQL.Free"
-  network_compartment_id = coalesce(var.network_compartment_id, var.compartment_id)
-  rp_condition           = "where all {request.principal.type = 'mysqldbsystem', request.resource.compartment.id = '${var.compartment_id}'}"
+  is_free                    = var.shape_name == "MySQL.Free"
+  network_compartment_id     = coalesce(var.network_compartment_id, var.compartment_id)
+  certificate_compartment_id = coalesce(var.certificate_compartment_id, var.compartment_id)
+  rp_condition               = "where all {request.principal.type = 'mysqldbsystem', request.resource.compartment.id = '${var.compartment_id}'}"
 }
 
 # With NSGs, the DB system itself (resource principal type mysqldbsystem) creates its
@@ -34,6 +35,27 @@ resource "oci_identity_policy" "nsg" {
   }
 }
 
+# With BYOC the DB system reads its leaf certificate (and chain) from OCI Certificates
+# as the mysqldbsystem resource principal.
+# count keys off the static generation type: certificate_id is apply-time for callers.
+resource "oci_identity_policy" "certificates" {
+  count = var.certificate_generation_type == "BYOC" ? 1 : 0
+
+  compartment_id = local.certificate_compartment_id
+  name           = "${var.mysql_display_name}-certificate-access"
+  description    = "Let MySQL DB systems in the DB compartment read their BYOC leaf certificate."
+  defined_tags   = var.mysql_defined_tags
+  freeform_tags  = var.mysql_freeform_tags
+
+  statements = [
+    "Allow any-user to read leaf-certificate-family in compartment id ${local.certificate_compartment_id} ${local.rp_condition}",
+  ]
+
+  lifecycle {
+    ignore_changes = [defined_tags]
+  }
+}
+
 resource "oci_mysql_mysql_db_system" "this" {
   compartment_id      = var.compartment_id
   subnet_id           = var.subnet_id
@@ -52,7 +74,7 @@ resource "oci_mysql_mysql_db_system" "this" {
     ignore_changes = [defined_tags]
   }
 
-  depends_on = [oci_identity_policy.nsg]
+  depends_on = [oci_identity_policy.nsg, oci_identity_policy.certificates]
 
   # Always Free (MySQL.Free) rejects a backup policy on create ("Cannot specify backup
   # policy ... for an Always Free DB system") and has fixed 50 GB storage with fixed
@@ -71,6 +93,11 @@ resource "oci_mysql_mysql_db_system" "this" {
     content {
       window_start_time = maintenance.value
     }
+  }
+
+  secure_connections {
+    certificate_generation_type = var.certificate_generation_type
+    certificate_id              = var.certificate_id
   }
 
   deletion_policy {
