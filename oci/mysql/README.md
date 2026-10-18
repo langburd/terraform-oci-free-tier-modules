@@ -48,7 +48,7 @@ module "mysql" {
 
 | Name | Version |
 | ---- | ------- |
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.9 |
 | <a name="requirement_oci"></a> [oci](#requirement\_oci) | >= 9.0, < 10.0 |
 
 ## Providers
@@ -65,6 +65,7 @@ No modules.
 
 | Name | Type |
 | ---- | ---- |
+| [oci_identity_policy.certificates](https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/identity_policy) | resource |
 | [oci_identity_policy.nsg](https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/identity_policy) | resource |
 | [oci_mysql_mysql_db_system.this](https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/mysql_mysql_db_system) | resource |
 
@@ -77,6 +78,9 @@ No modules.
 | <a name="input_automatic_backup_retention"></a> [automatic\_backup\_retention](#input\_automatic\_backup\_retention) | (Optional) (Updatable) Whether automatic backups are kept or deleted when the DB System is deleted. Supported values: DELETE, RETAIN. Null keeps the OCI default. | `string` | `null` | no |
 | <a name="input_availability_domain"></a> [availability\_domain](#input\_availability\_domain) | (Required) The availability domain on which to deploy the Read/Write endpoint. This should be the name of the availability domain (e.g. 'Uocm:PHX-AD-1'). Always Free MySQL is only available in the home region. | `string` | n/a | yes |
 | <a name="input_backup_is_enabled"></a> [backup\_is\_enabled](#input\_backup\_is\_enabled) | (Optional) Whether to enable automatic backups for the MySQL DB System. Ignored for MySQL.Free: Always Free systems always take a daily automatic backup (1-day retention) and reject a backup policy. | `bool` | `true` | no |
+| <a name="input_certificate_compartment_id"></a> [certificate\_compartment\_id](#input\_certificate\_compartment\_id) | (Optional) OCID of the compartment holding the certificate, when it differs from compartment\_id. With BYOC, the certificate-read policy is created there. Defaults to compartment\_id. | `string` | `null` | no |
+| <a name="input_certificate_generation_type"></a> [certificate\_generation\_type](#input\_certificate\_generation\_type) | (Optional) Source of the DB system's TLS certificate: SYSTEM (self-signed, no SAN) or BYOC (a certificate from OCI Certificates, set with certificate\_id). With BYOC the module also creates the IAM policy the DB system needs to read the certificate. | `string` | `"SYSTEM"` | no |
+| <a name="input_certificate_id"></a> [certificate\_id](#input\_certificate\_id) | (Optional) OCID of the OCI Certificates certificate served by the DB system. Required when certificate\_generation\_type is BYOC. | `string` | `null` | no |
 | <a name="input_compartment_id"></a> [compartment\_id](#input\_compartment\_id) | (Required) The OCID of the compartment where the MySQL DB System will be created. | `string` | n/a | yes |
 | <a name="input_data_storage_size_in_gb"></a> [data\_storage\_size\_in\_gb](#input\_data\_storage\_size\_in\_gb) | (Optional) Initial size of the data volume in gigabytes that will be created and attached. Must be <= 50. Ignored for MySQL.Free, whose storage is fixed at 50 GB. | `number` | `50` | no |
 | <a name="input_final_backup"></a> [final\_backup](#input\_final\_backup) | (Optional) (Updatable) Whether a final backup is taken when the DB System is deleted. Supported values: SKIP\_FINAL\_BACKUP, REQUIRE\_FINAL\_BACKUP. Null keeps the OCI default. | `string` | `null` | no |

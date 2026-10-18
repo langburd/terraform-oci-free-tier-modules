@@ -159,3 +159,41 @@ variable "automatic_backup_retention" {
     error_message = "Supported values are: DELETE, RETAIN."
   }
 }
+
+variable "certificate_generation_type" {
+  description = "(Optional) Source of the DB system's TLS certificate: SYSTEM (self-signed, no SAN) or BYOC (a certificate from OCI Certificates, set with certificate_id). With BYOC the module also creates the IAM policy the DB system needs to read the certificate."
+  type        = string
+  default     = "SYSTEM"
+  validation {
+    condition     = contains(["SYSTEM", "BYOC"], var.certificate_generation_type)
+    error_message = "certificate_generation_type must be one of: SYSTEM, BYOC."
+  }
+}
+
+variable "certificate_id" {
+  description = "(Optional) OCID of the OCI Certificates certificate served by the DB system. Required when certificate_generation_type is BYOC."
+  type        = string
+  default     = null
+  validation {
+    condition     = var.certificate_id == null || can(regex("^ocid1\\.[a-z]+\\.[a-z][a-z0-9-]*\\.[a-z0-9-]*\\.[a-z0-9]+$", var.certificate_id))
+    error_message = "certificate_id must be a valid OCI OCID (e.g. ocid1.certificate.oc1..aaaaaa...) or null."
+  }
+  validation {
+    condition     = var.certificate_generation_type != "BYOC" || var.certificate_id != null
+    error_message = "certificate_id must be set when certificate_generation_type is BYOC."
+  }
+  validation {
+    condition     = var.certificate_generation_type == "BYOC" || var.certificate_id == null
+    error_message = "certificate_id must be null when certificate_generation_type is SYSTEM."
+  }
+}
+
+variable "certificate_compartment_id" {
+  description = "(Optional) OCID of the compartment holding the certificate, when it differs from compartment_id. With BYOC, the certificate-read policy is created there. Defaults to compartment_id."
+  type        = string
+  default     = null
+  validation {
+    condition     = var.certificate_compartment_id == null || can(regex("^ocid1\\.[a-z]+\\.[a-z][a-z0-9-]*\\.[a-z0-9-]*\\.[a-z0-9]+$", var.certificate_compartment_id))
+    error_message = "certificate_compartment_id must be a valid OCI OCID (e.g. ocid1.compartment.oc1..aaaaaa...) or null."
+  }
+}
