@@ -43,6 +43,7 @@ No modules.
 | ---- | ---- |
 | [oci_certificates_management_certificate.this](https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/certificates_management_certificate) | resource |
 | [oci_certificates_management_certificate_authority.this](https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/certificates_management_certificate_authority) | resource |
+| [oci_identity_policy.kms](https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/identity_policy) | resource |
 
 ## Inputs
 
@@ -58,11 +59,15 @@ No modules.
 | <a name="input_certificate_key_algorithm"></a> [certificate\_key\_algorithm](#input\_certificate\_key\_algorithm) | (Optional) Key algorithm for the certificate. | `string` | `"RSA4096"` | no |
 | <a name="input_certificate_name"></a> [certificate\_name](#input\_certificate\_name) | (Optional) Name of the certificate. | `string` | `"certificate"` | no |
 | <a name="input_certificate_profile_type"></a> [certificate\_profile\_type](#input\_certificate\_profile\_type) | (Optional) Profile type for the certificate. | `string` | `"TLS_SERVER_OR_CLIENT"` | no |
+| <a name="input_certificate_renewal_rule"></a> [certificate\_renewal\_rule](#input\_certificate\_renewal\_rule) | (Optional) Automatic renewal rule for the certificate: renewal\_interval and advance\_renewal\_period as ISO-8601 durations (e.g. P365D and P30D). Null disables automatic renewal. | <pre>object({<br/>    renewal_interval       = string<br/>    advance_renewal_period = string<br/>  })</pre> | `null` | no |
+| <a name="input_certificate_subject_alternative_names"></a> [certificate\_subject\_alternative\_names](#input\_certificate\_subject\_alternative\_names) | (Optional) Subject alternative names for the certificate, as a list of { type, value } objects. type is DNS or IP. | <pre>list(object({<br/>    type  = string<br/>    value = string<br/>  }))</pre> | `[]` | no |
 | <a name="input_certificate_validity_time_of_validity_not_after"></a> [certificate\_validity\_time\_of\_validity\_not\_after](#input\_certificate\_validity\_time\_of\_validity\_not\_after) | (Optional) RFC3339 timestamp after which the certificate is no longer valid. Defaults to 1 year from plan time. Certificates should be rotated annually or sooner -- automate renewal to avoid service outages. | `string` | `null` | no |
 | <a name="input_certificates_defined_tags"></a> [certificates\_defined\_tags](#input\_certificates\_defined\_tags) | (Optional) Defined tags for the certificate authority and certificate. | `map(string)` | `{}` | no |
 | <a name="input_certificates_freeform_tags"></a> [certificates\_freeform\_tags](#input\_certificates\_freeform\_tags) | (Optional) Free-form tags for the certificate authority and certificate. | `map(string)` | `{}` | no |
 | <a name="input_compartment_id"></a> [compartment\_id](#input\_compartment\_id) | (Required) OCID of the compartment in which to create the certificate authority. | `string` | n/a | yes |
 | <a name="input_create_certificate"></a> [create\_certificate](#input\_create\_certificate) | (Optional) Whether to create a certificate issued by the certificate authority. | `bool` | `false` | no |
+| <a name="input_create_kms_policy"></a> [create\_kms\_policy](#input\_create\_kms\_policy) | (Optional) Whether to create the IAM policy that lets the certificate authority use kms\_key\_id. Static boolean; the policy is created before the CA. | `bool` | `false` | no |
+| <a name="input_kms_compartment_id"></a> [kms\_compartment\_id](#input\_kms\_compartment\_id) | (Optional) OCID of the compartment holding the KMS key, when it differs from compartment\_id. With create\_kms\_policy, the policy is created there. Defaults to compartment\_id. | `string` | `null` | no |
 | <a name="input_kms_key_id"></a> [kms\_key\_id](#input\_kms\_key\_id) | (Required) OCID of the KMS key used to protect the certificate authority's private key. | `string` | n/a | yes |
 
 ## Outputs

@@ -89,3 +89,118 @@ run "rejects_certificate_without_common_name" {
   }
   expect_failures = [var.certificate_common_name]
 }
+
+run "no_kms_policy_or_rules_by_default" {
+  command = plan
+  variables {
+    create_certificate      = true
+    certificate_common_name = "test.example.com"
+  }
+
+  assert {
+    condition     = length(oci_identity_policy.kms) == 0
+    error_message = "No KMS policy should be created by default"
+  }
+
+  assert {
+    condition     = length(oci_certificates_management_certificate.this[0].certificate_rules) == 0
+    error_message = "No renewal rule should be set by default"
+  }
+
+  assert {
+    condition     = length(oci_certificates_management_certificate.this[0].certificate_config[0].subject_alternative_names) == 0
+    error_message = "No SANs should be set by default"
+  }
+}
+
+run "sans_and_renewal_rule_reach_certificate" {
+  command = plan
+  variables {
+    create_certificate      = true
+    certificate_common_name = "db.example.com"
+    certificate_subject_alternative_names = [
+      { type = "DNS", value = "db.example.com" },
+      { type = "IP", value = "10.0.0.5" },
+    ]
+    certificate_renewal_rule = {
+      renewal_interval       = "P365D"
+      advance_renewal_period = "P30D"
+    }
+  }
+
+  assert {
+    condition     = length(oci_certificates_management_certificate.this[0].certificate_config[0].subject_alternative_names) == 2
+    error_message = "Both SANs should reach the certificate"
+  }
+
+  assert {
+    condition     = one([for s in oci_certificates_management_certificate.this[0].certificate_config[0].subject_alternative_names : s.value if s.type == "DNS"]) == "db.example.com"
+    error_message = "DNS SAN value should be passed through"
+  }
+
+  assert {
+    condition     = oci_certificates_management_certificate.this[0].certificate_rules[0].rule_type == "CERTIFICATE_RENEWAL_RULE"
+    error_message = "Renewal rule type should be CERTIFICATE_RENEWAL_RULE"
+  }
+
+  assert {
+    condition     = oci_certificates_management_certificate.this[0].certificate_rules[0].renewal_interval == "P365D" && oci_certificates_management_certificate.this[0].certificate_rules[0].advance_renewal_period == "P30D"
+    error_message = "Renewal interval and advance period should be passed through"
+  }
+}
+
+run "creates_kms_policy_when_enabled" {
+  command = plan
+  variables {
+    create_kms_policy = true
+  }
+
+  assert {
+    condition     = length(oci_identity_policy.kms) == 1
+    error_message = "One KMS policy should be created when create_kms_policy is true"
+  }
+
+  assert {
+    condition     = oci_identity_policy.kms[0].statements == tolist(["Allow any-user to use keys in compartment id ${var.compartment_id} where all {request.principal.type = 'certificateauthority', target.key.id = '${var.kms_key_id}'}"])
+    error_message = "Policy should restrict to the CA principal and the specific key"
+  }
+
+  assert {
+    condition     = oci_identity_policy.kms[0].compartment_id == var.compartment_id
+    error_message = "Policy defaults to compartment_id"
+  }
+}
+
+run "kms_policy_in_separate_kms_compartment" {
+  command = plan
+  variables {
+    create_kms_policy  = true
+    kms_compartment_id = "ocid1.compartment.oc1..bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+  }
+
+  assert {
+    condition     = oci_identity_policy.kms[0].compartment_id == "ocid1.compartment.oc1..bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    error_message = "Policy should live in the KMS compartment"
+  }
+
+  assert {
+    condition     = strcontains(oci_identity_policy.kms[0].statements[0], "in compartment id ocid1.compartment.oc1..bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb where")
+    error_message = "Statement should target the KMS compartment"
+  }
+}
+
+run "rejects_invalid_san_type" {
+  command = plan
+  variables {
+    certificate_subject_alternative_names = [{ type = "EMAIL", value = "a@b.c" }]
+  }
+  expect_failures = [var.certificate_subject_alternative_names]
+}
+
+run "rejects_invalid_kms_compartment_ocid" {
+  command = plan
+  variables {
+    kms_compartment_id = "not-a-valid-ocid"
+  }
+  expect_failures = [var.kms_compartment_id]
+}

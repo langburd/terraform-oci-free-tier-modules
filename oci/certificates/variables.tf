@@ -103,6 +103,46 @@ variable "certificate_validity_time_of_validity_not_after" {
   default     = null
 }
 
+variable "certificate_subject_alternative_names" {
+  description = "(Optional) Subject alternative names for the certificate, as a list of { type, value } objects. type is DNS or IP."
+  type = list(object({
+    type  = string
+    value = string
+  }))
+  default = []
+
+  validation {
+    condition     = alltrue([for san in var.certificate_subject_alternative_names : contains(["DNS", "IP"], san.type)])
+    error_message = "Each certificate_subject_alternative_names type must be one of: DNS, IP."
+  }
+}
+
+variable "certificate_renewal_rule" {
+  description = "(Optional) Automatic renewal rule for the certificate: renewal_interval and advance_renewal_period as ISO-8601 durations (e.g. P365D and P30D). Null disables automatic renewal."
+  type = object({
+    renewal_interval       = string
+    advance_renewal_period = string
+  })
+  default = null
+}
+
+variable "create_kms_policy" {
+  description = "(Optional) Whether to create the IAM policy that lets the certificate authority use kms_key_id. Static boolean; the policy is created before the CA."
+  type        = bool
+  default     = false
+}
+
+variable "kms_compartment_id" {
+  description = "(Optional) OCID of the compartment holding the KMS key, when it differs from compartment_id. With create_kms_policy, the policy is created there. Defaults to compartment_id."
+  type        = string
+  default     = null
+
+  validation {
+    condition     = var.kms_compartment_id == null || can(regex("^ocid1\\.[a-z]+\\.[a-z][a-z0-9-]*\\.[a-z0-9-]*\\.[a-z0-9]+$", var.kms_compartment_id))
+    error_message = "kms_compartment_id must be a valid OCI OCID (e.g. ocid1.compartment.oc1..aaaaaa...) or null."
+  }
+}
+
 variable "certificates_defined_tags" {
   description = "(Optional) Defined tags for the certificate authority and certificate."
   type        = map(string)
