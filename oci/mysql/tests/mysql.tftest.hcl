@@ -309,8 +309,8 @@ run "system_certificate_by_default" {
   command = plan
 
   assert {
-    condition     = oci_mysql_mysql_db_system.this.secure_connections[0].certificate_generation_type == "SYSTEM"
-    error_message = "certificate_generation_type should default to SYSTEM"
+    condition     = length(oci_mysql_mysql_db_system.this.secure_connections) == 0
+    error_message = "secure_connections should not be sent for the SYSTEM default"
   }
 
   assert {
@@ -378,6 +378,19 @@ run "rejects_byoc_without_certificate_id" {
 
   variables {
     certificate_generation_type = "BYOC"
+  }
+
+  expect_failures = [
+    var.certificate_id,
+  ]
+}
+
+run "rejects_system_with_certificate_id" {
+  command = plan
+
+  variables {
+    certificate_generation_type = "SYSTEM"
+    certificate_id              = "ocid1.certificate.oc1..aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
   }
 
   expect_failures = [

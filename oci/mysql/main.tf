@@ -95,9 +95,13 @@ resource "oci_mysql_mysql_db_system" "this" {
     }
   }
 
-  secure_connections {
-    certificate_generation_type = var.certificate_generation_type
-    certificate_id              = var.certificate_id
+  # Only sent for BYOC so the SYSTEM default leaves existing DB systems untouched.
+  dynamic "secure_connections" {
+    for_each = var.certificate_generation_type == "BYOC" ? [var.certificate_id] : []
+    content {
+      certificate_generation_type = var.certificate_generation_type
+      certificate_id              = secure_connections.value
+    }
   }
 
   deletion_policy {

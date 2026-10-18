@@ -182,6 +182,10 @@ variable "certificate_id" {
     condition     = var.certificate_generation_type != "BYOC" || var.certificate_id != null
     error_message = "certificate_id must be set when certificate_generation_type is BYOC."
   }
+  validation {
+    condition     = var.certificate_generation_type == "BYOC" || var.certificate_id == null
+    error_message = "certificate_id must be null when certificate_generation_type is SYSTEM."
+  }
 }
 
 variable "certificate_compartment_id" {

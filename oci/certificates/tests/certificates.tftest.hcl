@@ -197,6 +197,52 @@ run "rejects_invalid_san_type" {
   expect_failures = [var.certificate_subject_alternative_names]
 }
 
+run "rejects_ip_san_with_hostname" {
+  command = plan
+  variables {
+    certificate_subject_alternative_names = [{ type = "IP", value = "db.example.com" }]
+  }
+  expect_failures = [var.certificate_subject_alternative_names]
+}
+
+run "rejects_dns_san_with_empty_value" {
+  command = plan
+  variables {
+    certificate_subject_alternative_names = [{ type = "DNS", value = "" }]
+  }
+  expect_failures = [var.certificate_subject_alternative_names]
+}
+
+run "accepts_wildcard_dns_san" {
+  command = plan
+  variables {
+    certificate_subject_alternative_names = [{ type = "DNS", value = "*.example.com" }]
+  }
+}
+
+run "rejects_invalid_renewal_rule_duration" {
+  command = plan
+  variables {
+    certificate_renewal_rule = {
+      renewal_interval       = "365 days"
+      advance_renewal_period = "P30D"
+    }
+  }
+  expect_failures = [var.certificate_renewal_rule]
+}
+
+run "accepts_vault_style_key_ocid" {
+  command = plan
+  variables {
+    kms_key_id = "ocid1.key.oc1.iad.abcdefghijklmnop.abcdefghijklmnopqrstuvwxyz"
+  }
+
+  assert {
+    condition     = oci_certificates_management_certificate_authority.this.kms_key_id == "ocid1.key.oc1.iad.abcdefghijklmnop.abcdefghijklmnopqrstuvwxyz"
+    error_message = "Vault-style key OCID should be accepted and passed to the CA"
+  }
+}
+
 run "rejects_invalid_kms_compartment_ocid" {
   command = plan
   variables {

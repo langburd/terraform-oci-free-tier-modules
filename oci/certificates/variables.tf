@@ -125,6 +125,16 @@ variable "certificate_subject_alternative_names" {
     condition     = alltrue([for san in var.certificate_subject_alternative_names : contains(["DNS", "IP"], san.type)])
     error_message = "Each certificate_subject_alternative_names type must be one of: DNS, IP."
   }
+
+  validation {
+    condition = alltrue([
+      for san in var.certificate_subject_alternative_names :
+      san.type == "IP" ? can(cidrhost("${san.value}/32", 0)) : (
+        san.type == "DNS" ? can(regex("^(\\*\\.)?[A-Za-z0-9]([A-Za-z0-9-]*[A-Za-z0-9])?(\\.[A-Za-z0-9]([A-Za-z0-9-]*[A-Za-z0-9])?)*$", san.value)) : true
+      )
+    ])
+    error_message = "Each certificate_subject_alternative_names value must be an IP address (type IP) or a non-empty hostname without whitespace, optionally prefixed with *. (type DNS)."
+  }
 }
 
 variable "certificate_renewal_rule" {
@@ -134,6 +144,14 @@ variable "certificate_renewal_rule" {
     advance_renewal_period = string
   })
   default = null
+
+  validation {
+    condition = var.certificate_renewal_rule == null || alltrue([
+      for d in [var.certificate_renewal_rule.renewal_interval, var.certificate_renewal_rule.advance_renewal_period] :
+      d == null || can(regex("^P(\\d+[YMWD])+$", d))
+    ])
+    error_message = "certificate_renewal_rule renewal_interval and advance_renewal_period must be ISO-8601 durations such as P365D, P30D or P1Y."
+  }
 }
 
 variable "create_kms_policy" {
