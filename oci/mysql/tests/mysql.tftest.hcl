@@ -244,3 +244,64 @@ run "rejects_invalid_automatic_backup_retention" {
     var.automatic_backup_retention,
   ]
 }
+
+run "no_resource_principal_policy_without_nsgs" {
+  command = plan
+
+  assert {
+    condition     = length(oci_identity_policy.nsg) == 0
+    error_message = "no NSG resource-principal policy should be created without nsg_ids"
+  }
+}
+
+run "nsg_resource_principal_policy" {
+  command = plan
+
+  variables {
+    nsg_ids = ["ocid1.networksecuritygroup.oc1..aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"]
+  }
+
+  assert {
+    condition     = oci_identity_policy.nsg[0].compartment_id == var.compartment_id
+    error_message = "policy should default to the DB system compartment"
+  }
+
+  assert {
+    condition = oci_identity_policy.nsg[0].statements == tolist([
+      "Allow any-user to {NETWORK_SECURITY_GROUP_UPDATE_MEMBERS} in compartment id ${var.compartment_id} where all {request.principal.type = 'mysqldbsystem', request.resource.compartment.id = '${var.compartment_id}'}",
+      "Allow any-user to {VNIC_CREATE, VNIC_UPDATE, VNIC_ASSOCIATE_NETWORK_SECURITY_GROUP, VNIC_DISASSOCIATE_NETWORK_SECURITY_GROUP} in compartment id ${var.compartment_id} where all {request.principal.type = 'mysqldbsystem', request.resource.compartment.id = '${var.compartment_id}'}",
+    ])
+    error_message = "policy should grant the mysqldbsystem resource principal NSG membership and VNIC rights"
+  }
+}
+
+run "nsg_policy_in_separate_network_compartment" {
+  command = plan
+
+  variables {
+    nsg_ids                = ["ocid1.networksecuritygroup.oc1..aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"]
+    network_compartment_id = "ocid1.compartment.oc1..bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+  }
+
+  assert {
+    condition     = oci_identity_policy.nsg[0].compartment_id == "ocid1.compartment.oc1..bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    error_message = "policy should live in the network compartment"
+  }
+
+  assert {
+    condition     = strcontains(oci_identity_policy.nsg[0].statements[0], "in compartment id ocid1.compartment.oc1..bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb where all {request.principal.type = 'mysqldbsystem', request.resource.compartment.id = '${var.compartment_id}'}")
+    error_message = "grant targets the network compartment, condition the DB system compartment"
+  }
+}
+
+run "rejects_invalid_network_compartment_ocid" {
+  command = plan
+
+  variables {
+    network_compartment_id = "not-a-valid-ocid"
+  }
+
+  expect_failures = [
+    var.network_compartment_id,
+  ]
+}

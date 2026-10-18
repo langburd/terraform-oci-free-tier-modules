@@ -95,12 +95,22 @@ variable "mysql_freeform_tags" {
 }
 
 variable "nsg_ids" {
-  description = "(Optional) (Updatable) OCIDs of the Network Security Groups the DB System's endpoint is added to."
+  description = "(Optional) (Updatable) OCIDs of the Network Security Groups the DB System's endpoint is added to. When set, the module also creates the IAM policy the DB System's resource principal needs to create its VNIC and join the NSGs."
   type        = list(string)
   default     = []
   validation {
     condition     = alltrue([for id in var.nsg_ids : can(regex("^ocid1\\.[a-z]+\\.[a-z][a-z0-9-]*\\.[a-z0-9-]*\\.[a-z0-9]+$", id))])
     error_message = "Each nsg_ids entry must be a valid OCI OCID (e.g. ocid1.networksecuritygroup.oc1..aaaaaa...)."
+  }
+}
+
+variable "network_compartment_id" {
+  description = "(Optional) OCID of the compartment holding the subnet and NSGs, when it differs from compartment_id. With nsg_ids, the resource-principal policy that lets the DB system join its NSGs is created there."
+  type        = string
+  default     = null
+  validation {
+    condition     = var.network_compartment_id == null || can(regex("^ocid1\\.[a-z]+\\.[a-z][a-z0-9-]*\\.[a-z0-9-]*\\.[a-z0-9]+$", var.network_compartment_id))
+    error_message = "network_compartment_id must be a valid OCI OCID (e.g. ocid1.compartment.oc1..aaaaaa...) or null."
   }
 }
 

@@ -15,7 +15,9 @@ Terraform module creating an OCI MySQL HeatWave DB System.
 
 ## Network Access
 
-Pass `nsg_ids` to restrict port 3306 to known sources, and `hostname_label` to give the endpoint a
+Pass `nsg_ids` to restrict port 3306 to known sources (the module then also creates the
+`<mysql_display_name>-nsg-access` policy that lets the DB system's resource principal create its VNIC
+and join the NSGs; without it creation fails with `AuthorizationFailed` even for administrators), and `hostname_label` to give the endpoint a
 DNS name (`<hostname_label>.<subnet dns label>.<vcn dns label>.oraclevcn.com`, exposed as `mysql_hostname`).
 
 ## Usage Example
@@ -63,6 +65,7 @@ No modules.
 
 | Name | Type |
 | ---- | ---- |
+| [oci_identity_policy.nsg](https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/identity_policy) | resource |
 | [oci_mysql_mysql_db_system.this](https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/mysql_mysql_db_system) | resource |
 
 ## Inputs
@@ -84,7 +87,8 @@ No modules.
 | <a name="input_mysql_defined_tags"></a> [mysql\_defined\_tags](#input\_mysql\_defined\_tags) | (Optional) (Updatable) Defined tags for the MySQL DB System resource. | `map(string)` | `{}` | no |
 | <a name="input_mysql_display_name"></a> [mysql\_display\_name](#input\_mysql\_display\_name) | (Optional) (Updatable) The user-friendly name for the MySQL DB System. | `string` | `"mysql"` | no |
 | <a name="input_mysql_freeform_tags"></a> [mysql\_freeform\_tags](#input\_mysql\_freeform\_tags) | (Optional) (Updatable) Free-form tags for the MySQL DB System resource. | `map(string)` | `{}` | no |
-| <a name="input_nsg_ids"></a> [nsg\_ids](#input\_nsg\_ids) | (Optional) (Updatable) OCIDs of the Network Security Groups the DB System's endpoint is added to. | `list(string)` | `[]` | no |
+| <a name="input_network_compartment_id"></a> [network\_compartment\_id](#input\_network\_compartment\_id) | (Optional) OCID of the compartment holding the subnet and NSGs, when it differs from compartment\_id. With nsg\_ids, the resource-principal policy that lets the DB system join its NSGs is created there. | `string` | `null` | no |
+| <a name="input_nsg_ids"></a> [nsg\_ids](#input\_nsg\_ids) | (Optional) (Updatable) OCIDs of the Network Security Groups the DB System's endpoint is added to. When set, the module also creates the IAM policy the DB System's resource principal needs to create its VNIC and join the NSGs. | `list(string)` | `[]` | no |
 | <a name="input_shape_name"></a> [shape\_name](#input\_shape\_name) | (Optional) The name of the shape. The shape determines the resources allocated to the MySQL DB System. For Always Free, use 'MySQL.Free'. Shape availability varies by region. | `string` | `"MySQL.Free"` | no |
 | <a name="input_subnet_id"></a> [subnet\_id](#input\_subnet\_id) | (Required) The OCID of the subnet the MySQL DB System is associated with. | `string` | n/a | yes |
 

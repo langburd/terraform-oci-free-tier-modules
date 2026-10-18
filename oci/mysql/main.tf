@@ -5,7 +5,33 @@
 # Customer-managed key (CMK) encryption is not available for the Always Free tier
 # and is not exposed as a variable in this module.
 locals {
-  is_free = var.shape_name == "MySQL.Free"
+  is_free                = var.shape_name == "MySQL.Free"
+  network_compartment_id = coalesce(var.network_compartment_id, var.compartment_id)
+  rp_condition           = "where all {request.principal.type = 'mysqldbsystem', request.resource.compartment.id = '${var.compartment_id}'}"
+}
+
+# With NSGs, the DB system itself (resource principal type mysqldbsystem) creates its
+# VNIC and adds it to the NSGs. Without this grant creation fails with
+# CreateInternalVnic 404 / AuthorizationFailed and the DB system ends up FAILED, even
+# when the caller is a tenancy administrator. Statements from the MySQL HeatWave
+# "Mandatory Policies" page.
+resource "oci_identity_policy" "nsg" {
+  count = length(var.nsg_ids) > 0 ? 1 : 0
+
+  compartment_id = local.network_compartment_id
+  name           = "${var.mysql_display_name}-nsg-access"
+  description    = "Let MySQL DB systems in the DB compartment create VNICs and join NSGs."
+  defined_tags   = var.mysql_defined_tags
+  freeform_tags  = var.mysql_freeform_tags
+
+  statements = [
+    "Allow any-user to {NETWORK_SECURITY_GROUP_UPDATE_MEMBERS} in compartment id ${local.network_compartment_id} ${local.rp_condition}",
+    "Allow any-user to {VNIC_CREATE, VNIC_UPDATE, VNIC_ASSOCIATE_NETWORK_SECURITY_GROUP, VNIC_DISASSOCIATE_NETWORK_SECURITY_GROUP} in compartment id ${local.network_compartment_id} ${local.rp_condition}",
+  ]
+
+  lifecycle {
+    ignore_changes = [defined_tags]
+  }
 }
 
 resource "oci_mysql_mysql_db_system" "this" {
@@ -25,6 +51,8 @@ resource "oci_mysql_mysql_db_system" "this" {
   lifecycle {
     ignore_changes = [defined_tags]
   }
+
+  depends_on = [oci_identity_policy.nsg]
 
   # Always Free (MySQL.Free) rejects a backup policy on create ("Cannot specify backup
   # policy ... for an Always Free DB system") and has fixed 50 GB storage with fixed
