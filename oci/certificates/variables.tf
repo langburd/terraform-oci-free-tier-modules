@@ -13,7 +13,7 @@ variable "kms_key_id" {
   type        = string
 
   validation {
-    condition     = can(regex("^ocid1\\.[a-z]+\\.[a-z][a-z0-9-]*\\.[a-z0-9-]*\\.[a-z0-9]+$", var.kms_key_id))
+    condition     = can(regex("^ocid1\\.[a-z]+\\.[a-z][a-z0-9-]*\\.[a-z0-9-]*(\\.[a-z0-9-]+)?\\.[a-z0-9]+$", var.kms_key_id))
     error_message = "kms_key_id must be a valid OCI OCID (e.g. ocid1.key.oc1..aaaaaa...)."
   }
 }

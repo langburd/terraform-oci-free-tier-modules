@@ -204,3 +204,16 @@ run "rejects_invalid_kms_compartment_ocid" {
   }
   expect_failures = [var.kms_compartment_id]
 }
+
+run "accepts_regional_key_ocid_with_vault_segment" {
+  command = plan
+  variables {
+    kms_key_id        = "ocid1.key.oc1.il-jerusalem-1.hzvnkg7paacmw.abwxiljruallpysu6vcbyjiodvxetmbzi7tsisbxteqgzib2xj7ev7jlsnwa"
+    create_kms_policy = true
+  }
+
+  assert {
+    condition     = strcontains(oci_identity_policy.kms[0].statements[0], "target.key.id = 'ocid1.key.oc1.il-jerusalem-1.hzvnkg7paacmw.abwxiljruallpysu6vcbyjiodvxetmbzi7tsisbxteqgzib2xj7ev7jlsnwa'")
+    error_message = "Real key OCID with a vault segment should be accepted and reach the policy"
+  }
+}
