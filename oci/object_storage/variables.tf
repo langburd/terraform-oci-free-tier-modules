@@ -95,7 +95,7 @@ variable "kms_key_id" {
 }
 
 variable "previous_version_retention_days" {
-  description = "(Optional) Delete non-current object versions this many days after they stop being current. Creates a lifecycle policy plus the IAM policy the regional Object Storage service needs to run it (requires region). Null disables both."
+  description = "(Optional) Delete non-current object versions this many days after they stop being current. Creates a lifecycle policy plus the IAM policy the regional Object Storage service needs to run it (requires region). Only takes effect on a bucket with versioning enabled. Null disables both."
   type        = number
   default     = null
   validation {
@@ -113,7 +113,7 @@ variable "region" {
   type        = string
   default     = null
   validation {
-    condition     = var.region == null || can(regex("^[a-z]+-[a-z]+-[0-9]+$", var.region))
-    error_message = "region must be an OCI region identifier such as il-jerusalem-1."
+    condition     = var.region == null || can(regex("^[a-z]+(-[a-z]+)+-[0-9]+$", var.region))
+    error_message = "region must be an OCI region identifier such as il-jerusalem-1 or us-gov-ashburn-1."
   }
 }

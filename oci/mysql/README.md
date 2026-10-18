@@ -97,7 +97,7 @@ No modules.
 | Name | Description |
 |------|-------------|
 | <a name="output_mysql_db_system_id"></a> [mysql\_db\_system\_id](#output\_mysql\_db\_system\_id) | OCID of the MySQL DB System resource. |
-| <a name="output_mysql_hostname"></a> [mysql\_hostname](#output\_mysql\_hostname) | Hostname (FQDN) of the primary endpoint of the MySQL DB System. Empty unless hostname\_label is set. |
+| <a name="output_mysql_hostname"></a> [mysql\_hostname](#output\_mysql\_hostname) | Hostname of the primary endpoint of the MySQL DB System (the label or the FQDN, not yet verified against a live DB system). Null unless hostname\_label is set. |
 | <a name="output_mysql_ip_address"></a> [mysql\_ip\_address](#output\_mysql\_ip\_address) | The IP address of the primary endpoint of the MySQL DB System. |
 | <a name="output_mysql_port"></a> [mysql\_port](#output\_mysql\_port) | The port for primary endpoint of the MySQL DB System to listen on. |
 <!-- END_TF_DOCS -->

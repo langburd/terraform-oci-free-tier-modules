@@ -27,6 +27,17 @@ run "creates_user_group_and_key" {
   }
 
   assert {
+    condition = (
+      oci_identity_user_capabilities_management.this.can_use_customer_secret_keys == true &&
+      oci_identity_user_capabilities_management.this.can_use_console_password == false &&
+      oci_identity_user_capabilities_management.this.can_use_api_keys == false &&
+      oci_identity_user_capabilities_management.this.can_use_auth_tokens == false &&
+      oci_identity_user_capabilities_management.this.can_use_smtp_credentials == false
+    )
+    error_message = "user should be limited to customer secret keys"
+  }
+
+  assert {
     condition     = oci_identity_customer_secret_key.this.display_name == "app-s3"
     error_message = "customer secret key should be named after the user"
   }

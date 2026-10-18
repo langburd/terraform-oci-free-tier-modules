@@ -12,7 +12,11 @@ Creates: IAM user and group (in the tenancy), group membership, a policy in the 
   use path-style addressing.
 - `secret_access_key` is only returned at creation time and is stored in Terraform state: keep the state
   encrypted, and copy the key into a secret store (e.g. with the `vault_secrets` module) for consumers.
+- To rotate the key, run `terraform apply -replace=module.<name>.oci_identity_customer_secret_key.this`
+  and update consumers with the new `secret_access_key`.
 - A user can hold at most two Customer Secret Keys.
+- The user is limited to Customer Secret Keys: console password, API keys, auth tokens and SMTP
+  credentials are disabled.
 
 ## Usage Example
 
@@ -53,6 +57,7 @@ No modules.
 | [oci_identity_group.this](https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/identity_group) | resource |
 | [oci_identity_policy.this](https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/identity_policy) | resource |
 | [oci_identity_user.this](https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/identity_user) | resource |
+| [oci_identity_user_capabilities_management.this](https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/identity_user_capabilities_management) | resource |
 | [oci_identity_user_group_membership.this](https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/identity_user_group_membership) | resource |
 
 ## Inputs

@@ -16,6 +16,16 @@ resource "oci_identity_user" "this" {
   }
 }
 
+# The user only holds a Customer Secret Key: no console password, API keys, auth tokens or SMTP credentials.
+resource "oci_identity_user_capabilities_management" "this" {
+  user_id                      = oci_identity_user.this.id
+  can_use_api_keys             = false
+  can_use_auth_tokens          = false
+  can_use_console_password     = false
+  can_use_customer_secret_keys = true
+  can_use_smtp_credentials     = false
+}
+
 resource "oci_identity_group" "this" {
   compartment_id = var.tenancy_id
   name           = var.name

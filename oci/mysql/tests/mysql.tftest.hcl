@@ -30,7 +30,6 @@ run "creates_mysql_with_defaults" {
     error_message = "is_highly_available should default to false"
   }
 
-
   assert {
     condition     = oci_mysql_mysql_db_system.this.deletion_policy[0].is_delete_protected == true
     error_message = "deletion protection should be enabled"
