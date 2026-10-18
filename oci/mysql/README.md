@@ -31,14 +31,14 @@ module "mysql" {
 ## Requirements
 
 | Name | Version |
-|------|---------|
+| ---- | ------- |
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
 | <a name="requirement_oci"></a> [oci](#requirement\_oci) | >= 9.0, < 10.0 |
 
 ## Providers
 
 | Name | Version |
-|------|---------|
+| ---- | ------- |
 | <a name="provider_oci"></a> [oci](#provider\_oci) | >= 9.0, < 10.0 |
 
 ## Modules
@@ -48,13 +48,13 @@ No modules.
 ## Resources
 
 | Name | Type |
-|------|------|
+| ---- | ---- |
 | [oci_mysql_mysql_db_system.this](https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/mysql_mysql_db_system) | resource |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
+| ---- | ----------- | ---- | ------- | :------: |
 | <a name="input_admin_password"></a> [admin\_password](#input\_admin\_password) | (Required) The password for the administrative user. The password must be between 8 and 32 characters long, and must contain at least 1 numeric character, 1 lowercase character, 1 uppercase character, and 1 special character. | `string` | n/a | yes |
 | <a name="input_admin_username"></a> [admin\_username](#input\_admin\_username) | (Optional) The username for the administrative user. | `string` | `"admin"` | no |
 | <a name="input_availability_domain"></a> [availability\_domain](#input\_availability\_domain) | (Required) The availability domain on which to deploy the Read/Write endpoint. This should be the name of the availability domain (e.g. 'Uocm:PHX-AD-1'). Always Free MySQL is only available in the home region. | `string` | n/a | yes |
@@ -71,7 +71,7 @@ No modules.
 ## Outputs
 
 | Name | Description |
-|------|-------------|
+| ---- | ----------- |
 | <a name="output_mysql_db_system_id"></a> [mysql\_db\_system\_id](#output\_mysql\_db\_system\_id) | OCID of the MySQL DB System resource. |
 | <a name="output_mysql_ip_address"></a> [mysql\_ip\_address](#output\_mysql\_ip\_address) | The IP address of the primary endpoint of the MySQL DB System. |
 | <a name="output_mysql_port"></a> [mysql\_port](#output\_mysql\_port) | The port for primary endpoint of the MySQL DB System to listen on. |

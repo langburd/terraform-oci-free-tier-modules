@@ -26,20 +26,20 @@ terraform apply
 ## Requirements
 
 | Name | Version |
-|------|---------|
+| ---- | ------- |
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
 | <a name="requirement_oci"></a> [oci](#requirement\_oci) | ~> 9.0 |
 
 ## Providers
 
 | Name | Version |
-|------|---------|
+| ---- | ------- |
 | <a name="provider_oci"></a> [oci](#provider\_oci) | ~> 9.0 |
 
 ## Modules
 
 | Name | Source | Version |
-|------|--------|---------|
+| ---- | ------ | ------- |
 | <a name="module_compartment"></a> [compartment](#module\_compartment) | ../../oci/identity | n/a |
 | <a name="module_compute_1"></a> [compute\_1](#module\_compute\_1) | ../../oci/compute | n/a |
 | <a name="module_compute_2"></a> [compute\_2](#module\_compute\_2) | ../../oci/compute | n/a |
@@ -52,13 +52,13 @@ terraform apply
 ## Resources
 
 | Name | Type |
-|------|------|
+| ---- | ---- |
 | [oci_core_images.oracle_linux](https://registry.terraform.io/providers/oracle/oci/latest/docs/data-sources/core_images) | data source |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
+| ---- | ----------- | ---- | ------- | :------: |
 | <a name="input_compartment_name"></a> [compartment\_name](#input\_compartment\_name) | (Optional) Name of the OCI compartment to create. | `string` | `"free-tier-web-app"` | no |
 | <a name="input_oci_config_profile"></a> [oci\_config\_profile](#input\_oci\_config\_profile) | (Required) OCI CLI config file profile name to use for authentication. | `string` | n/a | yes |
 | <a name="input_ssh_authorized_keys"></a> [ssh\_authorized\_keys](#input\_ssh\_authorized\_keys) | (Optional) SSH public key to authorize on compute instances. If null, SSH key authentication is disabled. | `string` | `null` | no |
@@ -66,7 +66,7 @@ terraform apply
 ## Outputs
 
 | Name | Description |
-|------|-------------|
+| ---- | ----------- |
 | <a name="output_compartment_id"></a> [compartment\_id](#output\_compartment\_id) | OCID of the created compartment. |
 | <a name="output_load_balancer_id"></a> [load\_balancer\_id](#output\_load\_balancer\_id) | OCID of the load balancer. |
 | <a name="output_load_balancer_ip_addresses"></a> [load\_balancer\_ip\_addresses](#output\_load\_balancer\_ip\_addresses) | IP address details of the load balancer. |

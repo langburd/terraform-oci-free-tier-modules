@@ -4,14 +4,14 @@
 ## Requirements
 
 | Name | Version |
-|------|---------|
+| ---- | ------- |
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
 | <a name="requirement_oci"></a> [oci](#requirement\_oci) | >= 9.0, < 10.0 |
 
 ## Providers
 
 | Name | Version |
-|------|---------|
+| ---- | ------- |
 | <a name="provider_oci"></a> [oci](#provider\_oci) | >= 9.0, < 10.0 |
 
 ## Modules
@@ -21,13 +21,13 @@ No modules.
 ## Resources
 
 | Name | Type |
-|------|------|
+| ---- | ---- |
 | [oci_identity_compartment.this](https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/identity_compartment) | resource |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
+| ---- | ----------- | ---- | ------- | :------: |
 | <a name="input_compartment_defined_tags"></a> [compartment\_defined\_tags](#input\_compartment\_defined\_tags) | (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. | `map(string)` | `{}` | no |
 | <a name="input_compartment_description"></a> [compartment\_description](#input\_compartment\_description) | (Required) (Updatable) The description you assign to the compartment during creation. Does not have to be unique, and it's changeable. | `string` | `"This is a compartment."` | no |
 | <a name="input_compartment_enable_delete"></a> [compartment\_enable\_delete](#input\_compartment\_enable\_delete) | (Optional) Defaults to true. If set to false the provider will implicitly import the compartment if there is a name collision, and will not actually delete the compartment on destroy or removal of the resource declaration. If set to true, the provider will throw an error on a name collision with another compartment, and will attempt to delete the compartment on destroy or removal of the resource declaration. | `bool` | `true` | no |
@@ -38,7 +38,7 @@ No modules.
 ## Outputs
 
 | Name | Description |
-|------|-------------|
+| ---- | ----------- |
 | <a name="output_compartment_defined_tags"></a> [compartment\_defined\_tags](#output\_compartment\_defined\_tags) | The defined tags of the compartment |
 | <a name="output_compartment_description"></a> [compartment\_description](#output\_compartment\_description) | The description of the compartment |
 | <a name="output_compartment_freeform_tags"></a> [compartment\_freeform\_tags](#output\_compartment\_freeform\_tags) | The freeform tags of the compartment |

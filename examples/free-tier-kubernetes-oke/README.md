@@ -52,20 +52,20 @@ kubectl get nodes
 ## Requirements
 
 | Name | Version |
-|------|---------|
+| ---- | ------- |
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
 | <a name="requirement_oci"></a> [oci](#requirement\_oci) | ~> 9.0 |
 
 ## Providers
 
 | Name | Version |
-|------|---------|
+| ---- | ------- |
 | <a name="provider_oci"></a> [oci](#provider\_oci) | ~> 9.0 |
 
 ## Modules
 
 | Name | Source | Version |
-|------|--------|---------|
+| ---- | ------ | ------- |
 | <a name="module_api_endpoint_nsg"></a> [api\_endpoint\_nsg](#module\_api\_endpoint\_nsg) | ../../oci/network_security_group | n/a |
 | <a name="module_api_endpoint_subnet"></a> [api\_endpoint\_subnet](#module\_api\_endpoint\_subnet) | ../../oci/subnet | n/a |
 | <a name="module_k8s_compartment"></a> [k8s\_compartment](#module\_k8s\_compartment) | ../../oci/identity | n/a |
@@ -81,14 +81,14 @@ kubectl get nodes
 ## Resources
 
 | Name | Type |
-|------|------|
+| ---- | ---- |
 | [oci_core_images.oracle_linux_arm](https://registry.terraform.io/providers/oracle/oci/latest/docs/data-sources/core_images) | data source |
 | [oci_core_services.all](https://registry.terraform.io/providers/oracle/oci/latest/docs/data-sources/core_services) | data source |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
+| ---- | ----------- | ---- | ------- | :------: |
 | <a name="input_boot_volume_size_in_gbs"></a> [boot\_volume\_size\_in\_gbs](#input\_boot\_volume\_size\_in\_gbs) | Boot volume size in GB for each worker node. Total must not exceed 200 GB (free tier block storage limit). | `number` | `50` | no |
 | <a name="input_cluster_name"></a> [cluster\_name](#input\_cluster\_name) | Name of the OKE cluster. | `string` | `"free-tier-oke"` | no |
 | <a name="input_compartment_name"></a> [compartment\_name](#input\_compartment\_name) | Name of the OCI compartment to create. | `string` | `"free-tier-kubernetes-oke"` | no |
@@ -102,7 +102,7 @@ kubectl get nodes
 ## Outputs
 
 | Name | Description |
-|------|-------------|
+| ---- | ----------- |
 | <a name="output_cluster_endpoints"></a> [cluster\_endpoints](#output\_cluster\_endpoints) | OKE cluster API endpoints. |
 | <a name="output_cluster_id"></a> [cluster\_id](#output\_cluster\_id) | OCID of the OKE cluster. |
 | <a name="output_cluster_state"></a> [cluster\_state](#output\_cluster\_state) | Current lifecycle state of the OKE cluster. |

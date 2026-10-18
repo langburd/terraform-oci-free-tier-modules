@@ -29,14 +29,14 @@ module "oci_budget" {
 ## Requirements
 
 | Name | Version |
-|------|---------|
+| ---- | ------- |
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
 | <a name="requirement_oci"></a> [oci](#requirement\_oci) | >= 9.0, < 10.0 |
 
 ## Providers
 
 | Name | Version |
-|------|---------|
+| ---- | ------- |
 | <a name="provider_oci"></a> [oci](#provider\_oci) | >= 9.0, < 10.0 |
 
 ## Modules
@@ -46,14 +46,14 @@ No modules.
 ## Resources
 
 | Name | Type |
-|------|------|
+| ---- | ---- |
 | [oci_budget_alert_rule.this](https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/budget_alert_rule) | resource |
 | [oci_budget_budget.this](https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/budget_budget) | resource |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
+| ---- | ----------- | ---- | ------- | :------: |
 | <a name="input_alert_defined_tags"></a> [alert\_defined\_tags](#input\_alert\_defined\_tags) | Defined tags for the alert rule. | `map(string)` | `{}` | no |
 | <a name="input_alert_description"></a> [alert\_description](#input\_alert\_description) | Description for alert rule. | `string` | `""` | no |
 | <a name="input_alert_display_name"></a> [alert\_display\_name](#input\_alert\_display\_name) | Display name of the alert rule. Only a-zA-Z0-9.-\_ characters are allowed. | `string` | `"Alert_on_0.01_forecast_spend"` | no |
@@ -79,7 +79,7 @@ No modules.
 ## Outputs
 
 | Name | Description |
-|------|-------------|
+| ---- | ----------- |
 | <a name="output_alert_rule_id"></a> [alert\_rule\_id](#output\_alert\_rule\_id) | OCID of the budget alert rule. Returns null when create\_alert\_rule is false. |
 | <a name="output_budget_id"></a> [budget\_id](#output\_budget\_id) | OCID of the budget resource. |
 <!-- END_TF_DOCS -->

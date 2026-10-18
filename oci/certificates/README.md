@@ -23,14 +23,14 @@ module "certificates" {
 ## Requirements
 
 | Name | Version |
-|------|---------|
+| ---- | ------- |
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.5 |
 | <a name="requirement_oci"></a> [oci](#requirement\_oci) | >= 9.0, < 10.0 |
 
 ## Providers
 
 | Name | Version |
-|------|---------|
+| ---- | ------- |
 | <a name="provider_oci"></a> [oci](#provider\_oci) | >= 9.0, < 10.0 |
 
 ## Modules
@@ -40,14 +40,14 @@ No modules.
 ## Resources
 
 | Name | Type |
-|------|------|
+| ---- | ---- |
 | [oci_certificates_management_certificate.this](https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/certificates_management_certificate) | resource |
 | [oci_certificates_management_certificate_authority.this](https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/certificates_management_certificate_authority) | resource |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
+| ---- | ----------- | ---- | ------- | :------: |
 | <a name="input_ca_common_name"></a> [ca\_common\_name](#input\_ca\_common\_name) | (Required) Common name (CN) for the certificate authority subject. | `string` | n/a | yes |
 | <a name="input_ca_config_type"></a> [ca\_config\_type](#input\_ca\_config\_type) | (Optional) Configuration type for the certificate authority. | `string` | `"ROOT_CA_GENERATED_INTERNALLY"` | no |
 | <a name="input_ca_name"></a> [ca\_name](#input\_ca\_name) | (Required) Name of the certificate authority. | `string` | n/a | yes |
@@ -68,7 +68,7 @@ No modules.
 ## Outputs
 
 | Name | Description |
-|------|-------------|
+| ---- | ----------- |
 | <a name="output_certificate_authority_id"></a> [certificate\_authority\_id](#output\_certificate\_authority\_id) | OCID of the certificate authority. |
 | <a name="output_certificate_id"></a> [certificate\_id](#output\_certificate\_id) | OCID of the certificate. Returns null when create\_certificate is false. |
 <!-- END_TF_DOCS -->

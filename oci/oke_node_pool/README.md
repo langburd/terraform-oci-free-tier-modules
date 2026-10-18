@@ -27,14 +27,14 @@ module "oke_node_pool" {
 ## Requirements
 
 | Name | Version |
-|------|---------|
+| ---- | ------- |
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
 | <a name="requirement_oci"></a> [oci](#requirement\_oci) | >= 9.0, < 10.0 |
 
 ## Providers
 
 | Name | Version |
-|------|---------|
+| ---- | ------- |
 | <a name="provider_oci"></a> [oci](#provider\_oci) | >= 9.0, < 10.0 |
 
 ## Modules
@@ -44,14 +44,14 @@ No modules.
 ## Resources
 
 | Name | Type |
-|------|------|
+| ---- | ---- |
 | [oci_containerengine_node_pool.this](https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/containerengine_node_pool) | resource |
 | [oci_identity_availability_domains.this](https://registry.terraform.io/providers/oracle/oci/latest/docs/data-sources/identity_availability_domains) | data source |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
+| ---- | ----------- | ---- | ------- | :------: |
 | <a name="input_boot_volume_size_in_gbs"></a> [boot\_volume\_size\_in\_gbs](#input\_boot\_volume\_size\_in\_gbs) | Boot volume size in GBs for each node. | `number` | `50` | no |
 | <a name="input_cluster_id"></a> [cluster\_id](#input\_cluster\_id) | OCID of the OKE cluster to which this node pool belongs. | `string` | n/a | yes |
 | <a name="input_compartment_id"></a> [compartment\_id](#input\_compartment\_id) | OCID of the compartment in which to create the node pool. | `string` | n/a | yes |
@@ -72,7 +72,7 @@ No modules.
 ## Outputs
 
 | Name | Description |
-|------|-------------|
+| ---- | ----------- |
 | <a name="output_node_pool_id"></a> [node\_pool\_id](#output\_node\_pool\_id) | OCID of the OKE node pool. |
 | <a name="output_node_pool_nodes"></a> [node\_pool\_nodes](#output\_node\_pool\_nodes) | List of nodes in the node pool with their IPs and lifecycle states. |
 <!-- END_TF_DOCS -->

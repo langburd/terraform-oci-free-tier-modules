@@ -24,14 +24,14 @@ module "load_balancer" {
 ## Requirements
 
 | Name | Version |
-|------|---------|
+| ---- | ------- |
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
 | <a name="requirement_oci"></a> [oci](#requirement\_oci) | >= 9.0, < 10.0 |
 
 ## Providers
 
 | Name | Version |
-|------|---------|
+| ---- | ------- |
 | <a name="provider_oci"></a> [oci](#provider\_oci) | >= 9.0, < 10.0 |
 
 ## Modules
@@ -41,7 +41,7 @@ No modules.
 ## Resources
 
 | Name | Type |
-|------|------|
+| ---- | ---- |
 | [oci_load_balancer_backend.this](https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/load_balancer_backend) | resource |
 | [oci_load_balancer_backend_set.this](https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/load_balancer_backend_set) | resource |
 | [oci_load_balancer_listener.this](https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/load_balancer_listener) | resource |
@@ -50,7 +50,7 @@ No modules.
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
+| ---- | ----------- | ---- | ------- | :------: |
 | <a name="input_backend_set_name"></a> [backend\_set\_name](#input\_backend\_set\_name) | (Optional) Name of the backend set. | `string` | `"backend-set"` | no |
 | <a name="input_backend_set_policy"></a> [backend\_set\_policy](#input\_backend\_set\_policy) | (Optional) Load balancing policy. Supported values: ROUND\_ROBIN, LEAST\_CONNECTIONS, IP\_HASH. | `string` | `"ROUND_ROBIN"` | no |
 | <a name="input_backends"></a> [backends](#input\_backends) | (Optional) Map of backends to add to the backend set. Keys are unique identifiers; values specify ip\_address and port. | <pre>map(object({<br/>    ip_address = string<br/>    port       = number<br/>  }))</pre> | `{}` | no |
@@ -70,7 +70,7 @@ No modules.
 ## Outputs
 
 | Name | Description |
-|------|-------------|
+| ---- | ----------- |
 | <a name="output_load_balancer_id"></a> [load\_balancer\_id](#output\_load\_balancer\_id) | OCID of the load balancer. |
 | <a name="output_load_balancer_ip_addresses"></a> [load\_balancer\_ip\_addresses](#output\_load\_balancer\_ip\_addresses) | List of IP address objects assigned to the load balancer. |
 <!-- END_TF_DOCS -->
