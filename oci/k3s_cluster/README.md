@@ -45,7 +45,7 @@ To update k3s-ansible: `git submodule update --remote oci/k3s_cluster/vendor/k3s
 ## Requirements
 
 | Name | Version |
-| ---- | ------- |
+|------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.14 |
 | <a name="requirement_ansible"></a> [ansible](#requirement\_ansible) | ~> 1.4 |
 | <a name="requirement_random"></a> [random](#requirement\_random) | >= 3.0 |
@@ -53,7 +53,7 @@ To update k3s-ansible: `git submodule update --remote oci/k3s_cluster/vendor/k3s
 ## Providers
 
 | Name | Version |
-| ---- | ------- |
+|------|---------|
 | <a name="provider_ansible"></a> [ansible](#provider\_ansible) | ~> 1.4 |
 | <a name="provider_random"></a> [random](#provider\_random) | >= 3.0 |
 
@@ -64,7 +64,7 @@ No modules.
 ## Resources
 
 | Name | Type |
-| ---- | ---- |
+|------|------|
 | [ansible_playbook.k3s_agent](https://registry.terraform.io/providers/ansible/ansible/latest/docs/resources/playbook) | resource |
 | [ansible_playbook.k3s_server](https://registry.terraform.io/providers/ansible/ansible/latest/docs/resources/playbook) | resource |
 | [random_password.k3s_token](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/password) | resource |
@@ -72,7 +72,7 @@ No modules.
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-| ---- | ----------- | ---- | ------- | :------: |
+|------|-------------|------|---------|:--------:|
 | <a name="input_agent_ips"></a> [agent\_ips](#input\_agent\_ips) | List of public IP addresses for K3s agent (worker) nodes. | `list(string)` | `[]` | no |
 | <a name="input_api_endpoint"></a> [api\_endpoint](#input\_api\_endpoint) | API endpoint for the K3s cluster. Defaults to the first server IP. | `string` | `null` | no |
 | <a name="input_extra_agent_args"></a> [extra\_agent\_args](#input\_extra\_agent\_args) | Additional arguments to pass to k3s agent. | `string` | `""` | no |
@@ -87,7 +87,7 @@ No modules.
 ## Outputs
 
 | Name | Description |
-| ---- | ----------- |
+|------|-------------|
 | <a name="output_api_endpoint"></a> [api\_endpoint](#output\_api\_endpoint) | Public IP of the K3s server node (API endpoint). |
 | <a name="output_k3s_token"></a> [k3s\_token](#output\_k3s\_token) | K3s cluster token (sensitive). Used to join additional nodes. |
 | <a name="output_kubeconfig_command"></a> [kubeconfig\_command](#output\_kubeconfig\_command) | SSH command to retrieve the kubeconfig from the K3s server. |

@@ -18,14 +18,14 @@ module "apm" {
 ## Requirements
 
 | Name | Version |
-| ---- | ------- |
+|------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
 | <a name="requirement_oci"></a> [oci](#requirement\_oci) | >= 9.0, < 10.0 |
 
 ## Providers
 
 | Name | Version |
-| ---- | ------- |
+|------|---------|
 | <a name="provider_oci"></a> [oci](#provider\_oci) | >= 9.0, < 10.0 |
 
 ## Modules
@@ -35,13 +35,13 @@ No modules.
 ## Resources
 
 | Name | Type |
-| ---- | ---- |
+|------|------|
 | [oci_apm_apm_domain.this](https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/apm_apm_domain) | resource |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-| ---- | ----------- | ---- | ------- | :------: |
+|------|-------------|------|---------|:--------:|
 | <a name="input_apm_defined_tags"></a> [apm\_defined\_tags](#input\_apm\_defined\_tags) | Defined tags for the APM domain resource. | `map(string)` | `{}` | no |
 | <a name="input_apm_description"></a> [apm\_description](#input\_apm\_description) | (Optional) (Updatable) Description of the APM domain. | `string` | `null` | no |
 | <a name="input_apm_display_name"></a> [apm\_display\_name](#input\_apm\_display\_name) | (Optional) (Updatable) Display name of the APM domain. | `string` | `"apm-domain"` | no |
@@ -52,7 +52,7 @@ No modules.
 ## Outputs
 
 | Name | Description |
-| ---- | ----------- |
+|------|-------------|
 | <a name="output_apm_domain_id"></a> [apm\_domain\_id](#output\_apm\_domain\_id) | OCID of the APM domain. |
 | <a name="output_data_upload_endpoint"></a> [data\_upload\_endpoint](#output\_data\_upload\_endpoint) | The endpoint where APM agents send data. |
 <!-- END_TF_DOCS -->

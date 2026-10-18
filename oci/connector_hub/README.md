@@ -31,14 +31,14 @@ module "connector_hub" {
 ## Requirements
 
 | Name | Version |
-| ---- | ------- |
+|------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
 | <a name="requirement_oci"></a> [oci](#requirement\_oci) | >= 9.0, < 10.0 |
 
 ## Providers
 
 | Name | Version |
-| ---- | ------- |
+|------|---------|
 | <a name="provider_oci"></a> [oci](#provider\_oci) | >= 9.0, < 10.0 |
 
 ## Modules
@@ -48,13 +48,13 @@ No modules.
 ## Resources
 
 | Name | Type |
-| ---- | ---- |
+|------|------|
 | [oci_sch_service_connector.this](https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/sch_service_connector) | resource |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-| ---- | ----------- | ---- | ------- | :------: |
+|------|-------------|------|---------|:--------:|
 | <a name="input_compartment_id"></a> [compartment\_id](#input\_compartment\_id) | (Required) The OCID of the compartment containing the service connector. | `string` | n/a | yes |
 | <a name="input_connector_defined_tags"></a> [connector\_defined\_tags](#input\_connector\_defined\_tags) | Defined tags for the service connector resource. | `map(string)` | `{}` | no |
 | <a name="input_connector_description"></a> [connector\_description](#input\_connector\_description) | (Optional) (Updatable) The description of the service connector. | `string` | `null` | no |
@@ -71,7 +71,7 @@ No modules.
 ## Outputs
 
 | Name | Description |
-| ---- | ----------- |
+|------|-------------|
 | <a name="output_connector_state"></a> [connector\_state](#output\_connector\_state) | The current lifecycle state of the service connector. |
 | <a name="output_service_connector_id"></a> [service\_connector\_id](#output\_service\_connector\_id) | OCID of the service connector. |
 <!-- END_TF_DOCS -->

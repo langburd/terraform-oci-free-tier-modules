@@ -36,20 +36,20 @@ terraform apply
 ## Requirements
 
 | Name | Version |
-| ---- | ------- |
+|------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
 | <a name="requirement_oci"></a> [oci](#requirement\_oci) | ~> 9.0 |
 
 ## Providers
 
 | Name | Version |
-| ---- | ------- |
+|------|---------|
 | <a name="provider_oci"></a> [oci](#provider\_oci) | ~> 9.0 |
 
 ## Modules
 
 | Name | Source | Version |
-| ---- | ------ | ------- |
+|------|--------|---------|
 | <a name="module_block_volume"></a> [block\_volume](#module\_block\_volume) | ../../oci/block_volume | n/a |
 | <a name="module_compartment"></a> [compartment](#module\_compartment) | ../../oci/identity | n/a |
 | <a name="module_compute"></a> [compute](#module\_compute) | ../../oci/compute | n/a |
@@ -61,13 +61,13 @@ terraform apply
 ## Resources
 
 | Name | Type |
-| ---- | ---- |
+|------|------|
 | [oci_core_images.oracle_linux](https://registry.terraform.io/providers/oracle/oci/latest/docs/data-sources/core_images) | data source |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-| ---- | ----------- | ---- | ------- | :------: |
+|------|-------------|------|---------|:--------:|
 | <a name="input_compartment_name"></a> [compartment\_name](#input\_compartment\_name) | (Optional) Name of the OCI compartment to create. | `string` | `"free-tier-compute"` | no |
 | <a name="input_oci_config_profile"></a> [oci\_config\_profile](#input\_oci\_config\_profile) | (Required) OCI CLI config file profile name to use for authentication. | `string` | n/a | yes |
 | <a name="input_ssh_authorized_keys"></a> [ssh\_authorized\_keys](#input\_ssh\_authorized\_keys) | (Optional) SSH public key to authorize on compute instances. If null, SSH key authentication is disabled. | `string` | `null` | no |
@@ -75,7 +75,7 @@ terraform apply
 ## Outputs
 
 | Name | Description |
-| ---- | ----------- |
+|------|-------------|
 | <a name="output_block_volume_id"></a> [block\_volume\_id](#output\_block\_volume\_id) | OCID of the block volume attached to the compute instance. |
 | <a name="output_compartment_id"></a> [compartment\_id](#output\_compartment\_id) | OCID of the created compartment. |
 | <a name="output_compute_instance_id"></a> [compute\_instance\_id](#output\_compute\_instance\_id) | OCID of the compute instance. |

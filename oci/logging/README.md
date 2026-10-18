@@ -30,14 +30,14 @@ module "logging" {
 ## Requirements
 
 | Name | Version |
-| ---- | ------- |
+|------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
 | <a name="requirement_oci"></a> [oci](#requirement\_oci) | >= 9.0, < 10.0 |
 
 ## Providers
 
 | Name | Version |
-| ---- | ------- |
+|------|---------|
 | <a name="provider_oci"></a> [oci](#provider\_oci) | >= 9.0, < 10.0 |
 
 ## Modules
@@ -47,14 +47,14 @@ No modules.
 ## Resources
 
 | Name | Type |
-| ---- | ---- |
+|------|------|
 | [oci_logging_log.this](https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/logging_log) | resource |
 | [oci_logging_log_group.this](https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/logging_log_group) | resource |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-| ---- | ----------- | ---- | ------- | :------: |
+|------|-------------|------|---------|:--------:|
 | <a name="input_compartment_id"></a> [compartment\_id](#input\_compartment\_id) | (Required) The OCID of the compartment containing the logging resources. | `string` | n/a | yes |
 | <a name="input_log_group_display_name"></a> [log\_group\_display\_name](#input\_log\_group\_display\_name) | (Optional) (Updatable) The display name of the log group. | `string` | `"log-group"` | no |
 | <a name="input_logging_defined_tags"></a> [logging\_defined\_tags](#input\_logging\_defined\_tags) | Defined tags for the logging resources. | `map(string)` | `{}` | no |
@@ -64,7 +64,7 @@ No modules.
 ## Outputs
 
 | Name | Description |
-| ---- | ----------- |
+|------|-------------|
 | <a name="output_log_group_id"></a> [log\_group\_id](#output\_log\_group\_id) | OCID of the log group. |
 | <a name="output_log_ids"></a> [log\_ids](#output\_log\_ids) | Map of log display names to their OCIDs. |
 <!-- END_TF_DOCS -->

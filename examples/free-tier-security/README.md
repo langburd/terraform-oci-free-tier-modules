@@ -30,7 +30,7 @@ terraform apply
 ## Requirements
 
 | Name | Version |
-| ---- | ------- |
+|------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
 | <a name="requirement_oci"></a> [oci](#requirement\_oci) | ~> 9.0 |
 
@@ -41,7 +41,7 @@ No providers.
 ## Modules
 
 | Name | Source | Version |
-| ---- | ------ | ------- |
+|------|--------|---------|
 | <a name="module_certificates"></a> [certificates](#module\_certificates) | ../../oci/certificates | n/a |
 | <a name="module_compartment"></a> [compartment](#module\_compartment) | ../../oci/identity | n/a |
 | <a name="module_oci_profile_reader"></a> [oci\_profile\_reader](#module\_oci\_profile\_reader) | ../../oci/oci_profile_reader | n/a |
@@ -54,7 +54,7 @@ No resources.
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-| ---- | ----------- | ---- | ------- | :------: |
+|------|-------------|------|---------|:--------:|
 | <a name="input_certificate_common_name"></a> [certificate\_common\_name](#input\_certificate\_common\_name) | (Optional) Common name (CN) for the TLS certificate subject. | `string` | `"app.example.com"` | no |
 | <a name="input_compartment_name"></a> [compartment\_name](#input\_compartment\_name) | (Optional) Name of the OCI compartment to create. | `string` | `"free-tier-security"` | no |
 | <a name="input_oci_config_profile"></a> [oci\_config\_profile](#input\_oci\_config\_profile) | (Required) OCI CLI config file profile name to use for authentication. | `string` | n/a | yes |
@@ -62,7 +62,7 @@ No resources.
 ## Outputs
 
 | Name | Description |
-| ---- | ----------- |
+|------|-------------|
 | <a name="output_certificate_authority_id"></a> [certificate\_authority\_id](#output\_certificate\_authority\_id) | OCID of the certificate authority. |
 | <a name="output_certificate_id"></a> [certificate\_id](#output\_certificate\_id) | OCID of the TLS certificate. |
 | <a name="output_compartment_id"></a> [compartment\_id](#output\_compartment\_id) | OCID of the created compartment. |

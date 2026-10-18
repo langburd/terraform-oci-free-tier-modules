@@ -22,14 +22,14 @@ module "monitoring" {
 ## Requirements
 
 | Name | Version |
-| ---- | ------- |
+|------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
 | <a name="requirement_oci"></a> [oci](#requirement\_oci) | >= 9.0, < 10.0 |
 
 ## Providers
 
 | Name | Version |
-| ---- | ------- |
+|------|---------|
 | <a name="provider_oci"></a> [oci](#provider\_oci) | >= 9.0, < 10.0 |
 
 ## Modules
@@ -39,13 +39,13 @@ No modules.
 ## Resources
 
 | Name | Type |
-| ---- | ---- |
+|------|------|
 | [oci_monitoring_alarm.this](https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/monitoring_alarm) | resource |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-| ---- | ----------- | ---- | ------- | :------: |
+|------|-------------|------|---------|:--------:|
 | <a name="input_alarm_body"></a> [alarm\_body](#input\_alarm\_body) | (Optional) (Updatable) The human-readable content of the delivered alarm notification. | `string` | `null` | no |
 | <a name="input_alarm_defined_tags"></a> [alarm\_defined\_tags](#input\_alarm\_defined\_tags) | Defined tags for the alarm resource. | `map(string)` | `{}` | no |
 | <a name="input_alarm_display_name"></a> [alarm\_display\_name](#input\_alarm\_display\_name) | (Required) A user-friendly name for the alarm. | `string` | n/a | yes |
@@ -61,7 +61,7 @@ No modules.
 ## Outputs
 
 | Name | Description |
-| ---- | ----------- |
+|------|-------------|
 | <a name="output_alarm_id"></a> [alarm\_id](#output\_alarm\_id) | OCID of the monitoring alarm. |
 | <a name="output_alarm_state"></a> [alarm\_state](#output\_alarm\_state) | The current lifecycle state of the alarm. |
 <!-- END_TF_DOCS -->

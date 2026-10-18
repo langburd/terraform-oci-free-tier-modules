@@ -29,14 +29,14 @@ module "bastion" {
 ## Requirements
 
 | Name | Version |
-| ---- | ------- |
+|------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
 | <a name="requirement_oci"></a> [oci](#requirement\_oci) | >= 9.0, < 10.0 |
 
 ## Providers
 
 | Name | Version |
-| ---- | ------- |
+|------|---------|
 | <a name="provider_oci"></a> [oci](#provider\_oci) | >= 9.0, < 10.0 |
 
 ## Modules
@@ -46,13 +46,13 @@ No modules.
 ## Resources
 
 | Name | Type |
-| ---- | ---- |
+|------|------|
 | [oci_bastion_bastion.this](https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/bastion_bastion) | resource |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-| ---- | ----------- | ---- | ------- | :------: |
+|------|-------------|------|---------|:--------:|
 | <a name="input_bastion_defined_tags"></a> [bastion\_defined\_tags](#input\_bastion\_defined\_tags) | (Optional) Defined tags for the bastion. | `map(string)` | `{}` | no |
 | <a name="input_bastion_freeform_tags"></a> [bastion\_freeform\_tags](#input\_bastion\_freeform\_tags) | (Optional) Free-form tags for the bastion. | `map(string)` | `{}` | no |
 | <a name="input_bastion_name"></a> [bastion\_name](#input\_bastion\_name) | (Required) Name of the bastion. Must be alphanumeric. | `string` | n/a | yes |
@@ -65,7 +65,7 @@ No modules.
 ## Outputs
 
 | Name | Description |
-| ---- | ----------- |
+|------|-------------|
 | <a name="output_bastion_id"></a> [bastion\_id](#output\_bastion\_id) | OCID of the bastion. |
 | <a name="output_bastion_name"></a> [bastion\_name](#output\_bastion\_name) | Name of the bastion. |
 <!-- END_TF_DOCS -->

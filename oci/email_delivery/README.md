@@ -20,14 +20,14 @@ module "email_delivery" {
 ## Requirements
 
 | Name | Version |
-| ---- | ------- |
+|------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
 | <a name="requirement_oci"></a> [oci](#requirement\_oci) | >= 9.0, < 10.0 |
 
 ## Providers
 
 | Name | Version |
-| ---- | ------- |
+|------|---------|
 | <a name="provider_oci"></a> [oci](#provider\_oci) | >= 9.0, < 10.0 |
 
 ## Modules
@@ -37,7 +37,7 @@ No modules.
 ## Resources
 
 | Name | Type |
-| ---- | ---- |
+|------|------|
 | [oci_email_dkim.this](https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/email_dkim) | resource |
 | [oci_email_email_domain.this](https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/email_email_domain) | resource |
 | [oci_email_sender.this](https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/email_sender) | resource |
@@ -45,7 +45,7 @@ No modules.
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-| ---- | ----------- | ---- | ------- | :------: |
+|------|-------------|------|---------|:--------:|
 | <a name="input_compartment_id"></a> [compartment\_id](#input\_compartment\_id) | (Required) The OCID of the compartment containing the email delivery resources. | `string` | n/a | yes |
 | <a name="input_create_dkim"></a> [create\_dkim](#input\_create\_dkim) | (Optional) Whether to create a DKIM record for the email domain. Defaults to true. | `bool` | `true` | no |
 | <a name="input_dkim_name"></a> [dkim\_name](#input\_dkim\_name) | (Optional) The name of the DKIM selector. Used as the DKIM selector prefix. | `string` | `"dkim"` | no |
@@ -57,7 +57,7 @@ No modules.
 ## Outputs
 
 | Name | Description |
-| ---- | ----------- |
+|------|-------------|
 | <a name="output_dkim_cname_record_value"></a> [dkim\_cname\_record\_value](#output\_dkim\_cname\_record\_value) | The DNS CNAME record value for DKIM verification. Returns null when create\_dkim is false. |
 | <a name="output_dkim_id"></a> [dkim\_id](#output\_dkim\_id) | OCID of the DKIM resource. Returns null when create\_dkim is false. |
 | <a name="output_email_domain_id"></a> [email\_domain\_id](#output\_email\_domain\_id) | OCID of the email domain. |

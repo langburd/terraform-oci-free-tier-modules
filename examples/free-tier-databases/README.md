@@ -56,20 +56,20 @@ terraform apply
 ## Requirements
 
 | Name | Version |
-| ---- | ------- |
+|------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
 | <a name="requirement_oci"></a> [oci](#requirement\_oci) | ~> 9.0 |
 
 ## Providers
 
 | Name | Version |
-| ---- | ------- |
+|------|---------|
 | <a name="provider_oci"></a> [oci](#provider\_oci) | ~> 9.0 |
 
 ## Modules
 
 | Name | Source | Version |
-| ---- | ------ | ------- |
+|------|--------|---------|
 | <a name="module_autonomous_database"></a> [autonomous\_database](#module\_autonomous\_database) | ../../oci/autonomous_database | n/a |
 | <a name="module_compartment"></a> [compartment](#module\_compartment) | ../../oci/identity | n/a |
 | <a name="module_mysql"></a> [mysql](#module\_mysql) | ../../oci/mysql | n/a |
@@ -81,13 +81,13 @@ terraform apply
 ## Resources
 
 | Name | Type |
-| ---- | ---- |
+|------|------|
 | [oci_identity_availability_domains.ads](https://registry.terraform.io/providers/oracle/oci/latest/docs/data-sources/identity_availability_domains) | data source |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-| ---- | ----------- | ---- | ------- | :------: |
+|------|-------------|------|---------|:--------:|
 | <a name="input_adb_admin_password"></a> [adb\_admin\_password](#input\_adb\_admin\_password) | (Required) The ADMIN user password for the Autonomous Database. Must be 12-30 characters with at least one uppercase, lowercase, and numeric character. | `string` | n/a | yes |
 | <a name="input_compartment_name"></a> [compartment\_name](#input\_compartment\_name) | (Optional) Name of the OCI compartment to create for database resources. | `string` | `"free-tier-databases"` | no |
 | <a name="input_mysql_admin_password"></a> [mysql\_admin\_password](#input\_mysql\_admin\_password) | (Required) The admin user password for the MySQL DB System. | `string` | n/a | yes |
@@ -96,7 +96,7 @@ terraform apply
 ## Outputs
 
 | Name | Description |
-| ---- | ----------- |
+|------|-------------|
 | <a name="output_autonomous_database_id"></a> [autonomous\_database\_id](#output\_autonomous\_database\_id) | OCID of the Autonomous Database. |
 | <a name="output_autonomous_db_name"></a> [autonomous\_db\_name](#output\_autonomous\_db\_name) | The database name of the Autonomous Database. |
 | <a name="output_compartment_id"></a> [compartment\_id](#output\_compartment\_id) | OCID of the created compartment. |

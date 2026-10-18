@@ -39,14 +39,14 @@ module "compute_arm" {
 ## Requirements
 
 | Name | Version |
-| ---- | ------- |
+|------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
 | <a name="requirement_oci"></a> [oci](#requirement\_oci) | >= 9.0, < 10.0 |
 
 ## Providers
 
 | Name | Version |
-| ---- | ------- |
+|------|---------|
 | <a name="provider_oci"></a> [oci](#provider\_oci) | >= 9.0, < 10.0 |
 
 ## Modules
@@ -56,14 +56,14 @@ No modules.
 ## Resources
 
 | Name | Type |
-| ---- | ---- |
+|------|------|
 | [oci_core_instance.this](https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/core_instance) | resource |
 | [oci_identity_availability_domains.this](https://registry.terraform.io/providers/oracle/oci/latest/docs/data-sources/identity_availability_domains) | data source |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-| ---- | ----------- | ---- | ------- | :------: |
+|------|-------------|------|---------|:--------:|
 | <a name="input_assign_public_ip"></a> [assign\_public\_ip](#input\_assign\_public\_ip) | (Optional) Whether to assign a public IP to the instance's primary VNIC. Defaults to false (secure). Set to true only when the instance must be reachable from the internet. | `bool` | `false` | no |
 | <a name="input_availability_domain_number"></a> [availability\_domain\_number](#input\_availability\_domain\_number) | (Optional) 1-indexed availability domain number used to select the AD for the instance. | `number` | `1` | no |
 | <a name="input_boot_volume_size_in_gbs"></a> [boot\_volume\_size\_in\_gbs](#input\_boot\_volume\_size\_in\_gbs) | (Optional) Size of the boot volume in GBs. | `number` | `50` | no |
@@ -83,7 +83,7 @@ No modules.
 ## Outputs
 
 | Name | Description |
-| ---- | ----------- |
+|------|-------------|
 | <a name="output_availability_domain"></a> [availability\_domain](#output\_availability\_domain) | Availability domain in which the instance was launched. |
 | <a name="output_instance_id"></a> [instance\_id](#output\_instance\_id) | OCID of the compute instance. |
 | <a name="output_instance_private_ip"></a> [instance\_private\_ip](#output\_instance\_private\_ip) | Private IP address of the instance's primary VNIC. |

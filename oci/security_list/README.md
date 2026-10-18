@@ -46,14 +46,14 @@ module "k3s_security_list" {
 ## Requirements
 
 | Name | Version |
-| ---- | ------- |
+|------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
 | <a name="requirement_oci"></a> [oci](#requirement\_oci) | >= 9.0, < 10.0 |
 
 ## Providers
 
 | Name | Version |
-| ---- | ------- |
+|------|---------|
 | <a name="provider_oci"></a> [oci](#provider\_oci) | >= 9.0, < 10.0 |
 
 ## Modules
@@ -63,13 +63,13 @@ No modules.
 ## Resources
 
 | Name | Type |
-| ---- | ---- |
+|------|------|
 | [oci_core_security_list.this](https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/core_security_list) | resource |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-| ---- | ----------- | ---- | ------- | :------: |
+|------|-------------|------|---------|:--------:|
 | <a name="input_compartment_id"></a> [compartment\_id](#input\_compartment\_id) | (Required) The OCID of the compartment in which to create the security list. | `string` | n/a | yes |
 | <a name="input_egress_security_rules"></a> [egress\_security\_rules](#input\_egress\_security\_rules) | (Optional) (Updatable) List of egress security rules. | <pre>list(object({<br/>    protocol         = string<br/>    destination      = string<br/>    destination_type = optional(string, "CIDR_BLOCK")<br/>    description      = optional(string, "")<br/>    tcp_options = optional(object({<br/>      min = number<br/>      max = number<br/>    }))<br/>    udp_options = optional(object({<br/>      min = number<br/>      max = number<br/>    }))<br/>    icmp_options = optional(object({<br/>      type = number<br/>      code = optional(number)<br/>    }))<br/>    stateless = optional(bool, false)<br/>  }))</pre> | `[]` | no |
 | <a name="input_ingress_security_rules"></a> [ingress\_security\_rules](#input\_ingress\_security\_rules) | (Optional) (Updatable) List of ingress security rules. | <pre>list(object({<br/>    protocol    = string<br/>    source      = string<br/>    source_type = optional(string, "CIDR_BLOCK")<br/>    description = optional(string, "")<br/>    tcp_options = optional(object({<br/>      min = number<br/>      max = number<br/>    }))<br/>    udp_options = optional(object({<br/>      min = number<br/>      max = number<br/>    }))<br/>    icmp_options = optional(object({<br/>      type = number<br/>      code = optional(number)<br/>    }))<br/>    stateless = optional(bool, false)<br/>  }))</pre> | `[]` | no |
@@ -81,6 +81,6 @@ No modules.
 ## Outputs
 
 | Name | Description |
-| ---- | ----------- |
+|------|-------------|
 | <a name="output_security_list_id"></a> [security\_list\_id](#output\_security\_list\_id) | OCID of the security list. |
 <!-- END_TF_DOCS -->

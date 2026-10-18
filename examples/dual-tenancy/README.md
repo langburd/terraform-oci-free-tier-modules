@@ -25,7 +25,7 @@ terraform apply
 ## Requirements
 
 | Name | Version |
-| ---- | ------- |
+|------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
 | <a name="requirement_oci"></a> [oci](#requirement\_oci) | ~> 9.0 |
 
@@ -36,7 +36,7 @@ No providers.
 ## Modules
 
 | Name | Source | Version |
-| ---- | ------ | ------- |
+|------|--------|---------|
 | <a name="module_budget1"></a> [budget1](#module\_budget1) | ../../oci/budget | n/a |
 | <a name="module_budget2"></a> [budget2](#module\_budget2) | ../../oci/budget | n/a |
 | <a name="module_compartment1"></a> [compartment1](#module\_compartment1) | ../../oci/identity | n/a |
@@ -51,7 +51,7 @@ No resources.
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-| ---- | ----------- | ---- | ------- | :------: |
+|------|-------------|------|---------|:--------:|
 | <a name="input_alert_recipients"></a> [alert\_recipients](#input\_alert\_recipients) | Comma-separated email address(es) to notify when forecasted spend is on track to exceed the budget. | `string` | n/a | yes |
 | <a name="input_budget_amount"></a> [budget\_amount](#input\_budget\_amount) | Monthly budget cap in the currency of your OCI rate card. Applied to both tenancies. | `number` | `1` | no |
 | <a name="input_profile1"></a> [profile1](#input\_profile1) | OCI config profile name for the first tenancy. Must exist in ~/.oci/config. | `string` | n/a | yes |
@@ -60,7 +60,7 @@ No resources.
 ## Outputs
 
 | Name | Description |
-| ---- | ----------- |
+|------|-------------|
 | <a name="output_budget1_id"></a> [budget1\_id](#output\_budget1\_id) | OCID of the budget for the first tenancy. |
 | <a name="output_budget2_id"></a> [budget2\_id](#output\_budget2\_id) | OCID of the budget for the second tenancy. |
 | <a name="output_compartment1_id"></a> [compartment1\_id](#output\_compartment1\_id) | OCID of the compartment created in the first tenancy. |

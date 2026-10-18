@@ -31,14 +31,14 @@ module "autonomous_database" {
 ## Requirements
 
 | Name | Version |
-| ---- | ------- |
+|------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
 | <a name="requirement_oci"></a> [oci](#requirement\_oci) | >= 9.0, < 10.0 |
 
 ## Providers
 
 | Name | Version |
-| ---- | ------- |
+|------|---------|
 | <a name="provider_oci"></a> [oci](#provider\_oci) | >= 9.0, < 10.0 |
 
 ## Modules
@@ -48,13 +48,13 @@ No modules.
 ## Resources
 
 | Name | Type |
-| ---- | ---- |
+|------|------|
 | [oci_database_autonomous_database.this](https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/database_autonomous_database) | resource |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-| ---- | ----------- | ---- | ------- | :------: |
+|------|-------------|------|---------|:--------:|
 | <a name="input_admin_password"></a> [admin\_password](#input\_admin\_password) | (Required) The password for the ADMIN user. Must be 12 to 30 characters and contain at least one uppercase, one lowercase, one numeric, and one special character. | `string` | n/a | yes |
 | <a name="input_autonomous_database_defined_tags"></a> [autonomous\_database\_defined\_tags](#input\_autonomous\_database\_defined\_tags) | (Optional) (Updatable) Defined tags for the Autonomous Database resource. | `map(string)` | `{}` | no |
 | <a name="input_autonomous_database_freeform_tags"></a> [autonomous\_database\_freeform\_tags](#input\_autonomous\_database\_freeform\_tags) | (Optional) (Updatable) Free-form tags for the Autonomous Database resource. | `map(string)` | `{}` | no |
@@ -73,7 +73,7 @@ No modules.
 ## Outputs
 
 | Name | Description |
-| ---- | ----------- |
+|------|-------------|
 | <a name="output_autonomous_database_id"></a> [autonomous\_database\_id](#output\_autonomous\_database\_id) | OCID of the Autonomous Database resource. |
 | <a name="output_connection_strings"></a> [connection\_strings](#output\_connection\_strings) | The connection string used to connect to the Autonomous Database. |
 | <a name="output_connection_urls"></a> [connection\_urls](#output\_connection\_urls) | The URLs for accessing Oracle Application Express (APEX) and SQL Developer Web with a browser from a Compute instance. |

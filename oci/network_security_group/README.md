@@ -35,14 +35,14 @@ module "api_endpoint_nsg" {
 ## Requirements
 
 | Name | Version |
-| ---- | ------- |
+|------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
 | <a name="requirement_oci"></a> [oci](#requirement\_oci) | >= 9.0, < 10.0 |
 
 ## Providers
 
 | Name | Version |
-| ---- | ------- |
+|------|---------|
 | <a name="provider_oci"></a> [oci](#provider\_oci) | >= 9.0, < 10.0 |
 
 ## Modules
@@ -52,14 +52,14 @@ No modules.
 ## Resources
 
 | Name | Type |
-| ---- | ---- |
+|------|------|
 | [oci_core_network_security_group.this](https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/core_network_security_group) | resource |
 | [oci_core_network_security_group_security_rule.this](https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/core_network_security_group_security_rule) | resource |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-| ---- | ----------- | ---- | ------- | :------: |
+|------|-------------|------|---------|:--------:|
 | <a name="input_compartment_id"></a> [compartment\_id](#input\_compartment\_id) | Compartment OCID where the NSG will be created. | `string` | n/a | yes |
 | <a name="input_egress_rules"></a> [egress\_rules](#input\_egress\_rules) | Map of egress (outbound) security rules. Use `destination` and `destination_type` to specify the traffic target. | <pre>map(object({<br/>    protocol         = string<br/>    destination      = optional(string)<br/>    destination_type = optional(string, "CIDR_BLOCK")<br/>    tcp_options = optional(object({<br/>      destination_port_range = object({<br/>        min = number<br/>        max = number<br/>      })<br/>    }))<br/>    udp_options = optional(object({<br/>      destination_port_range = object({<br/>        min = number<br/>        max = number<br/>      })<br/>    }))<br/>    icmp_options = optional(object({<br/>      type = number<br/>      code = optional(number) # null = all codes<br/>    }))<br/>    description = optional(string, "")<br/>  }))</pre> | `{}` | no |
 | <a name="input_ingress_rules"></a> [ingress\_rules](#input\_ingress\_rules) | Map of ingress (inbound) security rules. Use `source` and `source_type` to specify the traffic origin. | <pre>map(object({<br/>    protocol    = string<br/>    source      = optional(string)<br/>    source_type = optional(string, "CIDR_BLOCK")<br/>    tcp_options = optional(object({<br/>      destination_port_range = object({<br/>        min = number<br/>        max = number<br/>      })<br/>    }))<br/>    udp_options = optional(object({<br/>      destination_port_range = object({<br/>        min = number<br/>        max = number<br/>      })<br/>    }))<br/>    icmp_options = optional(object({<br/>      type = number<br/>      code = optional(number) # null = all codes<br/>    }))<br/>    description = optional(string, "")<br/>  }))</pre> | `{}` | no |
@@ -71,6 +71,6 @@ No modules.
 ## Outputs
 
 | Name | Description |
-| ---- | ----------- |
+|------|-------------|
 | <a name="output_nsg_id"></a> [nsg\_id](#output\_nsg\_id) | OCID of the Network Security Group. |
 <!-- END_TF_DOCS -->
