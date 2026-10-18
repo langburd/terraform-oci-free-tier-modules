@@ -1,9 +1,11 @@
 locals {
   kms_compartment_id = coalesce(var.kms_compartment_id, var.compartment_id)
+  # The Certificates API rejects timeOfValidityNotAfter without fractional seconds and the
+  # provider drops a ".000" fraction, so defaults carry a non-zero ".001Z" fraction.
   # Default CA validity: 3 years from plan time (26280h = 365.25 days * 3 * 24h)
-  ca_not_after = var.ca_validity_time_of_validity_not_after != null ? var.ca_validity_time_of_validity_not_after : timeadd(plantimestamp(), "26280h")
+  ca_not_after = var.ca_validity_time_of_validity_not_after != null ? var.ca_validity_time_of_validity_not_after : formatdate("YYYY-MM-DD'T'hh:mm:ss'.001Z'", timeadd(plantimestamp(), "26280h"))
   # Default cert validity: 1 year from plan time (8766h = 365.25 days * 24h)
-  cert_not_after = var.certificate_validity_time_of_validity_not_after != null ? var.certificate_validity_time_of_validity_not_after : timeadd(plantimestamp(), "8766h")
+  cert_not_after = var.certificate_validity_time_of_validity_not_after != null ? var.certificate_validity_time_of_validity_not_after : formatdate("YYYY-MM-DD'T'hh:mm:ss'.001Z'", timeadd(plantimestamp(), "8766h"))
 }
 
 # The CA signs with its KMS key as the certificateauthority principal. Without this

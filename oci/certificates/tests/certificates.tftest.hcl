@@ -217,3 +217,61 @@ run "accepts_regional_key_ocid_with_vault_segment" {
     error_message = "Real key OCID with a vault segment should be accepted and reach the policy"
   }
 }
+
+run "default_validity_has_nonzero_fractional_seconds" {
+  command = plan
+  variables {
+    create_certificate      = true
+    certificate_common_name = "test.example.com"
+  }
+
+  assert {
+    condition     = can(regex("\\.001Z$", oci_certificates_management_certificate_authority.this.certificate_authority_config[0].validity[0].time_of_validity_not_after))
+    error_message = "Default CA validity must end in .001Z (the API rejects timestamps without fractional seconds)"
+  }
+
+  assert {
+    condition     = can(regex("\\.001Z$", oci_certificates_management_certificate.this[0].certificate_config[0].validity[0].time_of_validity_not_after))
+    error_message = "Default certificate validity must end in .001Z"
+  }
+}
+
+run "accepts_validity_with_nonzero_fraction" {
+  command = plan
+  variables {
+    ca_validity_time_of_validity_not_after          = "2036-10-18T00:00:00.001Z"
+    certificate_validity_time_of_validity_not_after = "2036-10-18T00:00:00.001Z"
+  }
+}
+
+run "rejects_ca_validity_without_fraction" {
+  command = plan
+  variables {
+    ca_validity_time_of_validity_not_after = "2036-10-18T00:00:00Z"
+  }
+  expect_failures = [var.ca_validity_time_of_validity_not_after]
+}
+
+run "rejects_ca_validity_with_zero_fraction" {
+  command = plan
+  variables {
+    ca_validity_time_of_validity_not_after = "2036-10-18T00:00:00.000Z"
+  }
+  expect_failures = [var.ca_validity_time_of_validity_not_after]
+}
+
+run "rejects_certificate_validity_without_fraction" {
+  command = plan
+  variables {
+    certificate_validity_time_of_validity_not_after = "2036-10-18T00:00:00Z"
+  }
+  expect_failures = [var.certificate_validity_time_of_validity_not_after]
+}
+
+run "rejects_certificate_validity_with_zero_fraction" {
+  command = plan
+  variables {
+    certificate_validity_time_of_validity_not_after = "2036-10-18T00:00:00.000Z"
+  }
+  expect_failures = [var.certificate_validity_time_of_validity_not_after]
+}
