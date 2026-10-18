@@ -10,6 +10,7 @@ Terraform module creating an OCI MySQL HeatWave DB System.
 - 50 GB storage maximum
 - Deletion protection is enabled by default (`is_delete_protected`); set it to `false` and apply before a destroy
 - Automatic backups are kept for 1 day only; manual backups and point-in-time recovery are not supported
+- `backup_is_enabled` and `data_storage_size_in_gb` are not sent for `MySQL.Free` (the API rejects a backup policy for Always Free; storage is fixed at 50 GB)
 - OCI upgrades the MySQL version at each maintenance window (`maintenance_window_start_time`)
 
 ## Network Access
@@ -72,9 +73,9 @@ No modules.
 | <a name="input_admin_username"></a> [admin\_username](#input\_admin\_username) | (Optional) The username for the administrative user. | `string` | `"admin"` | no |
 | <a name="input_automatic_backup_retention"></a> [automatic\_backup\_retention](#input\_automatic\_backup\_retention) | (Optional) (Updatable) Whether automatic backups are kept or deleted when the DB System is deleted. Supported values: DELETE, RETAIN. Null keeps the OCI default. | `string` | `null` | no |
 | <a name="input_availability_domain"></a> [availability\_domain](#input\_availability\_domain) | (Required) The availability domain on which to deploy the Read/Write endpoint. This should be the name of the availability domain (e.g. 'Uocm:PHX-AD-1'). Always Free MySQL is only available in the home region. | `string` | n/a | yes |
-| <a name="input_backup_is_enabled"></a> [backup\_is\_enabled](#input\_backup\_is\_enabled) | (Optional) Whether to enable automatic backups for the MySQL DB System. | `bool` | `true` | no |
+| <a name="input_backup_is_enabled"></a> [backup\_is\_enabled](#input\_backup\_is\_enabled) | (Optional) Whether to enable automatic backups for the MySQL DB System. Ignored for MySQL.Free: Always Free systems always take a daily automatic backup (1-day retention) and reject a backup policy. | `bool` | `true` | no |
 | <a name="input_compartment_id"></a> [compartment\_id](#input\_compartment\_id) | (Required) The OCID of the compartment where the MySQL DB System will be created. | `string` | n/a | yes |
-| <a name="input_data_storage_size_in_gb"></a> [data\_storage\_size\_in\_gb](#input\_data\_storage\_size\_in\_gb) | (Optional) Initial size of the data volume in gigabytes that will be created and attached. Must be <= 50 for Always Free tier. | `number` | `50` | no |
+| <a name="input_data_storage_size_in_gb"></a> [data\_storage\_size\_in\_gb](#input\_data\_storage\_size\_in\_gb) | (Optional) Initial size of the data volume in gigabytes that will be created and attached. Must be <= 50. Ignored for MySQL.Free, whose storage is fixed at 50 GB. | `number` | `50` | no |
 | <a name="input_final_backup"></a> [final\_backup](#input\_final\_backup) | (Optional) (Updatable) Whether a final backup is taken when the DB System is deleted. Supported values: SKIP\_FINAL\_BACKUP, REQUIRE\_FINAL\_BACKUP. Null keeps the OCI default. | `string` | `null` | no |
 | <a name="input_hostname_label"></a> [hostname\_label](#input\_hostname\_label) | (Optional) Hostname for the DB System's primary endpoint. Together with the subnet and VCN DNS labels it forms the FQDN (e.g. mysql.db.myvcn.oraclevcn.com). Null leaves the endpoint without a DNS name. | `string` | `null` | no |
 | <a name="input_is_delete_protected"></a> [is\_delete\_protected](#input\_is\_delete\_protected) | (Optional) (Updatable) Whether the DB System is protected against deletion. Must be set to false (and applied) before the DB System can be destroyed. | `bool` | `true` | no |

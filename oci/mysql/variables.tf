@@ -51,7 +51,7 @@ variable "admin_username" {
 }
 
 variable "data_storage_size_in_gb" {
-  description = "(Optional) Initial size of the data volume in gigabytes that will be created and attached. Must be <= 50 for Always Free tier."
+  description = "(Optional) Initial size of the data volume in gigabytes that will be created and attached. Must be <= 50. Ignored for MySQL.Free, whose storage is fixed at 50 GB."
   type        = number
   default     = 50
   validation {
@@ -61,7 +61,7 @@ variable "data_storage_size_in_gb" {
 }
 
 variable "backup_is_enabled" {
-  description = "(Optional) Whether to enable automatic backups for the MySQL DB System."
+  description = "(Optional) Whether to enable automatic backups for the MySQL DB System. Ignored for MySQL.Free: Always Free systems always take a daily automatic backup (1-day retention) and reject a backup policy."
   type        = bool
   default     = true
 }

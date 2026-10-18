@@ -21,8 +21,8 @@ run "creates_mysql_with_defaults" {
   }
 
   assert {
-    condition     = oci_mysql_mysql_db_system.this.data_storage_size_in_gb == 50
-    error_message = "data_storage_size_in_gb should default to 50"
+    condition     = length(oci_mysql_mysql_db_system.this.backup_policy) == 0
+    error_message = "MySQL.Free must not send a backup_policy block (the API rejects it for Always Free)"
   }
 
   assert {
@@ -30,10 +30,6 @@ run "creates_mysql_with_defaults" {
     error_message = "is_highly_available should default to false"
   }
 
-  assert {
-    condition     = oci_mysql_mysql_db_system.this.backup_policy[0].is_enabled == true
-    error_message = "backup should be enabled by default"
-  }
 
   assert {
     condition     = oci_mysql_mysql_db_system.this.deletion_policy[0].is_delete_protected == true
@@ -41,10 +37,29 @@ run "creates_mysql_with_defaults" {
   }
 }
 
+run "paid_shape_sends_storage_and_backup_policy" {
+  command = plan
+
+  variables {
+    shape_name = "MySQL.2"
+  }
+
+  assert {
+    condition     = oci_mysql_mysql_db_system.this.data_storage_size_in_gb == 50
+    error_message = "data_storage_size_in_gb should default to 50 on paid shapes"
+  }
+
+  assert {
+    condition     = oci_mysql_mysql_db_system.this.backup_policy[0].is_enabled == true
+    error_message = "backup should be enabled by default on paid shapes"
+  }
+}
+
 run "creates_mysql_with_backup_disabled" {
   command = plan
 
   variables {
+    shape_name        = "MySQL.2"
     backup_is_enabled = false
   }
 

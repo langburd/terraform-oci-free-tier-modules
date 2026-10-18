@@ -4,6 +4,10 @@
 # OCI MySQL HeatWave encrypts data at rest by default using Oracle-managed keys.
 # Customer-managed key (CMK) encryption is not available for the Always Free tier
 # and is not exposed as a variable in this module.
+locals {
+  is_free = var.shape_name == "MySQL.Free"
+}
+
 resource "oci_mysql_mysql_db_system" "this" {
   compartment_id      = var.compartment_id
   subnet_id           = var.subnet_id
@@ -22,10 +26,16 @@ resource "oci_mysql_mysql_db_system" "this" {
     ignore_changes = [defined_tags]
   }
 
-  data_storage_size_in_gb = var.data_storage_size_in_gb
+  # Always Free (MySQL.Free) rejects a backup policy on create ("Cannot specify backup
+  # policy ... for an Always Free DB system") and has fixed 50 GB storage with fixed
+  # 1-day automatic backups, so neither is sent for that shape.
+  data_storage_size_in_gb = local.is_free ? null : var.data_storage_size_in_gb
 
-  backup_policy {
-    is_enabled = var.backup_is_enabled
+  dynamic "backup_policy" {
+    for_each = local.is_free ? [] : [var.backup_is_enabled]
+    content {
+      is_enabled = backup_policy.value
+    }
   }
 
   dynamic "maintenance" {
