@@ -22,20 +22,20 @@ compartment_name   = "free-tier-observability"
 ## Requirements
 
 | Name | Version |
-|------|---------|
+| ---- | ------- |
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
 | <a name="requirement_oci"></a> [oci](#requirement\_oci) | ~> 9.0 |
 
 ## Providers
 
 | Name | Version |
-|------|---------|
+| ---- | ------- |
 | <a name="provider_oci"></a> [oci](#provider\_oci) | ~> 9.0 |
 
 ## Modules
 
 | Name | Source | Version |
-|------|--------|---------|
+| ---- | ------ | ------- |
 | <a name="module_apm"></a> [apm](#module\_apm) | ../../oci/apm | n/a |
 | <a name="module_compartment"></a> [compartment](#module\_compartment) | ../../oci/identity | n/a |
 | <a name="module_connector_hub"></a> [connector\_hub](#module\_connector\_hub) | ../../oci/connector_hub | n/a |
@@ -46,20 +46,20 @@ compartment_name   = "free-tier-observability"
 ## Resources
 
 | Name | Type |
-|------|------|
+| ---- | ---- |
 | [oci_ons_notification_topic.alarms](https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/ons_notification_topic) | resource |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
+| ---- | ----------- | ---- | ------- | :------: |
 | <a name="input_compartment_name"></a> [compartment\_name](#input\_compartment\_name) | (Optional) Name of the OCI compartment to create. | `string` | `"free-tier-observability"` | no |
 | <a name="input_oci_config_profile"></a> [oci\_config\_profile](#input\_oci\_config\_profile) | (Required) OCI CLI config file profile name to use for authentication. | `string` | n/a | yes |
 
 ## Outputs
 
 | Name | Description |
-|------|-------------|
+| ---- | ----------- |
 | <a name="output_alarm_id"></a> [alarm\_id](#output\_alarm\_id) | OCID of the monitoring alarm. |
 | <a name="output_apm_data_upload_endpoint"></a> [apm\_data\_upload\_endpoint](#output\_apm\_data\_upload\_endpoint) | APM data upload endpoint for agent configuration. |
 | <a name="output_apm_domain_id"></a> [apm\_domain\_id](#output\_apm\_domain\_id) | OCID of the APM domain. |

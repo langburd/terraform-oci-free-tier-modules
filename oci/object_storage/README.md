@@ -29,14 +29,14 @@ module "object_storage" {
 ## Requirements
 
 | Name | Version |
-|------|---------|
+| ---- | ------- |
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.9 |
 | <a name="requirement_oci"></a> [oci](#requirement\_oci) | >= 9.0, < 10.0 |
 
 ## Providers
 
 | Name | Version |
-|------|---------|
+| ---- | ------- |
 | <a name="provider_oci"></a> [oci](#provider\_oci) | >= 9.0, < 10.0 |
 
 ## Modules
@@ -46,7 +46,7 @@ No modules.
 ## Resources
 
 | Name | Type |
-|------|------|
+| ---- | ---- |
 | [oci_identity_policy.lifecycle](https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/identity_policy) | resource |
 | [oci_objectstorage_bucket.this](https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/objectstorage_bucket) | resource |
 | [oci_objectstorage_object_lifecycle_policy.this](https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/objectstorage_object_lifecycle_policy) | resource |
@@ -55,7 +55,7 @@ No modules.
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
+| ---- | ----------- | ---- | ------- | :------: |
 | <a name="input_allow_public_access"></a> [allow\_public\_access](#input\_allow\_public\_access) | (Optional) Safety guard: must be set to true before bucket\_access\_type can be set to ObjectRead or ObjectReadWithoutList. Defaults to false to prevent accidental public exposure. | `bool` | `false` | no |
 | <a name="input_auto_tiering"></a> [auto\_tiering](#input\_auto\_tiering) | (Optional) (Updatable) Auto tiering status for the bucket. Supported values: Disabled, InfrequentAccess. | `string` | `"Disabled"` | no |
 | <a name="input_bucket_access_type"></a> [bucket\_access\_type](#input\_bucket\_access\_type) | (Optional) (Updatable) Access type for the bucket. Supported values: NoPublicAccess, ObjectRead, ObjectReadWithoutList. Set allow\_public\_access = true before using ObjectRead or ObjectReadWithoutList. | `string` | `"NoPublicAccess"` | no |
@@ -73,7 +73,7 @@ No modules.
 ## Outputs
 
 | Name | Description |
-|------|-------------|
+| ---- | ----------- |
 | <a name="output_bucket_id"></a> [bucket\_id](#output\_bucket\_id) | Bucket ID of the object storage bucket. |
 | <a name="output_bucket_name"></a> [bucket\_name](#output\_bucket\_name) | Name of the object storage bucket. |
 | <a name="output_bucket_namespace"></a> [bucket\_namespace](#output\_bucket\_namespace) | Object storage namespace for the bucket. |
