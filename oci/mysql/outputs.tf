@@ -14,3 +14,9 @@ output "mysql_port" {
   value       = oci_mysql_mysql_db_system.this.port
   sensitive   = true
 }
+
+output "mysql_hostname" {
+  description = "Hostname of the primary endpoint of the MySQL DB System (the label or the FQDN, not yet verified against a live DB system). Null unless hostname_label is set."
+  value       = try(oci_mysql_mysql_db_system.this.endpoints[0].hostname, null)
+  sensitive   = true
+}

@@ -21,8 +21,8 @@ run "creates_mysql_with_defaults" {
   }
 
   assert {
-    condition     = oci_mysql_mysql_db_system.this.data_storage_size_in_gb == 50
-    error_message = "data_storage_size_in_gb should default to 50"
+    condition     = length(oci_mysql_mysql_db_system.this.backup_policy) == 0
+    error_message = "MySQL.Free must not send a backup_policy block (the API rejects it for Always Free)"
   }
 
   assert {
@@ -31,13 +31,26 @@ run "creates_mysql_with_defaults" {
   }
 
   assert {
-    condition     = oci_mysql_mysql_db_system.this.backup_policy[0].is_enabled == true
-    error_message = "backup should be enabled by default"
+    condition     = oci_mysql_mysql_db_system.this.deletion_policy[0].is_delete_protected == true
+    error_message = "deletion protection should be enabled"
+  }
+}
+
+run "paid_shape_sends_storage_and_backup_policy" {
+  command = plan
+
+  variables {
+    shape_name = "MySQL.2"
   }
 
   assert {
-    condition     = oci_mysql_mysql_db_system.this.deletion_policy[0].is_delete_protected == true
-    error_message = "deletion protection should be enabled"
+    condition     = oci_mysql_mysql_db_system.this.data_storage_size_in_gb == 50
+    error_message = "data_storage_size_in_gb should default to 50 on paid shapes"
+  }
+
+  assert {
+    condition     = oci_mysql_mysql_db_system.this.backup_policy[0].is_enabled == true
+    error_message = "backup should be enabled by default on paid shapes"
   }
 }
 
@@ -45,6 +58,7 @@ run "creates_mysql_with_backup_disabled" {
   command = plan
 
   variables {
+    shape_name        = "MySQL.2"
     backup_is_enabled = false
   }
 
@@ -107,5 +121,186 @@ run "rejects_weak_admin_password" {
 
   expect_failures = [
     var.admin_password,
+  ]
+}
+
+run "maintenance_block_omitted_by_default" {
+  command = plan
+
+  assert {
+    condition     = length(oci_mysql_mysql_db_system.this.maintenance) == 0
+    error_message = "maintenance block should be omitted by default"
+  }
+}
+
+run "creates_mysql_with_network_maintenance_and_deletion_settings" {
+  command = plan
+
+  variables {
+    nsg_ids                       = ["ocid1.networksecuritygroup.oc1..aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"]
+    hostname_label                = "vaultwarden-mysql"
+    maintenance_window_start_time = "sun 02:00"
+    is_delete_protected           = true
+    final_backup                  = "REQUIRE_FINAL_BACKUP"
+    automatic_backup_retention    = "RETAIN"
+  }
+
+  assert {
+    condition     = contains(oci_mysql_mysql_db_system.this.nsg_ids, "ocid1.networksecuritygroup.oc1..aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+    error_message = "nsg_ids should be passed through"
+  }
+
+  assert {
+    condition     = oci_mysql_mysql_db_system.this.hostname_label == "vaultwarden-mysql"
+    error_message = "hostname_label should be passed through"
+  }
+
+  assert {
+    condition     = oci_mysql_mysql_db_system.this.maintenance[0].window_start_time == "sun 02:00"
+    error_message = "maintenance window_start_time should be passed through"
+  }
+
+  assert {
+    condition     = oci_mysql_mysql_db_system.this.deletion_policy[0].final_backup == "REQUIRE_FINAL_BACKUP"
+    error_message = "final_backup should be passed through"
+  }
+
+  assert {
+    condition     = oci_mysql_mysql_db_system.this.deletion_policy[0].automatic_backup_retention == "RETAIN"
+    error_message = "automatic_backup_retention should be passed through"
+  }
+}
+
+run "allows_disabling_delete_protection" {
+  command = plan
+
+  variables {
+    is_delete_protected = false
+  }
+
+  assert {
+    condition     = oci_mysql_mysql_db_system.this.deletion_policy[0].is_delete_protected == false
+    error_message = "is_delete_protected should be configurable"
+  }
+}
+
+run "rejects_invalid_nsg_ocid" {
+  command = plan
+
+  variables {
+    nsg_ids = ["not-a-valid-ocid"]
+  }
+
+  expect_failures = [
+    var.nsg_ids,
+  ]
+}
+
+run "rejects_invalid_hostname_label" {
+  command = plan
+
+  variables {
+    hostname_label = "1-starts-with-digit"
+  }
+
+  expect_failures = [
+    var.hostname_label,
+  ]
+}
+
+run "rejects_invalid_maintenance_window" {
+  command = plan
+
+  variables {
+    maintenance_window_start_time = "sunday 2am"
+  }
+
+  expect_failures = [
+    var.maintenance_window_start_time,
+  ]
+}
+
+run "rejects_invalid_final_backup" {
+  command = plan
+
+  variables {
+    final_backup = "ALWAYS"
+  }
+
+  expect_failures = [
+    var.final_backup,
+  ]
+}
+
+run "rejects_invalid_automatic_backup_retention" {
+  command = plan
+
+  variables {
+    automatic_backup_retention = "KEEP"
+  }
+
+  expect_failures = [
+    var.automatic_backup_retention,
+  ]
+}
+
+run "no_resource_principal_policy_without_nsgs" {
+  command = plan
+
+  assert {
+    condition     = length(oci_identity_policy.nsg) == 0
+    error_message = "no NSG resource-principal policy should be created without nsg_ids"
+  }
+}
+
+run "nsg_resource_principal_policy" {
+  command = plan
+
+  variables {
+    nsg_ids = ["ocid1.networksecuritygroup.oc1..aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"]
+  }
+
+  assert {
+    condition     = oci_identity_policy.nsg[0].compartment_id == var.compartment_id
+    error_message = "policy should default to the DB system compartment"
+  }
+
+  assert {
+    condition = oci_identity_policy.nsg[0].statements == tolist([
+      "Allow any-user to {NETWORK_SECURITY_GROUP_UPDATE_MEMBERS} in compartment id ${var.compartment_id} where all {request.principal.type = 'mysqldbsystem', request.resource.compartment.id = '${var.compartment_id}'}",
+      "Allow any-user to {VNIC_CREATE, VNIC_UPDATE, VNIC_ASSOCIATE_NETWORK_SECURITY_GROUP, VNIC_DISASSOCIATE_NETWORK_SECURITY_GROUP} in compartment id ${var.compartment_id} where all {request.principal.type = 'mysqldbsystem', request.resource.compartment.id = '${var.compartment_id}'}",
+    ])
+    error_message = "policy should grant the mysqldbsystem resource principal NSG membership and VNIC rights"
+  }
+}
+
+run "nsg_policy_in_separate_network_compartment" {
+  command = plan
+
+  variables {
+    nsg_ids                = ["ocid1.networksecuritygroup.oc1..aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"]
+    network_compartment_id = "ocid1.compartment.oc1..bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+  }
+
+  assert {
+    condition     = oci_identity_policy.nsg[0].compartment_id == "ocid1.compartment.oc1..bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    error_message = "policy should live in the network compartment"
+  }
+
+  assert {
+    condition     = strcontains(oci_identity_policy.nsg[0].statements[0], "in compartment id ocid1.compartment.oc1..bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb where all {request.principal.type = 'mysqldbsystem', request.resource.compartment.id = '${var.compartment_id}'}")
+    error_message = "grant targets the network compartment, condition the DB system compartment"
+  }
+}
+
+run "rejects_invalid_network_compartment_ocid" {
+  command = plan
+
+  variables {
+    network_compartment_id = "not-a-valid-ocid"
+  }
+
+  expect_failures = [
+    var.network_compartment_id,
   ]
 }
